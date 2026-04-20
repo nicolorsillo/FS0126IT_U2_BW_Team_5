@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./assets/css/style.css" />
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
     />
   </head>
   <body class="container m-0 p-0">
@@ -158,125 +158,231 @@
           </div>
         </nav>
       </div>
+      <div class="col-12 col-lg-7 m-0 overflow-auto" style="max-height: 100vh">
+        <div
+          class="d-none d-lg-flex justify-content-between align-items-center my-2"
+        >
+          <div class="d-flex gap-2">
+            <button class="btn btn-black rounded-circle p-1" id="back-btn">
+              <i
+                class="bi bi-chevron-left d-flex justify-content-center align-items-center m-0"
+              ></i>
+            </button>
+            <button class="btn btn-black rounded-circle p-1" id="forward-btn">
+              <i
+                class="bi bi-chevron-right d-flex justify-content-center align-items-center m-0"
+              ></i>
+            </button>
+          </div>
+          <div
+            class="bg-black text-white rounded-pill d-flex align-items-center p-1 gap-2"
+            style="max-width: 200px"
+          >
+            <img
+              src="./assets/imgs/profile/Lidia Nautilus.jpg"
+              alt="image profile"
+              class="rounded-circle object-fit-cover"
+              width="25"
+              height="25"
+            />
+            <div class="flex-grow-1 overflow-hidden">
+              <small class="d-block text-truncate fw-light"
+                >Lidia Nautilus</small
+              >
+            </div>
+            <button
+              class="btn btn-outline-light border-0 rounded-circle p-1"
+              id="account-home-btn"
+            >
+              <i
+                class="bi bi-caret-down-fill d-flex justify-content-center align-items-center m-0"
+              ></i>
+            </button>
+          </div>
+        </div>
+        <div>
+          <img src="" alt="" />
+          <div>
+            <h5></h5>
+            <h1></h1>
+            <h5></h5>
+            <p></p>
+            <div>
+              <button class="btn btn-primary rounded-pill" style="width: 80px">
+                <small class="fw-bold">Play</small>
+              </button>
+              <button
+                class="btn btn-outline-light rounded-pill"
+                style="width: 80px"
+              >
+                <small class="fw-bold">Salva</small>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div></div>
+        <div></div>
+      </div>
       <div
-        class="col-12 col-lg-7 m-0 overflow-auto"
-        style="max-height: 100vh"
-      ></div>
-       <div
         class="col-lg-2 m-0 bg-black d-none d-lg-block text-white border-start border-secondary-subtle"
         style="height: 100vh; overflow-y: auto"
       >
         <div class="p-3">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h6 class="fw-bold m-0">Attività amici</h6>
-    <div class="d-flex align-items-center gap-3 text-secondary">
-      <i class="bi bi-person-plus"></i>
-      <i class="bi bi-x-lg"></i>
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h6 class="fw-bold m-0">Attività amici</h6>
+            <div class="d-flex align-items-center gap-3 text-secondary">
+              <i class="bi bi-person-plus"></i>
+              <i class="bi bi-x-lg"></i>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-start gap-2 px-2 py-2 mb-3 rounded">
+            <img
+              src="assets/imgs/main/NicolóOrsillo.jpg"
+              class="rounded-circle"
+              width="35"
+              height="35"
+            />
+            <div class="flex-grow-1">
+              <div class="d-flex justify-content-between">
+                <span class="fw-semibold text-white" style="font-size: 13px"
+                  >Nicoló Orsillo</span
+                >
+                <span class="text-secondary" style="font-size: 12px"
+                  >4 ore</span
+                >
+              </div>
+              <div class="text-secondary" style="font-size: 12px">
+                Shoot To Trill • AC/DC
+              </div>
+              <div
+                class="d-flex align-items-center gap-1 text-secondary"
+                style="font-size: 12px"
+              >
+                <i class="bi bi-disc"></i>
+                <span>Back in Black</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-start gap-2 px-2 py-2 mb-3 rounded">
+            <img
+              src="assets/imgs/main/MichelangeloDiCello.jpg"
+              class="rounded-circle"
+              width="35"
+              height="35"
+            />
+            <div class="flex-grow-1">
+              <div class="d-flex justify-content-between">
+                <span class="fw-semibold text-white" style="font-size: 13px"
+                  >Michelangelo Di Cello</span
+                >
+                <span class="text-secondary" style="font-size: 12px"
+                  >8 ore</span
+                >
+              </div>
+              <div class="text-secondary" style="font-size: 11px">
+                Cose Che Non Vuoi Sentirti Dire • Nayt
+              </div>
+              <div
+                class="d-flex align-items-center gap-1 text-secondary"
+                style="font-size: 12px"
+              >
+                <i class="bi bi-disc"></i>
+                <span>DOOM</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-start gap-2 px-2 py-2 mb-3 rounded">
+            <img
+              src="assets/imgs/main/VincenzoMola.PNG"
+              class="rounded-circle"
+              width="35"
+              height="35"
+            />
+            <div class="flex-grow-1">
+              <div class="d-flex justify-content-between">
+                <span class="fw-semibold text-white" style="font-size: 13px"
+                  >Vincenzo Mola</span
+                >
+                <span class="text-secondary" style="font-size: 12px"
+                  >3 giorni</span
+                >
+              </div>
+              <div class="text-secondary" style="font-size: 12px">
+                Gagnam Style • PSY
+              </div>
+              <div
+                class="d-flex align-items-center gap-1 text-secondary"
+                style="font-size: 12px"
+              >
+                <i class="bi bi-music-note-beamed"></i>
+                <span>PSY 6甲 (Six Rules)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-start gap-2 px-2 py-2 mb-3 rounded">
+            <img
+              src="assets/imgs/main/Simo.jpg"
+              class="rounded-circle"
+              width="35"
+              height="35"
+            />
+            <div class="flex-grow-1">
+              <div class="d-flex justify-content-between">
+                <span class="fw-semibold text-white" style="font-size: 13px"
+                  >Simo</span
+                >
+                <span class="text-secondary" style="font-size: 12px"
+                  >2 ore</span
+                >
+              </div>
+              <div class="text-secondary" style="font-size: 12px">
+                Staline • ElGrandeToto
+              </div>
+              <div
+                class="d-flex align-items-center gap-1 text-secondary"
+                style="font-size: 12px"
+              >
+                <i class="bi bi-music-note-beamed"></i>
+                <span>SALGOAT</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-start gap-2 px-2 py-2 mb-3 rounded">
+            <img
+              src="assets/imgs/main/Daniele.jpeg"
+              class="rounded-circle"
+              width="35"
+              height="35"
+            />
+            <div class="flex-grow-1">
+              <div class="d-flex justify-content-between">
+                <span class="fw-semibold text-white" style="font-size: 13px"
+                  >Daniele Bulgaru</span
+                >
+                <span class="text-secondary" style="font-size: 12px"
+                  >1 giorno</span
+                >
+              </div>
+              <div class="text-secondary" style="font-size: 12px">
+                V per Vangelo • Shiva
+              </div>
+              <div
+                class="d-flex align-items-center gap-1 text-secondary"
+                style="font-size: 12px"
+              >
+                <i class="bi bi-music-note-beamed"></i>
+                <span>Vangelo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-
-  <div class="d-flex align-items-start gap-2 px-2 py-2 mb-3 rounded">
-    <img src="assets/imgs/main/NicolóOrsillo.jpg" class="rounded-circle" width="35" height="35" />
-
-    <div class="flex-grow-1">
-      <div class="d-flex justify-content-between">
-        <span class="fw-semibold text-white" style="font-size: 13px">Nicoló Orsillo</span>
-        <span class="text-secondary" style="font-size: 12px">4 ore</span>
-      </div>
-
-      <div class="text-secondary" style="font-size: 12px">
-        Shoot To Trill • AC/DC
-      </div>
-
-      <div class="d-flex align-items-center gap-1 text-secondary" style="font-size: 12px">
-        <i class="bi bi-disc"></i>
-        <span>Back in Black</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="d-flex align-items-start gap-2 px-2 py-2 mb-3 rounded">
-    <img src="assets/imgs/main/MichelangeloDiCello.jpg" class="rounded-circle" width="35" height="35" />
-
-    <div class="flex-grow-1">
-      <div class="d-flex justify-content-between">
-        <span class="fw-semibold text-white" style="font-size: 13px">Michelangelo Di Cello</span>
-        <span class="text-secondary" style="font-size: 12px">8 ore</span>
-      </div>
-
-      <div class="text-secondary" style="font-size: 11px">
-        Cose Che Non Vuoi Sentirti Dire • Nayt
-      </div>
-
-      <div class="d-flex align-items-center gap-1 text-secondary" style="font-size: 12px">
-        <i class="bi bi-disc"></i>
-        <span>DOOM</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="d-flex align-items-start gap-2 px-2 py-2 mb-3 rounded">
-    <img src="assets/imgs/main/VincenzoMola.PNG" class="rounded-circle" width="35" height="35" />
-
-    <div class="flex-grow-1">
-      <div class="d-flex justify-content-between">
-        <span class="fw-semibold text-white" style="font-size: 13px">Vincenzo Mola</span>
-        <span class="text-secondary" style="font-size: 12px">3 giorni</span>
-      </div>
-
-      <div class="text-secondary" style="font-size: 12px">
-        Gagnam Style • PSY
-      </div>
-
-      <div class="d-flex align-items-center gap-1 text-secondary" style="font-size: 12px">
-        <i class="bi bi-music-note-beamed"></i>
-        <span>PSY 6甲 (Six Rules)</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="d-flex align-items-start gap-2 px-2 py-2 mb-3 rounded">
-    <img src="assets/imgs/main/Simo.jpg" class="rounded-circle" width="35" height="35" />
-
-    <div class="flex-grow-1">
-      <div class="d-flex justify-content-between">
-        <span class="fw-semibold text-white" style="font-size: 13px">Simo</span>
-        <span class="text-secondary" style="font-size: 12px">2 ore</span>
-      </div>
-
-      <div class="text-secondary" style="font-size: 12px">
-        Staline • ElGrandeToto
-      </div>
-
-      <div class="d-flex align-items-center gap-1 text-secondary" style="font-size: 12px">
-        <i class="bi bi-music-note-beamed"></i>
-        <span>SALGOAT</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="d-flex align-items-start gap-2 px-2 py-2 mb-3 rounded">
-    <img src="assets/imgs/main/Daniele.jpeg" class="rounded-circle" width="35" height="35" />
-
-    <div class="flex-grow-1">
-      <div class="d-flex justify-content-between">
-        <span class="fw-semibold text-white" style="font-size: 13px">Daniele Bulgaru</span>
-        <span class="text-secondary" style="font-size: 12px">1 giorno</span>
-      </div>
-
-      <div class="text-secondary" style="font-size: 12px">
-        V per Vangelo • Shiva
-      </div>
-
-      <div class="d-flex align-items-center gap-1 text-secondary" style="font-size: 12px">
-        <i class="bi bi-music-note-beamed"></i>
-        <span>Vangelo</span>
-      </div>
-    </div>
-  </div>
-  </div>
-
-  
 
     <nav class="navbar fixed-bottom bg-body-tertiary">
       <div class="container-fluid">
@@ -331,53 +437,66 @@
             class="col-4 d-flex align-items-center justify-content-end gap-3"
           >
             <button class="btn btn-link text-white p-0 fs-5">
-              <i class="bi bi-mic-fill"></i>
+              <span class="e-10310-button__icon-wrapper">
+                <svg
+                  viewBox="0 0 16 16"
+                  width="20"
+                  height="20"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M13.426 2.574a2.831 2.831 0 0 0-4.797 1.55l3.247 3.247a2.831 2.831 0 0 0 1.55-4.797M10.5 8.118l-2.619-2.62L4.74 9.075 2.065 12.12a1.287 1.287 0 0 0 1.816 1.816l3.06-2.688 3.56-3.129zM7.12 4.094a4.331 4.331 0 1 1 4.786 4.786l-3.974 3.493-3.06 2.689a2.787 2.787 0 0 1-3.933-3.933l2.676-3.045z"
+                  ></path>
+                </svg>
+              </span>
             </button>
             <button class="btn btn-link text-white p-0 fs-5">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <g clip-path="url(#clip0_4418_9850)">
+              <span class="e-10310-button__icon-wrapper">
+                <svg
+                  viewBox="0 0 16 16"
+                  width="20"
+                  height="20"
+                  fill="currentColor"
+                >
                   <path
-                    opacity="0.4"
-                    d="M19.9 2H4.1C2.6 2 2 2.64 2 4.23V8.27C2 9.86 2.6 10.5 4.1 10.5H19.9C21.4 10.5 22 9.86 22 8.27V4.23C22 2.64 21.4 2 19.9 2Z"
-                    stroke="#fff"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M3 12H21"
-                    stroke="#fff"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                  />
-                  <path
-                    d="M3 17H21"
-                    stroke="#fff"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_4418_9850">
-                    <rect width="24" height="24" fill="white" />
-                  </clipPath>
-                </defs>
-              </svg>
+                    d="M15 15H1v-1.5h14zm0-4.5H1V9h14zm-14-7A2.5 2.5 0 0 1 3.5 1h9a2.5 2.5 0 0 1 0 5h-9A2.5 2.5 0 0 1 1 3.5m2.5-1a1 1 0 0 0 0 2h9a1 1 0 1 0 0-2z"
+                  ></path>
+                </svg>
+              </span>
             </button>
             <button class="btn btn-link text-white p-0 fs-5">
-              <img
-                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAACJUlEQVR4AbSVPU4cQRCFe+3Mlhw4dWAI7NCS7ciRWVmWSOAKwA1IiFlSUg4A3AGJEEKQEHADCBBCBFwAoeX7StPNzjKz7PKzqrc1XVVdr7u6puddeuNfI0G/358CMxNgqm2dhYBkJt1D9wk+A3sT4Mx5QD3DvCKFAItJXckaz0ugOwGMF0xJm/5lBAHMvcrQ7XQ6PbAF9ieA8VvkcFFWIudLQYDjKzgn4Tn62VLNr+XIBJZm/9mZ6xMlcMFhzQTWbzssL//zDEuuIHBr4FV2YB6R1xkEeTCutimALW1bDkN7adUgILgnxiEgzjZcJdZau+th4EqbxAVJEGD5WwH1pCwSsUQZGqEPKDWCb1h+w3o0Ahv47DZC2wVidyZcdHkPbpnyHlyOwA2+TGAChq1iJ4lCYFtdwz4/Ata9NeOggxxxC2jLZ+BB1V5xna+BIJCRZN4lq9Q5t53tlnGB/ZCYsYTYRRD3URA4CxLf5mmeLZc74rHIR54+gUdCop9gZcixwLh2yIxTgsQLz9vUFuwyDqSUTlNKV6BJ/mNcBo1SdtDofWzM3ZO7yUWts5AvQ6H6I7aVgG37yZxFzzL5M/hAIidZPs/KOhszCG3WXgJLXdqU+Q9CUt8JP5m7WMUP9HegeFYSeWUYMwhttvMai3EhzQQ478j0C/ypMIf+ByyJ5+SXy4ZQD2KauYq7MLyZQA9RJ+Cgwg76WHsGY4niheI5a3eWQ0LfAwAA//80KfvlAAAABklEQVQDAF0sUUBrLi4QAAAAAElFTkSuQmCC"
-                alt="icon"
-              />
+              <span class="e-10310-button__icon-wrapper">
+                <svg
+                  viewBox="0 0 16 16"
+                  width="20"
+                  height="20"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M6 2.75C6 1.784 6.784 1 7.75 1h6.5c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 14.25 15h-6.5A1.75 1.75 0 0 1 6 13.25zm1.75-.25a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h6.5a.25.25 0 0 0 .25-.25V2.75a.25.25 0 0 0-.25-.25zm-6 0a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25H4V11H1.75A1.75 1.75 0 0 1 0 9.25v-6.5C0 1.784.784 1 1.75 1H4v1.5zM4 15H2v-1.5h2z"
+                  ></path>
+                  <path
+                    d="M13 10a2 2 0 1 1-4 0 2 2 0 0 1 4 0m-1-5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"
+                  ></path>
+                </svg>
+              </span>
             </button>
             <div class="d-flex align-items-center gap-2">
-              <i class="bi bi-volume-down text-white fs-2"></i>
+              <span class="e-10310-button__icon-wrapper">
+                <svg
+                  viewBox="0 0 16 16"
+                  width="20"
+                  height="20"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M9.741.85a.75.75 0 0 1 .375.65v13a.75.75 0 0 1-1.125.65l-6.925-4a3.64 3.64 0 0 1-1.33-4.967 3.64 3.64 0 0 1 1.33-1.332l6.925-4a.75.75 0 0 1 .75 0zm-6.924 5.3a2.14 2.14 0 0 0 0 3.7l5.8 3.35V2.8zm8.683 4.29V5.56a2.75 2.75 0 0 1 0 4.88"
+                  ></path>
+                  <path
+                    d="M11.5 13.614a5.752 5.752 0 0 0 0-11.228v1.55a4.252 4.252 0 0 1 0 8.127z"
+                  ></path>
+                </svg>
+              </span>
               <div class="progress" style="width: 90px; height: 6px">
                 <div class="progress-bar bg-white" style="width: 80%"></div>
               </div>

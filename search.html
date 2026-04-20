@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+  </head>
+  <style>
+    .card-spotify {
+      position: relative;
+      height: 120px;
+      overflow: hidden;
+      padding: 16px;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.3s ease;
+    }
+    .card-spotify:hover {
+      filter: brightness(1.1);
+    }
+    .spotify-card-img {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      bottom: -10px;
+      right: -20px;
+      transform: rotate(25deg);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      border-radius: 4px;
+      object-fit: cover;
+    }
+    .fixed-navbar-spotify {
+      background-color: rgba(0, 0, 0, 0.301);
+      backdrop-filter: blur(10px);
+    }
+  </style>
+  <body class="bg-black">
+    <div class="position-absolute d-none d-lg-block m-3">
+      <div class="d-flex justify-content-between" style="width: 100%">
+        <div class="container-fluid d-flex flex-column align-items-center">
+          <a class="navbar-brand m-0 p-0 text-center" href="#"
+            ><i class="bi bi-house-fill fs-3"></i
+          ></a>
+          <p class="mb-1">Home</p>
+        </div>
+      </div>
+    </div>
+    <section class="p-2 overflow-auto container-fluid" style="height: 100vh">
+      <div>
+        <h1 class="text-md-center">Cerca</h1>
+        <div
+          class="input-group bg-dark rounded overflow-hidden mt-5 me-auto ms-auto"
+          style="max-width: 400px"
+        >
+          <span class="input-group-text bg-dark border-0 pe-1">
+            <i class="bi bi-search text-white fs-5"></i>
+          </span>
+
+          <input
+            type="text"
+            class="form-control bg-dark border-0 text-white shadow-none py-2"
+            placeholder="Cosa vuoi ascoltare?"
+            style="outline: none"
+          />
+        </div>
+      </div>
+      <div>
+        <div>
+          <h2 class="fw-bold text-center mt-3">Sfoglia tutto</h2>
+          <div class="container-fluid bg-black py-3">
+            <div class="row g-3">
+              <div class="col-6 col-md-4 col-xl-2">
+                <div
+                  class="card-spotify rounded-3"
+                  style="background-color: #e94c1d"
+                >
+                  <h5 class="fw-bold">Podcast</h5>
+                  <img
+                    src="./assets/imgs/search/image-52.jpg"
+                    class="spotify-card-img"
+                    alt="Podcast"
+                  />
+                </div>
+              </div>
+
+              <div class="col-6 col-md-4 col-xl-2">
+                <div
+                  class="card-spotify rounded-3"
+                  style="background-color: #1e3264"
+                >
+                  <h5 class="fw-bold">Creati per te</h5>
+                  <img
+                    src="./assets/imgs/search/image-51.jpg"
+                    class="spotify-card-img"
+                    alt="Creati per te"
+                  />
+                </div>
+              </div>
+
+              <div class="col-6 col-md-4 col-xl-2">
+                <div
+                  class="card-spotify rounded-3"
+                  style="background-color: #774194"
+                >
+                  <h5 class="fw-bold">Nuove uscite</h5>
+                  <img
+                    src="./assets/imgs/search/image-50.jpg"
+                    class="spotify-card-img"
+                    alt="Nuove uscite"
+                  />
+                </div>
+              </div>
+
+              <div class="col-6 col-md-4 col-xl-2">
+                <div
+                  class="card-spotify rounded-3"
+                  style="background-color: #d84000"
+                >
+                  <h5 class="fw-bold">Pop</h5>
+                  <img
+                    src="./assets/imgs/search/image-49.jpg"
+                    class="spotify-card-img"
+                    alt="Pop"
+                  />
+                </div>
+              </div>
+
+              <div class="col-6 col-md-4 col-xl-2">
+                <div
+                  class="card-spotify rounded-3"
+                  style="background-color: #e8115b"
+                >
+                  <h5 class="fw-bold">Hip Hop</h5>
+                  <img
+                    src="./assets/imgs/search/image-48.jpeg"
+                    class="spotify-card-img"
+                    alt="Hip Hop"
+                  />
+                </div>
+              </div>
+
+              <div class="col-6 col-md-4 col-xl-2">
+                <div
+                  class="card-spotify rounded-3"
+                  style="background-color: #148a08"
+                >
+                  <h5 class="fw-bold">Rock</h5>
+                  <img
+                    src="./assets/imgs/search/image-47.jpg"
+                    class="spotify-card-img"
+                    alt="Rock"
+                  />
+                </div>
+              </div>
+
+              <div class="col-6 col-md-4 col-xl-2">
+                <div
+                  class="card-spotify rounded-3"
+                  style="background-color: #503750"
+                >
+                  <h5 class="fw-bold">Latina</h5>
+                  <img
+                    src="./assets/imgs/search/image-46.jpeg"
+                    class="spotify-card-img"
+                    alt="Latina"
+                  />
+                </div>
+              </div>
+
+              <div class="col-6 col-md-4 col-xl-2">
+                <div
+                  class="card-spotify rounded-3"
+                  style="background-color: #006450"
+                >
+                  <h5 class="fw-bold">Dance</h5>
+                  <img
+                    src="./assets/imgs/search/image-34.jpg"
+                    class="spotify-card-img"
+                    alt="Dance"
+                  />
+                </div>
+              </div>
+              <div class="col-6 col-md-4 col-xl-2">
+                <div
+                  class="card-spotify rounded-3"
+                  style="background-color: #e94c1d"
+                >
+                  <h5 class="fw-bold">Podcast</h5>
+                  <img
+                    src="./assets/imgs/search/image-35.jpg"
+                    class="spotify-card-img"
+                    alt="Podcast"
+                  />
+                </div>
+              </div>
+
+              <div class="col-6 col-md-4 col-xl-2">
+                <div
+                  class="card-spotify rounded-3"
+                  style="background-color: #1e3264"
+                >
+                  <h5 class="fw-bold">Creati per te</h5>
+                  <img
+                    src="./assets/imgs/search/image-36.jpg"
+                    class="spotify-card-img"
+                    alt="Creati per te"
+                  />
+                </div>
+              </div>
+
+              <div class="col-6 col-md-4 col-xl-2">
+                <div
+                  class="card-spotify rounded-3"
+                  style="background-color: #774194"
+                >
+                  <h5 class="fw-bold">Nuove uscite</h5>
+                  <img
+                    src="./assets/imgs/search/image-37.jpeg"
+                    class="spotify-card-img"
+                    alt="Nuove uscite"
+                  />
+                </div>
+              </div>
+
+              <div class="col-6 col-md-4 col-xl-2">
+                <div
+                  class="card-spotify rounded-3"
+                  style="background-color: #d8b800"
+                >
+                  <h5 class="fw-bold">Indie</h5>
+                  <img
+                    src="./assets/imgs/search/image-38.jpg"
+                    class="spotify-card-img"
+                    alt="Pop"
+                  />
+                </div>
+              </div>
+
+              <div class="col-6 col-md-4 col-xl-2">
+                <div
+                  class="card-spotify rounded-3"
+                  style="background-color: #e8115b"
+                >
+                  <h5 class="fw-bold">Hip Hop</h5>
+                  <img
+                    src="./assets/imgs/search/image-39.jpg"
+                    class="spotify-card-img"
+                    alt="Hip Hop"
+                  />
+                </div>
+              </div>
+
+              <div class="col-6 col-md-4 col-xl-2">
+                <div
+                  class="card-spotify rounded-3"
+                  style="background-color: #148a08"
+                >
+                  <h5 class="fw-bold">Rock</h5>
+                  <img
+                    src="./assets/imgs/search/image-40.jpg"
+                    class="spotify-card-img"
+                    alt="Rock"
+                  />
+                </div>
+              </div>
+
+              <div class="col-6 col-md-4 col-xl-2">
+                <div
+                  class="card-spotify rounded-3"
+                  style="background-color: #503750"
+                >
+                  <h5 class="fw-bold">Latina</h5>
+                  <img
+                    src="./assets/imgs/search/image-41.jpg"
+                    class="spotify-card-img"
+                    alt="Latina"
+                  />
+                </div>
+              </div>
+
+              <div class="col-6 col-md-4 col-xl-2">
+                <div
+                  class="card-spotify rounded-3"
+                  style="background-color: #006450"
+                >
+                  <h5 class="fw-bold">Dance</h5>
+                  <img
+                    src="./assets/imgs/search/image-42.png"
+                    class="spotify-card-img"
+                    alt="Dance"
+                  />
+                </div>
+              </div>
+              <div class="col-6 col-md-4 col-xl-2">
+                <div
+                  class="card-spotify rounded-3"
+                  style="background-color: #774194"
+                >
+                  <h5 class="fw-bold">Nuove uscite</h5>
+                  <img
+                    src="./assets/imgs/search/image-43.png"
+                    class="spotify-card-img"
+                    alt="Nuove uscite"
+                  />
+                </div>
+              </div>
+
+              <div class="col-6 col-md-4 col-xl-2">
+                <div
+                  class="card-spotify rounded-3"
+                  style="background-color: #d84000"
+                >
+                  <h5 class="fw-bold">Pop</h5>
+                  <img
+                    src="./assets/imgs/search/image-44.png"
+                    class="spotify-card-img"
+                    alt="Pop"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="navbar fixed-bottom fixed-navbar-spotify d-lg-none">
+        <div class="d-flex justify-content-between" style="width: 100%">
+          <div class="container-fluid d-flex flex-column align-items-center">
+            <a class="navbar-brand m-0 p-0 text-center" href="#"
+              ><i class="bi bi-house-fill fs-2"></i
+            ></a>
+            <p class="mb-1">Home</p>
+          </div>
+          <div class="container-fluid d-flex flex-column align-items-center">
+            <a class="navbar-brand m-0 p-0 text-center" href="#"
+              ><i class="bi bi-search fs-2"></i
+            ></a>
+            <p class="mb-1">Search</p>
+          </div>
+          <div class="container-fluid d-flex flex-column align-items-center">
+            <a class="navbar-brand m-0 p-0 text-center" href="#"
+              ><i class="bi bi-collection fs-2"></i
+            ></a>
+            <p class="mb-1">La tua libreria</p>
+          </div>
+        </div>
+      </nav>
+    </section>
+  </body>
+</html>

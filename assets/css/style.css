@@ -12072,4 +12072,8 @@ textarea.form-control-lg {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.bg-gradient-dark {
+  background: radial-gradient(circle at right top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3647058824) 50%, #000000 75%);
 }/*# sourceMappingURL=style.css.map */

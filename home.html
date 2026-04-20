@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="./assets/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
   </head>
   <body class="container m-0 p-0">
     <div class="row m-0" style="width: 100vw">
@@ -12,10 +16,71 @@
         class="col-lg-3 m-0 bg-black d-none d-lg-block"
         style="height: 100vh"
       ></div>
-      <div
-        class="col-12 col-lg-7 m-0 overflow-auto"
-        style="max-height: 100vh"
-      ></div>
+      <div class="col-12 col-lg-7 m-0 overflow-auto" style="max-height: 100vh">
+        <div
+          class="d-none d-lg-flex justify-content-between align-items-center my-2"
+        >
+          <div class="d-flex gap-2">
+            <button class="btn btn-black rounded-circle p-1" id="back-btn">
+              <i
+                class="bi bi-chevron-left d-flex justify-content-center align-items-center m-0"
+              ></i>
+            </button>
+            <button class="btn btn-black rounded-circle p-1" id="forward-btn">
+              <i
+                class="bi bi-chevron-right d-flex justify-content-center align-items-center m-0"
+              ></i>
+            </button>
+          </div>
+          <div
+            class="bg-black text-white rounded-pill d-flex align-items-center p-1 gap-2"
+            style="max-width: 200px"
+          >
+            <img
+              src="./assets/imgs/profile/Lidia Nautilus.jpg"
+              alt="image profile"
+              class="rounded-circle object-fit-cover"
+              width="25"
+              height="25"
+            />
+            <div class="flex-grow-1 overflow-hidden">
+              <small class="d-block text-truncate fw-light"
+                >Lidia Nautilus</small
+              >
+            </div>
+            <button
+              class="btn btn-outline-light border-0 rounded-circle p-1"
+              id="account-home-btn"
+            >
+              <i
+                class="bi bi-caret-down-fill d-flex justify-content-center align-items-center m-0"
+              ></i>
+            </button>
+          </div>
+        </div>
+        <div>
+          <img src="" alt="" />
+          <div>
+            <h5></h5>
+            <h1></h1>
+            <h5></h5>
+            <p></p>
+            <div>
+              <button class="btn btn-primary rounded-pill" style="width: 80px">
+                <small class="fw-bold">Play</small>
+              </button>
+              <button
+                class="btn btn-outline-light rounded-pill"
+                style="width: 80px"
+              >
+                <small class="fw-bold">Salva</small>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div></div>
+        <div></div>
+      </div>
       <div
         class="col-lg-2 m-0 bg-black d-none d-lg-block"
         style="height: 100vh"

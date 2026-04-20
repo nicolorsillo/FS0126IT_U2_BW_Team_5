@@ -5,13 +5,159 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="./assets/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
   </head>
   <body class="container m-0 p-0">
     <div class="row m-0" style="width: 100vw">
       <div
-        class="col-lg-3 m-0 bg-black d-none d-lg-block"
+        class="col-lg-3 m-0 bg-black d-none d-lg-block overflow-auto"
         style="height: 100vh"
-      ></div>
+      >
+        <nav
+          class="navbar navbar-expand-lg bg-body-black flex-column align-items-start"
+        >
+          <div class="mb-0">
+            <a class="navbar-brand ms-2" href="#"
+              ><i class="bi bi-three-dots"></i
+            ></a>
+            <div
+              class="collapse navbar-collapse flex-column"
+              id="navbarSupportedContent"
+            >
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0 flex-column">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#"
+                    ><i class="bi bi-house-fill me-2"></i> Home</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <div class="d-flex align-items-center">
+                    <div
+                      class="collapse show multi-collapse"
+                      id="btnCercaContainer"
+                    >
+                      <button
+                        class="btn btn-black p-2"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target=".multi-collapse"
+                      >
+                        <i class="bi bi-search me-2"></i> Cerca
+                      </button>
+                    </div>
+
+                    <div
+                      class="collapse multi-collapse"
+                      id="formCercaContainer"
+                    >
+                      <form class="d-flex align-items-center gap-2">
+                        <input
+                          class="form-control"
+                          type="search"
+                          placeholder="Cosa vuoi ascoltare?"
+                          style="width: 250px"
+                        />
+
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-toggle="collapse"
+                          data-bs-target=".multi-collapse"
+                          aria-label="Chiudi"
+                        ></button>
+                      </form>
+                    </div>
+                  </div>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link" href="#"
+                    ><i class="bi bi-collection me-2"></i> La tua libreria</a
+                  >
+                </li>
+              </ul>
+              <ul class="navbar-nav me-auto mb-2 mt-3 flex-column">
+                <li>
+                  <a class="nav-link" href="#"
+                    ><i class="bi bi-plus-square-fill me-2"></i> Crea
+                    playlist</a
+                  >
+                </li>
+                <li>
+                  <a class="nav-link" href="#"
+                    ><i class="bi bi-heart-fill me-2"></i> Brani che ti
+                    piacciono</a
+                  >
+                </li>
+                <li>
+                  <a class="nav-link" href="#"
+                    ><i class="bi bi-bookmark-fill text-primary me-2"></i> I
+                    tuoi episodi</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="p-2 text-secondary border-top border-tertiary">
+            <p>early stage emily syndrome (sett-ott 2022)</p>
+            <p>Be The Young</p>
+            <p>"..." cit. Kimiko (lug-ago 2022)</p>
+            <p>saggio vibes💃🏼🩰</p>
+            <p>main character energy (mag-giu 2022)</p>
+            <p>that fucking mood 🔪☠️</p>
+            <p>VEE, CARLOTTA E GIACOMO VANNO A BOSIO</p>
+            <p>An Emily Winchester kind of mood 🔪🖕</p>
+            <p>landing page (mar-apr 2022)</p>
+            <p>2021 lol</p>
+            <p>cosa cazzo vuol dire questa affermazione</p>
+            <p>honey and glass (nov-dic 2021)</p>
+            <p>(Revenge) Training Arc 🦍</p>
+            <p>Lidia 🤝 Emily</p>
+            <p>minecraft e nintendo switch (sep-oct 2021)</p>
+            <p>silvano d'orba? I hardly know her (lug - ago 2021)</p>
+            <p>Culo 2021</p>
+            <p>Frah Quintale Mix</p>
+            <p>Francesco Guccini Mix</p>
+            <p>early stage emily syndrome (sett-ott 2022)</p>
+            <p>Be The Young</p>
+            <p>"..." cit. Kimiko (lug-ago 2022)</p>
+            <p>saggio vibes💃🏼🩰</p>
+            <p>main character energy (mag-giu 2022)</p>
+            <p>that fucking mood 🔪☠️</p>
+            <p>VEE, CARLOTTA E GIACOMO VANNO A BOSIO</p>
+            <p>An Emily Winchester kind of mood 🔪🖕</p>
+            <p>early stage emily syndrome (sett-ott 2022)</p>
+            <p>Be The Young</p>
+            <p>"..." cit. Kimiko (lug-ago 2022)</p>
+            <p>saggio vibes💃🏼🩰</p>
+            <p>main character energy (mag-giu 2022)</p>
+            <p>that fucking mood 🔪☠️</p>
+            <p>VEE, CARLOTTA E GIACOMO VANNO A BOSIO</p>
+            <p>An Emily Winchester kind of mood 🔪🖕</p>
+            <p>landing page (mar-apr 2022)</p>
+            <p>2021 lol</p>
+            <p>cosa cazzo vuol dire questa affermazione</p>
+            <p>honey and glass (nov-dic 2021)</p>
+            <p>(Revenge) Training Arc 🦍</p>
+            <p>Lidia 🤝 Emily</p>
+            <p>minecraft e nintendo switch (sep-oct 2021)</p>
+            <p>silvano d'orba? I hardly know her (lug - ago 2021)</p>
+            <p>Culo 2021</p>
+            <p>Frah Quintale Mix</p>
+            <p>Francesco Guccini Mix</p>
+            <p>early stage emily syndrome (sett-ott 2022)</p>
+            <p>Be The Young</p>
+            <p>"..." cit. Kimiko (lug-ago 2022)</p>
+            <p>saggio vibes💃🏼🩰</p>
+            <p>main character energy (mag-giu 2022)</p>
+            <p>that fucking mood 🔪☠️</p>
+            <p>VEE, CARLOTTA E GIACOMO VANNO A BOSIO</p>
+            <p>An Emily Winchester kind of mood 🔪🖕</p>
+          </div>
+        </nav>
+      </div>
       <div
         class="col-12 col-lg-7 m-0 overflow-auto"
         style="max-height: 100vh"

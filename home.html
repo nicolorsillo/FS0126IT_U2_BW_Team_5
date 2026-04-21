@@ -203,21 +203,27 @@
         <div class="card mb-3 bg-gradient-dark border-0 rounded-0">
           <div class="row g-0">
             <div class="col-md-3 d-flex align-items-center">
-              <img
-                src="./assets/imgs/search/image-7.jpg"
-                class="img-fluid ms-3"
-                alt="album cover"
-              />
+              <a id="album-page-link" href="#">
+                <img
+                  id="album-cover"
+                  src="./assets/imgs/search/image-7.jpg"
+                  class="img-fluid ms-3"
+                  alt="album cover"
+                />
+              </a>
             </div>
             <div class="col-md-9">
               <div class="card-body ms-3">
                 <div class="d-flex justify-content-between">
-                  <h5 class="text-uppercase">Album</h5>
+                  <h5 id="album-title" class="text-uppercase">Album</h5>
                   <h6 class="text-uppercase">nascondi annunci</h6>
                 </div>
-                <h1>Nome Brano</h1>
-                <h5>Nome artista</h5>
-                <p>Ascolta il nuovo singolo di <span>nome artista</span>!</p>
+                <h1 id="song-title">Nome Brano</h1>
+                <h5 id="artist-name">Nome artista</h5>
+                <p>
+                  Ascolta il nuovo singolo di
+                  <span id="description">nome artista</span>!
+                </p>
                 <button
                   class="btn btn-primary rounded-pill"
                   style="width: 80px"
@@ -908,5 +914,6 @@
       integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
       crossorigin="anonymous"
     ></script>
+    <script src="/assets/js/home.js"></script>
   </body>
 </html>

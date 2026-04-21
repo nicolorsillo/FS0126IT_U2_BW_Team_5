@@ -34,3 +34,9 @@ $theme-colors:  map-merge($theme-colors, $new-theme-colors);
   #000000 75%
 );
 }
+
+      .fixed-navbar-spotify {
+        background-color: rgba(0, 0, 0, 0.301);
+        backdrop-filter: blur(10px);
+      }
+  

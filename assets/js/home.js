@@ -76,3 +76,17 @@ const id = allParam.get("id")
 //       console.log("ERRORE NEL SERVER", err)
 //     })
 // }
+const backBtn = document.getElementById("backBtn")
+const forwardBtn = document.getElementById("forwardBtn")
+
+if (backBtn) {
+  backBtn.addEventListener("click", () => {
+    window.history.back()
+  })
+}
+
+if (forwardBtn) {
+  forwardBtn.addEventListener("click", () => {
+    window.history.forward()
+  })
+}

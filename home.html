@@ -196,41 +196,60 @@
             </div>
           </div>
         </div>
-        <div class="card mb-3 bg-gradient-dark border-0 rounded-0">
+        <div
+          class="card mb-3 bg-gradient-dark border-0 rounded-0 placeholder-glow"
+          id="ad-banner"
+        >
           <div class="row g-0">
             <div class="col-md-3 d-flex align-items-center">
-              <a id="album-page-link" href="#">
+              <a id="ad-banner-song-album-id" href="#">
                 <img
-                  id="album-cover"
-                  src="./assets/imgs/search/image-7.jpg"
-                  class="img-fluid ms-3"
-                  alt="album cover"
+                  id="ad-banner-song-cover"
+                  src="./assets/imgs/main/placeholder.jpg"
+                  class="img-fluid ms-3 my-3 placeholder"
+                  alt="song cover"
                 />
               </a>
             </div>
             <div class="col-9">
               <div class="card-body ms-3">
                 <div class="d-flex justify-content-between">
-                  <h5 id="album-title" class="text-uppercase">Album</h5>
-                  <h6 class="text-uppercase">nascondi annunci</h6>
+                  <h5
+                    id="ad-banner-song-album"
+                    class="text-uppercase placeholder"
+                  >
+                    Album
+                  </h5>
+                  <h6 class="text-uppercase placeholder">nascondi annunci</h6>
                 </div>
-                <h1 id="song-title">Nome Brano</h1>
-                <h5 id="artist-name">Nome artista</h5>
-                <p>
-                  Ascolta il nuovo singolo di
-                  <span id="description">nome artista</span>!
-                </p>
+                <h1 id="ad-banner-song-title" class="placeholder">
+                  Nome Brano
+                </h1>
+                <div>
+                  <h5 id="ad-banner-song-artist" class="placeholder">
+                    Nome artista
+                  </h5>
+                </div>
+                <div>
+                  <p id="ad-banner-song-description" class="placeholder">
+                    Ascolta il nuovo brano di
+                    <span>nome artista</span>!
+                  </p>
+                </div>
+
                 <button
-                  class="btn btn-primary rounded-pill pb-2 me-2"
+                  id="ad-banner-song-play-btn"
+                  class="btn btn-primary rounded-pill pb-2 me-2 disabled placeholder"
                   style="width: 80px"
                 >
-                  <small class="fw-bold">Play</small>
+                  <small class="fw-bold"></small>
                 </button>
                 <button
-                  class="btn btn-outline-light rounded-pill pb-2"
+                  id="ad-banner-song-save-btn"
+                  class="btn btn-outline-light rounded-pill pb-2 disabled placeholder"
                   style="width: 80px"
                 >
-                  <small class="fw-bold">Salva</small>
+                  <small class="fw-bold"></small>
                 </button>
               </div>
             </div>

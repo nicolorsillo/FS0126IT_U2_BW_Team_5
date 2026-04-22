@@ -11,6 +11,7 @@ fetch(`https://striveschool-api.herokuapp.com/api/deezer/artist/${artistId}`)
 })
 .then((data)=>{
     const profileSection = document.getElementById('artistDinamic')
+    const like= document.getElementById('like')
     profileSection.innerHTML = `
     <div
       class="container-fluid px-0"
@@ -41,6 +42,9 @@ fetch(`https://striveschool-api.herokuapp.com/api/deezer/artist/${artistId}`)
         </div>
       </div>
     `
+     like.innerHTML= `
+          <div class="text-secondary small" id="like">Di ${data.name}</div>
+        `
 })
 .catch((err) => {
       console.log("Errore del server", err)
@@ -62,7 +66,7 @@ fetch('https://striveschool-api.herokuapp.com/api/deezer/artist/'+artistId+'/top
           <img src="${data.data[i].album.cover}" alt="" class="me-3" width="40" height="40" />
           <div class="fw-semibold flex-grow-1">${data.data[i].title}</div>
           <div class="text-secondary me-4 d-none d-md-block">276.616.912</div>
-          <div class="text-secondary">${data.data[i].duration}</div>
+          <div class="text-secondary">${String(data.data[i].duration)[0]}:${String(data.data[i].duration).slice(1)}</div>
         </div>
         `
     }

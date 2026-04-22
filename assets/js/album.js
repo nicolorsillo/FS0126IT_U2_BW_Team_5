@@ -32,32 +32,28 @@ fetch(`https://striveschool-api.herokuapp.com/api/deezer/album/${albumId}`)
       mobileRow.setAttribute("data-track-index", index)
       mobileRow.style.cursor = "pointer"
       mobileRow.innerHTML = `
-    <div class="d-flex align-items-center gap-3">
-      <div>
-        <div class="fw-semibold">${track.title}</div>
-        <div class="small text-white-50">${album.artist.name}</div>
-      </div>
-    </div>
-    <i class="bi bi-three-dots-vertical text-white-50 fs-3"></i>
-  `
+        <div class="d-flex align-items-center gap-3">
+          <div>
+            <div class="fw-semibold">${track.title}</div>
+            <div class="small text-white-50">${album.artist.name}</div>
+          </div>
+        </div>
+        <i class="bi bi-three-dots-vertical text-white-50 fs-3"></i>
+      `
 
       const desktopRow = document.createElement("tr")
       desktopRow.className = "d-none d-lg-table-row"
       desktopRow.setAttribute("data-track-index", index)
       desktopRow.style.cursor = "pointer"
       desktopRow.innerHTML = `
-    <td class="text-white-50 text-end">${index + 1}</td>
-    <td>
-      <div class="fw-semibold">${track.title}</div>
-      <div class="small text-white-50">${album.artist.name}</div>
-    </td>
-    <td class="text-end text-white-50">${rank}</td>
-    <td class="text-end pe-4 text-white-50">${minutes}:${seconds}</td>
-  `
-
-      const playHandler = () => playTrack(track, index)
-      mobileRow.addEventListener("click", playHandler)
-      desktopRow.addEventListener("click", playHandler)
+        <td class="text-white-50 text-end">${index + 1}</td>
+        <td>
+          <div class="fw-semibold">${track.title}</div>
+          <div class="small text-white-50">${album.artist.name}</div>
+        </td>
+        <td class="text-end text-white-50">${rank}</td>
+        <td class="text-end pe-4 text-white-50">${minutes}:${seconds}</td>
+      `
 
       tbody.appendChild(mobileRow)
       tbody.appendChild(desktopRow)
@@ -77,128 +73,193 @@ fetch(`https://striveschool-api.herokuapp.com/api/deezer/album/${albumId}`)
 function initAudioPlayer(album) {
   let currentAudio = null
   let currentTrackIndex = null
-  let progressInterval = null
+  const volumeFill = document.querySelector(".col-4:last-child .progress-bar")
+  const volumeBar = document.querySelector(".col-4:last-child .progress")
+
+  volumeBar.addEventListener("click", function (evento) {
+    const larghezzaBarra = volumeBar.offsetWidth
+    const posizioneClick =
+      evento.clientX - volumeBar.getBoundingClientRect().left
+    const percentuale = posizioneClick / larghezzaBarra
+    volumeFill.style.width = percentuale * 100 + "%"
+    if (currentAudio !== null) {
+      currentAudio.volume = percentuale
+    }
+  })
 
   function updatePlayerBar(track) {
-    const desktopBar = document.querySelector(
-      "nav.fixed-bottom.d-lg-flex .col-4:first-child",
+    const titoloDesktop = document.querySelector(
+      "nav.fixed-bottom.d-lg-flex .fw-bold.small",
     )
-    if (desktopBar) {
-      const img = desktopBar.querySelector("img")
-      if (img) img.src = album.cover_small || "./assets/imgs/main/image-1.jpg"
-
-      const title = desktopBar.querySelector(".fw-bold.small")
-      if (title) title.textContent = track.title
-
-      const artist = desktopBar.querySelector(".text-muted.small")
-      if (artist) artist.textContent = album.artist.name
+    if (titoloDesktop !== null) {
+      titoloDesktop.textContent = track.title
     }
 
-    const mobileTitle = document.querySelector(
+    const artistaDesktop = document.querySelector(
+      "nav.fixed-bottom.d-lg-flex .text-muted.small",
+    )
+    if (artistaDesktop !== null) {
+      artistaDesktop.textContent = album.artist.name
+    }
+    const copertina = document.querySelector("nav.fixed-bottom.d-lg-flex img")
+    if (copertina !== null) {
+      if (album.cover_small) {
+        copertina.src = album.cover_small
+      } else {
+        copertina.src = "./assets/imgs/main/image-1.jpg"
+      }
+    }
+
+    const titoloMobile = document.querySelector(
       "nav.position-fixed .fw-bold.small",
     )
-    const mobileArtist = document.querySelector(
+    if (titoloMobile !== null) {
+      titoloMobile.textContent = track.title
+    }
+
+    const artistaMobile = document.querySelector(
       "nav.position-fixed .text-muted.small",
     )
-
-    if (mobileTitle) mobileTitle.textContent = track.title
-    if (mobileArtist) mobileArtist.textContent = album.artist.name
-  }
-
-  function setPlayingState(isPlaying) {
-    const desktopBtn = document.querySelector("nav.fixed-bottom .btn-light")
-    if (desktopBtn) {
-      desktopBtn.innerHTML = isPlaying
-        ? `<i class="bi bi-pause-fill fs-3"></i>`
-        : `<i class="bi bi-play-fill fs-3"></i>`
+    if (artistaMobile !== null) {
+      artistaMobile.textContent = album.artist.name
     }
 
-    const mobileIcon = document.querySelector(
-      "nav.position-fixed .bi-play-fill, nav.position-fixed .bi-pause-fill",
+    const tuttiITitoli = document.querySelectorAll(
+      "[data-track-index] .fw-bold",
     )
-    if (mobileIcon) {
-      mobileIcon.className = isPlaying ? "bi bi-pause-fill" : "bi bi-play-fill"
-    }
-  }
-  document
-    .querySelector("nav.fixed-bottom .bi-skip-end-fill")
-    ?.closest("button")
-    ?.addEventListener("click", () => {
-      if (currentTrackIndex !== null) {
-        const next = album.tracks.data[currentTrackIndex + 1]
-        if (next) playTrack(next, currentTrackIndex + 1)
-      }
+    tuttiITitoli.forEach(function (titolo) {
+      titolo.classList.remove("text-primary")
     })
 
-  document
-    .querySelector("nav.fixed-bottom .bi-skip-start-fill")
-    ?.closest("button")
-    ?.addEventListener("click", () => {
-      if (currentTrackIndex !== null && currentTrackIndex > 0) {
+    const rigaAttiva = document.querySelector(
+      "[data-track-index='" + currentTrackIndex + "'] .fw-bold",
+    )
+    if (rigaAttiva !== null) {
+      rigaAttiva.classList.add("text-primary")
+    }
+  }
+
+  function setPlayingState(produrre) {
+    const bottoneDesktop = document.querySelector("nav.fixed-bottom .btn-light")
+    if (produrre === true) {
+      bottoneDesktop.innerHTML = '<i class="bi bi-pause-fill fs-3"></i>'
+    } else {
+      bottoneDesktop.innerHTML = '<i class="bi bi-play-fill fs-3"></i>'
+    }
+    const tutteLeIcone = document.querySelectorAll(
+      ".playAudio i, nav.position-fixed .bi-play-fill, nav.position-fixed .bi-pause-fill",
+    )
+    tutteLeIcone.forEach(function (icona) {
+      if (produrre === true) {
+        icona.className = "bi bi-pause-fill fs-1"
+      } else {
+        icona.className = "bi bi-play-fill fs-1"
+      }
+    })
+  }
+
+  function togglePlayPause() {
+    if (currentAudio === null) {
+      playTrack(album.tracks.data[0], 0)
+      return
+    }
+
+    if (currentAudio.paused === true) {
+      currentAudio.play().then(function () {
+        setPlayingState(true)
+      })
+    } else {
+      currentAudio.pause()
+      setPlayingState(false)
+    }
+  }
+
+  function playTrack(traccia, indice) {
+    if (currentAudio !== null) {
+      currentAudio.pause()
+      currentAudio = null
+    }
+
+    if (currentTrackIndex === indice) {
+      currentTrackIndex = null
+      setPlayingState(false)
+      return
+    }
+
+    currentTrackIndex = indice
+
+    currentAudio = new Audio(traccia.preview)
+
+    const volumeAttuale = parseFloat(volumeFill.style.width) / 100
+    if (volumeAttuale) {
+      currentAudio.volume = volumeAttuale
+    } else {
+      currentAudio.volume = 1
+    }
+
+    currentAudio.play().then(function () {
+      setPlayingState(true)
+      updatePlayerBar(traccia)
+    })
+    currentAudio.addEventListener("ended", function () {
+      currentTrackIndex = null
+      setPlayingState(false)
+
+      const tracciaSucessiva = album.tracks.data[indice + 1]
+      if (tracciaSucessiva) {
+        playTrack(tracciaSucessiva, indice + 1)
+      }
+    })
+  }
+
+  const bottonePlayDesktop = document.querySelector(
+    "nav.fixed-bottom .btn-light",
+  )
+  if (bottonePlayDesktop !== null) {
+    bottonePlayDesktop.addEventListener("click", togglePlayPause)
+  }
+
+  const bottoneSuccessivo = document.querySelector(
+    "nav.fixed-bottom .bi-skip-end-fill",
+  )
+  if (bottoneSuccessivo !== null) {
+    bottoneSuccessivo.closest("button").addEventListener("click", function () {
+      if (
+        currentTrackIndex !== null &&
+        album.tracks.data[currentTrackIndex + 1]
+      ) {
+        playTrack(
+          album.tracks.data[currentTrackIndex + 1],
+          currentTrackIndex + 1,
+        )
+      }
+    })
+  }
+
+  const bottonePrecedente = document.querySelector(
+    "nav.fixed-bottom .bi-skip-start-fill",
+  )
+  if (bottonePrecedente !== null) {
+    bottonePrecedente.closest("button").addEventListener("click", function () {
+      if (currentTrackIndex > 0) {
         playTrack(
           album.tracks.data[currentTrackIndex - 1],
           currentTrackIndex - 1,
         )
       }
     })
-  function playTrack(track, index) {
-    console.log("Riproduzione:", track.title, track.preview)
-
-    if (currentAudio) {
-      currentAudio.pause()
-      clearInterval(progressInterval)
-      currentAudio = null
-    }
-
-    if (currentTrackIndex === index) {
-      currentTrackIndex = null
-      setPlayingState(false)
-      highlightRow(-1)
-      return
-    }
-
-    currentTrackIndex = index
-    currentAudio = new Audio(track.preview)
-
-    currentAudio
-      .play()
-      .then(() => {
-        setPlayingState(true)
-        updatePlayerBar(track)
-      })
-      .catch((err) => console.error("Errore play():", err))
-
-    const onEnded = () => {
-      currentTrackIndex = null
-      setPlayingState(false)
-      clearInterval(progressInterval)
-      highlightRow(-1)
-
-      const next = album.tracks.data[index + 1]
-      if (next) {
-        playTrack(next, index + 1)
-      }
-    }
-
-    currentAudio.addEventListener("ended", onEnded)
   }
 
-  const allRows = document.querySelectorAll("[data-track-index]")
-  allRows.forEach((row) => {
-    const trackIndex = parseInt(row.getAttribute("data-track-index"))
-    const track = album.tracks.data[trackIndex]
+  const bottoniPlay = document.querySelectorAll(".playAudio")
+  bottoniPlay.forEach(function (bottone) {
+    bottone.addEventListener("click", togglePlayPause)
+  })
 
-    const newRow = row.cloneNode(true)
-    row.parentNode.replaceChild(newRow, row)
-
-    newRow.addEventListener("click", (e) => {
-      if (
-        e.target.tagName === "I" &&
-        e.target.classList.contains("bi-three-dots-vertical")
-      ) {
-        return
-      }
-      playTrack(track, trackIndex)
+  const righeTracce = document.querySelectorAll("[data-track-index]")
+  righeTracce.forEach(function (riga) {
+    const indiceTraccia = parseInt(riga.getAttribute("data-track-index"))
+    riga.addEventListener("click", function () {
+      playTrack(album.tracks.data[indiceTraccia], indiceTraccia)
     })
   })
 }

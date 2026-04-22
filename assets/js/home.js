@@ -150,7 +150,7 @@ const getTopReleases = function () {
     "drop dead",
     "Wait For You",
     "Foto Mosse",
-    "La più bella del mondo",
+    "La piu bella del mondo",
     "Amarsi nel disordine",
   ];
   let randomSongIndex = Math.floor(Math.random() * newMusicFridayItalia.length);
@@ -159,20 +159,20 @@ const getTopReleases = function () {
 };
 getTopReleases();
 
-const recommendedAlbum = [
-  "926698181",
-  "958295021",
-  "3602971",
-  "926720971",
-  "926721331",
-  "693008911",
+let recommendedAlbum = [
+  926698181, 958295021, 3602971, 926720971, 926721331, 693008911,
 ];
-localStorage.setItem("lastAlbumId", recommendedSongs);
+
+if (!localStorage.getItem("lastAlbumId")) {
+  localStorage.setItem("lastAlbumId", JSON.stringify(recommendedAlbum));
+}
+
+recommendedAlbum = JSON.parse(localStorage.getItem("lastAlbumId"));
 
 const urlAlbum = "https://striveschool-api.herokuapp.com/api/deezer/album/";
 
-const getRecommendedAlbum = function (albumindex) {
-  const urlAlbumCompleto = `${url}${recommendedAlbum[albumindex].replaceAll('"', "")}`;
+const getRecommendedAlbum = function (albumIndex, domIndex) {
+  const urlAlbumCompleto = `${urlAlbum}${recommendedAlbum[albumIndex]}`;
 
   fetch(urlAlbumCompleto)
     .then((result) => {
@@ -182,26 +182,24 @@ const getRecommendedAlbum = function (albumindex) {
         throw new Error("ERRORE JSON", result.status);
       }
     })
-    .then((data) => {})
-    .catch((err) => {
-      console.log("ERRORE NEL SERVER", err);
-    });
-};
-const getab = function (albumindex) {
-  fetch("https://striveschool-api.herokuapp.com/api/deezer/search?q=queen")
-    .then((result) => {
-      if (result.ok) {
-        return result.json();
-      } else {
-        throw new Error("ERRORE JSON", result.status);
-      }
-    })
     .then((data) => {
-      console.log(data.data[1]);
+      const recommendedCard = document.querySelector(
+        `.recommended-album:nth-of-type(${domIndex})`,
+      );
+      if (recommendedCard) {
+        recommendedCard.querySelector("img").src = data.cover_medium;
+        recommendedCard.querySelector("img").classList.remove("placeholder");
+        recommendedCard.querySelector("p").innerText = data.title;
+        recommendedCard.querySelector("p").classList.remove("placeholder");
+      }
     })
     .catch((err) => {
       console.log("ERRORE NEL SERVER", err);
     });
 };
 
-getab();
+for (let i = 0; i < 6; i++) {
+  const arrayIndex = recommendedAlbum.length - 1 - i;
+  const domPosition = i + 1;
+  getRecommendedAlbum(arrayIndex, domPosition);
+}

@@ -12,6 +12,27 @@ form.addEventListener("submit", function (e) {
   searchInput = ""
 })
 
+let currentAudio = null
+
+const stopPlaySong = function () {
+  if (currentAudio.paused) {
+    currentAudio.play()
+  } else {
+    currentAudio.pause()
+  }
+}
+
+const playSong = function (songCover, songName, artistName, songPreview) {
+  document.getElementById("song-cover").src = songCover
+  document.getElementById("song-name").innerText = songName
+  document.getElementById("song-artist").innerText = artistName
+
+  if (currentAudio) currentAudio.pause()
+  currentAudio = new Audio(songPreview)
+  currentAudio.play()
+  currentAudio.volume = 0.1
+}
+
 const getArtist = function (url) {
   fetch(url)
     .then((response) => {
@@ -34,60 +55,93 @@ const getArtist = function (url) {
           data.data[i].artist.name.toLowerCase() === searchInput.toLowerCase()
         ) {
           index++
-          data.data.sort((a, b) => a.rank - b.rank)
+
+          data.data.sort((a, b) => b.rank - a.rank)
           searchDiv.innerHTML = ""
           divCard.innerHTML = `<div class="container rounded-2 text-light px-0 mt-4">
-          <div class="row justify-content-between">
-          <div class="col-4"><h2 class="fw-bold mb-4">Risultato più rilevante</h2>
+          <div class="row justify-content-center justify-content-md-between">
+          <div class="col-9 col-md-4"><h2 class="fw-bold mb-4">Risultato più rilevante</h2>
             </div>
-          <div class="col-7"><h2 class="fw-bold mb-4">Brani più ascoltati</h2>
+          <div class="d-none d-md-flex col-md-7"><h2 class="fw-bold mb-4">Brani più ascoltati</h2>
             </div>
             </div>
-                    <div class="row justify-content-between">
-                    <div class="col-4 bg-dark py-3 ps-3 rounded-2"
+                    <div class="row justify-content-center justify-content-md-between">
+                    <div class="col-9 col-md-4 bg-dark py-3 ps-3 rounded-2"
           
                       <div class="card border-0 p-3">
                         <div class="card-body">
-                          <img
+                        <a href="/artist.html?id=${data.data[i].artist.id}">   
+                        <img
                             src="${data.data[i].artist.picture_medium}"
                             alt="Artist-picture"
                             class="rounded-circle mb-3 shadow object-fit-cover"
                             style="width: 150px; height: 150px"
                           />
-          
+                          </a>
                           <h3 class="card-title fw-bold m-0">${data.data[i].artist.name}</h3>
                           <p class="card-text text-secondary mt-1">Artista</p>
                         </div>
                       </div>
-                    <div class="col-7 py-0 ps-3 rounded-2"
-          
+                      <div class="col-9 d-md-none"><h2 class="fw-bold mt-4">Brani più ascoltati</h2></div>
+                    <div class="col-9 col-md-7 py-0 ps-3 rounded-2"
                       <div class="card border-0 p-3">
                         <div class="card-body h-100">
                           <ul class="list-unstyled mb-0 d-flex justify-content-between flex-column h-100">
+                            <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
+                              '${data.data[0].album.cover_medium}',
+                              '${data.data[0].title.replaceAll("'", "")}',
+                              '${data.data[0].artist.name}',
+                              '${data.data[0].preview}'
+                              )">
                             <li class="d-flex gap-4"><img
                             src="${data.data[0].album.cover_medium}"
                             alt="album-picture"
-                            class="rounded-2 shadow object-fit-cover"
+                            class="rounded-2 shadow object-fit-cover p-1 p-md-0"
                             style="width: 50px; height: 50px"
-                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 ">${data.data[0].title.toUpperCase()}</h5><p class="text-secondary m-0">${data.data[i].artist.name}</p></div></li>
-                            <li class="d-flex gap-4"><img
+                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 text-start ">${data.data[0].title.toUpperCase()}</h5><p class="text-secondary m-0 text-start">${data.data[i].artist.name}</p></div></li>
+                            </button>
+
+                           <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
+                              '${data.data[1].album.cover_medium}',
+                              '${data.data[1].title.replaceAll("'", "")}',
+                              '${data.data[1].artist.name}',
+                              '${data.data[1].preview}'
+                              )"> 
+                          <li class="d-flex gap-4"><img
                             src="${data.data[1].album.cover_medium}"
                             alt="album-picture"
-                            class="rounded-2 shadow object-fit-cover"
+                            class="rounded-2 shadow object-fit-cover p-1 p-md-0 "
                             style="width: 50px; height: 50px"
-                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 ">${data.data[1].title.toUpperCase()}</h5><p class="text-secondary m-0">${data.data[i].artist.name}</p></div></li>
-                            <li class="d-flex gap-4"><img
+                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 text-start ">${data.data[1].title.toUpperCase()}</h5><p class="text-secondary m-0 text-start">${data.data[i].artist.name}</p></div></li>
+                            </button>
+
+                          <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
+                              '${data.data[2].album.cover_medium}',
+                              '${data.data[2].title.replaceAll("'", "")}',
+                              '${data.data[2].artist.name}',
+                              '${data.data[2].preview}'
+                              )"> 
+                          <li class="d-flex gap-4"><img
                             src="${data.data[2].album.cover_medium}"
                             alt="album-picture"
-                            class="rounded-2 shadow object-fit-cover"
+                            class="rounded-2 shadow object-fit-cover p-1 p-md-0"
                             style="width: 50px; height: 50px"
-                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 ">${data.data[2].title.toUpperCase()}</h5><p class="text-secondary m-0">${data.data[i].artist.name}</p></div></li>
-                            <li class="d-flex gap-4"><img
+                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 text-start ">${data.data[2].title.toUpperCase()}</h5><p class="text-secondary m-0 text-start">${data.data[i].artist.name}</p></div></li>
+                            </button>
+                          
+                             <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
+                              '${data.data[3].album.cover_medium}',
+                              '${data.data[3].title.replaceAll("'", "")}',
+                              '${data.data[3].artist.name}',
+                              '${data.data[3].preview}'
+                              )"> 
+                          <li class="d-flex gap-4"><img
                             src="${data.data[3].album.cover_medium}"
                             alt="album-picture"
-                            class="rounded-2 shadow object-fit-cover"
+                            class="rounded-2 shadow object-fit-cover p-1 p-md-0"
                             style="width: 50px; height: 50px"
-                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 ">${data.data[3].title.toUpperCase()}</h5><p class="text-secondary m-0">${data.data[i].artist.name}</p></div></li>
+                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 text-start ">${data.data[3].title.toUpperCase()}</h5><p class="text-secondary m-0 text-start">${data.data[i].artist.name}</p></div></li>
+                          </button>
                           </ul>         
                         </div>
                       </div>
@@ -111,64 +165,102 @@ const getArtist = function (url) {
 
             searchDiv.innerHTML = ""
             divCard.innerHTML = `<div class="container rounded-2 text-light px-0 mt-4">
-          <div class="row justify-content-between">
-          <div class="col-4"><h2 class="fw-bold mb-4">Risultato più rilevante</h2>
+          <div class="row justify-content-center justify-content-md-between">
+          <div class="col-9 col-md-4"><h2 class="fw-bold mb-4">Risultato più rilevante</h2>
             </div>
-          <div class="col-7"><h2 class="fw-bold mb-4">Ti potrebbe piacere anche</h2>
+          <div class="d-none d-md-flex col-9 col-md-7"><h2 class="fw-bold mb-4">Ti potrebbe piacere anche</h2>
             </div>
             </div>
-                    <div class="row justify-content-between">
-                    <div class="col-4 bg-dark py-3 ps-3 rounded-2"
+                    <div class="row justify-content-center justify-content-md-between">
+                    <div class="col-9 col-md-4 bg-dark py-3 ps-3 rounded-2"
           
                       <div class="card border-0 p-3">
                         <div class="card-body">
-                          <img
-                            src="${data.data[i].album.cover_medium}"
-                            alt="Artist-picture"
-                            class="rounded-circle mb-3 shadow object-fit-cover"
-                            style="width: 150px; height: 150px"
-                          />
-          
-                          <h3 class="card-title fw-bold m-0">${data.data[i].title}</h3>
-                          <p class="card-text text-secondary mt-1">${data.data[i].artist.name}</p>
+                              <button class="border-0 shadow-none bg-transparent" onclick="playSong(
+                              '${data.data[0].album.cover_medium}',
+                              '${data.data[0].title.replaceAll("'", "")}',
+                              '${data.data[0].artist.name}',
+                              '${data.data[0].preview}'
+                              )">
+                                <img
+                                src="${data.data[0].album.cover_medium}"
+                                alt="Artist-picture"
+                                class="rounded-circle mb-3 shadow object-fit-cover"
+                                style="width: 150px; height: 150px"
+                              />
+                              </button>
+                          <h3 class="card-title fw-bold m-0">${data.data[0].title}</h3>
+                          <p class="card-text text-secondary mt-1">${data.data[0].artist.name}</p>
                         </div>
                       </div>
-                    <div class="col-7 py-0 ps-3 rounded-2"
+                    <div class="col-9 d-md-none col-9 col-md-7"><h2 class="fw-bold mt-4">Ti potrebbe piacere anche</h2></div>
+                    <div class="col-9 col-md-7 py-0 ps-3 rounded-2"
           
                       <div class="card border-0 p-3">
                         <div class="card-body h-100">
                           <ul class="list-unstyled mb-0 d-flex justify-content-between flex-column h-100">
-                            <li class="d-flex gap-4"><img
+                            
+                          <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
+                              '${data.data[rand1].album.cover_medium}',
+                              '${data.data[rand1].title.replaceAll("'", "")}',
+                              '${data.data[rand1].artist.name}',
+                              '${data.data[rand1].preview}'
+                              )">
+                          <li class="d-flex gap-4 align-content-center"><img
                             src="${data.data[rand1].album.cover_medium}"
                             alt="album-picture"
-                            class="rounded-2 shadow object-fit-cover"
+                            class="rounded-2 shadow object-fit-cover p-1 p-md-0"
                             style="width: 50px; height: 50px"
-                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 ">${data.data[rand1].title.toUpperCase()}</h5><p class="text-secondary m-0">${data.data[rand1].artist.name}</p></div></li>
-                            <li class="d-flex gap-4"><img
+                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 text-start ">${data.data[rand1].title.toUpperCase()}</h5><p class="text-secondary m-0 text-start">${data.data[rand1].artist.name}</p></div></li>
+                          </button>
+                          
+                          <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
+                              '${data.data[rand2].album.cover_medium}',
+                              '${data.data[rand2].title.replaceAll("'", "")}',
+                              '${data.data[rand2].artist.name}',
+                              '${data.data[rand2].preview}'
+                              )">
+                          <li class="d-flex gap-4 align-content-center"><img
                             src="${data.data[rand2].album.cover_medium}"
                             alt="album-picture"
-                            class="rounded-2 shadow object-fit-cover"
+                            class="rounded-2 shadow object-fit-cover p-1 p-md-0"
                             style="width: 50px; height: 50px"
-                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 ">${data.data[rand2].title.toUpperCase()}</h5><p class="text-secondary m-0">${data.data[rand2].artist.name}</p></div></li>
-                            <li class="d-flex gap-4"><img
+                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 text-start ">${data.data[rand2].title.toUpperCase()}</h5><p class="text-secondary m-0 text-start">${data.data[rand2].artist.name}</p></div></li>
+                          </button>
+                          
+                          <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
+                              '${data.data[rand3].album.cover_medium}',
+                              '${data.data[rand3].title.replaceAll("'", "")}',
+                              '${data.data[rand3].artist.name}',
+                              '${data.data[rand3].preview}'
+                              )">
+                          <li class="d-flex gap-4 align-content-center"><img
                             src="${data.data[rand3].album.cover_medium}"
                             alt="album-picture"
-                            class="rounded-2 shadow object-fit-cover"
+                            class="rounded-2 shadow object-fit-cover p-1 p-md-0"
                             style="width: 50px; height: 50px"
-                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 ">${data.data[rand3].title.toUpperCase()}</h5><p class="text-secondary m-0">${data.data[rand3].artist.name}</p></div></li>
-                            <li class="d-flex gap-4"><img
+                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 text-start ">${data.data[rand3].title.toUpperCase()}</h5><p class="text-secondary m-0 text-start">${data.data[rand3].artist.name}</p></div></li>
+                          </button>
+                          
+                          <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
+                              '${data.data[rand4].album.cover_medium}',
+                              '${data.data[rand4].title.replaceAll("'", "")}',
+                              '${data.data[rand4].artist.name}',
+                              '${data.data[rand4].preview}'
+                              )">
+                          <li class="d-flex gap-4 align-content-center"><img
                             src="${data.data[rand4].album.cover_medium}"
                             alt="album-picture"
-                            class="rounded-2 shadow object-fit-cover"
+                            class="rounded-2 shadow object-fit-cover p-1 p-md-0"
                             style="width: 50px; height: 50px"
-                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 ">${data.data[rand4].title.toUpperCase()}</h5><p class="text-secondary m-0">${data.data[rand4].artist.name}</p></div></li>
+                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 text-start ">${data.data[rand4].title.toUpperCase()}</h5><p class="text-secondary m-0 text-start">${data.data[rand4].artist.name}</p></div></li>
+                          </button>
                           </ul>         
                         </div>
                       </div>
                     </div>
                   </div>
           `
-
             searchDiv.appendChild(divCard)
           }
         }

@@ -32,32 +32,28 @@ fetch(`https://striveschool-api.herokuapp.com/api/deezer/album/${albumId}`)
       mobileRow.setAttribute("data-track-index", index)
       mobileRow.style.cursor = "pointer"
       mobileRow.innerHTML = `
-    <div class="d-flex align-items-center gap-3">
-      <div>
-        <div class="fw-semibold">${track.title}</div>
-        <div class="small text-white-50">${album.artist.name}</div>
-      </div>
-    </div>
-    <i class="bi bi-three-dots-vertical text-white-50 fs-3"></i>
-  `
+        <div class="d-flex align-items-center gap-3">
+          <div>
+            <div class="fw-semibold">${track.title}</div>
+            <div class="small text-white-50">${album.artist.name}</div>
+          </div>
+        </div>
+        <i class="bi bi-three-dots-vertical text-white-50 fs-3"></i>
+      `
 
       const desktopRow = document.createElement("tr")
       desktopRow.className = "d-none d-lg-table-row"
       desktopRow.setAttribute("data-track-index", index)
       desktopRow.style.cursor = "pointer"
       desktopRow.innerHTML = `
-    <td class="text-white-50 text-end">${index + 1}</td>
-    <td>
-      <div class="fw-semibold">${track.title}</div>
-      <div class="small text-white-50">${album.artist.name}</div>
-    </td>
-    <td class="text-end text-white-50">${rank}</td>
-    <td class="text-end pe-4 text-white-50">${minutes}:${seconds}</td>
-  `
-
-      const playHandler = () => playTrack(track, index)
-      mobileRow.addEventListener("click", playHandler)
-      desktopRow.addEventListener("click", playHandler)
+        <td class="text-white-50 text-end">${index + 1}</td>
+        <td>
+          <div class="fw-semibold">${track.title}</div>
+          <div class="small text-white-50">${album.artist.name}</div>
+        </td>
+        <td class="text-end text-white-50">${rank}</td>
+        <td class="text-end pe-4 text-white-50">${minutes}:${seconds}</td>
+      `
 
       tbody.appendChild(mobileRow)
       tbody.appendChild(desktopRow)
@@ -73,132 +69,207 @@ fetch(`https://striveschool-api.herokuapp.com/api/deezer/album/${albumId}`)
     initAudioPlayer(album)
   })
   .catch((err) => console.error("Errore fetch album:", err))
-
+// dichiaro la funzione dove ricevero un ogetto album
 function initAudioPlayer(album) {
-  let currentAudio = null
-  let currentTrackIndex = null
-  let progressInterval = null
-
+  let currentAudio = null // laudio che ce adesso
+  let currentTrackIndex = null // lindice  della traccia attiva
+  const volumeFill = document.querySelector(".col-4:last-child .progress-bar")
+  const volumeBar = document.querySelector(".col-4:last-child .progress")
+  // qua chiamo la barra
+  volumeBar.addEventListener("click", function (evento) {
+    const larghezzaBarra = volumeBar.offsetWidth
+    const posizioneClick =
+      evento.clientX - volumeBar.getBoundingClientRect().left // questo lho cercato in teora dalla e prende la largezza dove in quel esatto momento ecc
+    const percentuale = posizioneClick / larghezzaBarra
+    volumeFill.style.width = percentuale * 100 + "%"
+    if (currentAudio !== null) {
+      currentAudio.volume = percentuale
+    }
+  })
+  // questa funzione e per cambiare la foto e il nome del img anche per cambiare il colore del brano in riprouzione
   function updatePlayerBar(track) {
-    const desktopBar = document.querySelector(
-      "nav.fixed-bottom.d-lg-flex .col-4:first-child",
+    const titoloDesktop = document.querySelector(
+      "nav.fixed-bottom.d-lg-flex .fw-bold.small",
     )
-    if (desktopBar) {
-      const img = desktopBar.querySelector("img")
-      if (img) img.src = album.cover_small || "./assets/imgs/main/image-1.jpg"
-
-      const title = desktopBar.querySelector(".fw-bold.small")
-      if (title) title.textContent = track.title
-
-      const artist = desktopBar.querySelector(".text-muted.small")
-      if (artist) artist.textContent = album.artist.name
+    if (titoloDesktop !== null) {
+      titoloDesktop.textContent = track.title
     }
 
-    const mobileTitle = document.querySelector(
+    const artistaDesktop = document.querySelector(
+      "nav.fixed-bottom.d-lg-flex .text-muted.small",
+    )
+    if (artistaDesktop !== null) {
+      artistaDesktop.textContent = album.artist.name
+    }
+    const copertina = document.querySelector("nav.fixed-bottom.d-lg-flex img")
+    if (copertina !== null) {
+      if (album.cover_small) {
+        copertina.src = album.cover_small
+      } else {
+        copertina.src = "./assets/imgs/main/image-1.jpg"
+      }
+    }
+
+    const titoloMobile = document.querySelector(
       "nav.position-fixed .fw-bold.small",
     )
-    const mobileArtist = document.querySelector(
+    if (titoloMobile !== null) {
+      titoloMobile.textContent = track.title
+    }
+
+    const artistaMobile = document.querySelector(
       "nav.position-fixed .text-muted.small",
     )
-
-    if (mobileTitle) mobileTitle.textContent = track.title
-    if (mobileArtist) mobileArtist.textContent = album.artist.name
-  }
-
-  function setPlayingState(isPlaying) {
-    const desktopBtn = document.querySelector("nav.fixed-bottom .btn-light")
-    if (desktopBtn) {
-      desktopBtn.innerHTML = isPlaying
-        ? `<i class="bi bi-pause-fill fs-3"></i>`
-        : `<i class="bi bi-play-fill fs-3"></i>`
+    if (artistaMobile !== null) {
+      artistaMobile.textContent = album.artist.name
     }
 
-    const mobileIcon = document.querySelector(
-      "nav.position-fixed .bi-play-fill, nav.position-fixed .bi-pause-fill",
+    const tuttiITitoli = document.querySelectorAll(
+      "[data-track-index] .fw-semibold",
     )
-    if (mobileIcon) {
-      mobileIcon.className = isPlaying ? "bi bi-pause-fill" : "bi bi-play-fill"
-    }
-  }
-  document
-    .querySelector("nav.fixed-bottom .bi-skip-end-fill")
-    ?.closest("button")
-    ?.addEventListener("click", () => {
-      if (currentTrackIndex !== null) {
-        const next = album.tracks.data[currentTrackIndex + 1]
-        if (next) playTrack(next, currentTrackIndex + 1)
-      }
+    tuttiITitoli.forEach(function (titolo) {
+      titolo.classList.remove("text-primary")
     })
 
-  document
-    .querySelector("nav.fixed-bottom .bi-skip-start-fill")
-    ?.closest("button")
-    ?.addEventListener("click", () => {
-      if (currentTrackIndex !== null && currentTrackIndex > 0) {
+    const righeAttive = document.querySelectorAll(
+      "[data-track-index='" + currentTrackIndex + "'] .fw-semibold",
+    )
+    righeAttive.forEach(function (riga) {
+      riga.classList.add("text-primary")
+    })
+  }
+  // questa funzione e per cambiare il tasto quello tondo del play
+  function setPlayingState(produrre) {
+    const bottoneDesktop = document.querySelector("nav.fixed-bottom .btn-light")
+    if (produrre === true) {
+      bottoneDesktop.innerHTML = '<i class="bi bi-pause-fill fs-3"></i>'
+    } else {
+      bottoneDesktop.innerHTML = '<i class="bi bi-play-fill fs-3"></i>'
+    }
+    const tutteLeIcone = document.querySelectorAll(
+      ".playAudio i, nav.position-fixed .bi-play-fill, nav.position-fixed .bi-pause-fill",
+    )
+    tutteLeIcone.forEach(function (icona) {
+      if (produrre === true) {
+        icona.className = "bi bi-pause-fill fs-1"
+      } else {
+        icona.className = "bi bi-play-fill fs-1"
+      }
+    })
+  }
+  // Funzione che viene chiamata quando si preme il bottone
+  function togglePlayPause() {
+    // Se non c'è nessun audio caricato, avvia direttamente la prima traccia dell'album e esce dalla funzione.
+    if (currentAudio === null) {
+      playTrack(album.tracks.data[0], 0)
+      return
+    }
+    // Se l'audio è in pausa, lo riprende. .then() aspetta che parta davvero, poi aggiorna le icone.
+    if (currentAudio.paused === true) {
+      currentAudio.play().then(function () {
+        setPlayingState(true)
+      })
+    } else {
+      //Se  sta suonando lo mette in pausa e aggiorna le icone.
+      currentAudio.pause()
+      setPlayingState(false)
+    }
+  }
+  // la funzione che avvia la tracia
+  function playTrack(traccia, indice) {
+    // se ce qualcosa fermala
+    if (currentAudio !== null) {
+      currentAudio.pause()
+      currentAudio = null
+    }
+    // se clicchi su una attiva la fermi
+    if (currentTrackIndex === indice) {
+      currentTrackIndex = null
+      setPlayingState(false)
+      return
+    }
+    // salva il numero ellla tracia
+    currentTrackIndex = indice
+    // Crea un nuovo oggetto Audio con l'URL della preview della traccia
+    currentAudio = new Audio(traccia.preview)
+
+    const volumeAttuale = parseFloat(volumeFill.style.width) / 100 //questo e per il volume cosi rimane salvato copiato bovinamente
+    if (volumeAttuale) {
+      currentAudio.volume = volumeAttuale
+    } else {
+      currentAudio.volume = 1
+    }
+
+    currentAudio.play().then(function () {
+      setPlayingState(true)
+      updatePlayerBar(traccia)
+    })
+    // se ce una tracia dopo passa a quella dopo
+    currentAudio.addEventListener("ended", function () {
+      currentTrackIndex = null
+      setPlayingState(false)
+
+      const tracciaSucessiva = album.tracks.data[indice + 1]
+      if (tracciaSucessiva) {
+        playTrack(tracciaSucessiva, indice + 1)
+      }
+    })
+  }
+  // collego i bottoni alla funzione togglePlayPause
+  const bottonePlayDesktop = document.querySelector(
+    "nav.fixed-bottom .btn-light",
+  )
+  if (bottonePlayDesktop !== null) {
+    bottonePlayDesktop.addEventListener("click", togglePlayPause)
+  }
+  const bottonePlayMobile = document.querySelector(
+    "nav.position-fixed .btn-light",
+  )
+  if (bottonePlayMobile !== null) {
+    bottonePlayMobile.addEventListener("click", togglePlayPause)
+  }
+  // qua e per andare avanti e indietro con i bottoni
+  const bottoneSuccessivo = document.querySelector(
+    "nav.fixed-bottom .bi-skip-end-fill",
+  )
+  if (bottoneSuccessivo !== null) {
+    bottoneSuccessivo.closest("button").addEventListener("click", function () {
+      if (
+        currentTrackIndex !== null &&
+        album.tracks.data[currentTrackIndex + 1]
+      ) {
+        playTrack(
+          album.tracks.data[currentTrackIndex + 1],
+          currentTrackIndex + 1,
+        )
+      }
+    })
+  }
+
+  const bottonePrecedente = document.querySelector(
+    "nav.fixed-bottom .bi-skip-start-fill",
+  )
+  if (bottonePrecedente !== null) {
+    bottonePrecedente.closest("button").addEventListener("click", function () {
+      if (currentTrackIndex > 0) {
         playTrack(
           album.tracks.data[currentTrackIndex - 1],
           currentTrackIndex - 1,
         )
       }
     })
-  function playTrack(track, index) {
-    console.log("Riproduzione:", track.title, track.preview)
-
-    if (currentAudio) {
-      currentAudio.pause()
-      clearInterval(progressInterval)
-      currentAudio = null
-    }
-
-    if (currentTrackIndex === index) {
-      currentTrackIndex = null
-      setPlayingState(false)
-      highlightRow(-1)
-      return
-    }
-
-    currentTrackIndex = index
-    currentAudio = new Audio(track.preview)
-
-    currentAudio
-      .play()
-      .then(() => {
-        setPlayingState(true)
-        updatePlayerBar(track)
-      })
-      .catch((err) => console.error("Errore play():", err))
-
-    const onEnded = () => {
-      currentTrackIndex = null
-      setPlayingState(false)
-      clearInterval(progressInterval)
-      highlightRow(-1)
-
-      const next = album.tracks.data[index + 1]
-      if (next) {
-        playTrack(next, index + 1)
-      }
-    }
-
-    currentAudio.addEventListener("ended", onEnded)
   }
-
-  const allRows = document.querySelectorAll("[data-track-index]")
-  allRows.forEach((row) => {
-    const trackIndex = parseInt(row.getAttribute("data-track-index"))
-    const track = album.tracks.data[trackIndex]
-
-    const newRow = row.cloneNode(true)
-    row.parentNode.replaceChild(newRow, row)
-
-    newRow.addEventListener("click", (e) => {
-      if (
-        e.target.tagName === "I" &&
-        e.target.classList.contains("bi-three-dots-vertical")
-      ) {
-        return
-      }
-      playTrack(track, trackIndex)
+  // colego dei boittoni nel html a cui ho dato una classe
+  const bottoniPlay = document.querySelectorAll(".playAudio")
+  bottoniPlay.forEach(function (bottone) {
+    bottone.addEventListener("click", togglePlayPause)
+  })
+  // Per ogni riga nella lista tracce legge il suo indice dallattributo HTML data-track-index e al click avvia quella traccia specifica.
+  const righeTracce = document.querySelectorAll("[data-track-index]")
+  righeTracce.forEach(function (riga) {
+    const indiceTraccia = parseInt(riga.getAttribute("data-track-index"))
+    riga.addEventListener("click", function () {
+      playTrack(album.tracks.data[indiceTraccia], indiceTraccia)
     })
   })
 }

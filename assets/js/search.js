@@ -1,53 +1,53 @@
-const url = "https://striveschool-api.herokuapp.com/api/deezer/search?q="
-const allParam = new URLSearchParams(location.search)
-const id = allParam.get("id")
+const url = "https://striveschool-api.herokuapp.com/api/deezer/search?q=";
+const allParam = new URLSearchParams(location.search);
+const id = allParam.get("id");
 
-const form = document.getElementById("search-form")
+const form = document.getElementById("search-form");
 form.addEventListener("submit", function (e) {
-  e.preventDefault()
-  let searchInput = form.querySelector("input").value
+  e.preventDefault();
+  let searchInput = form.querySelector("input").value;
 
-  const fullUrl = url + searchInput
-  getArtist(fullUrl)
-  searchInput = ""
-})
+  const fullUrl = url + searchInput;
+  getArtist(fullUrl);
+  searchInput = "";
+});
 
-let currentAudio = null
+let currentAudio = null;
 
 const playSong = function (songCover, songName, artistName, songPreview) {
-  document.getElementById("song-cover").src = songCover
-  document.getElementById("song-name").innerText = songName
-  document.getElementById("song-artist").innerText = artistName
+  document.getElementById("song-cover").src = songCover;
+  document.getElementById("song-name").innerText = songName;
+  document.getElementById("song-artist").innerText = artistName;
 
-  if (currentAudio) currentAudio.pause()
-  currentAudio = new Audio(songPreview)
-  currentAudio.play()
-}
+  if (currentAudio) currentAudio.pause();
+  currentAudio = new Audio(songPreview);
+  currentAudio.play();
+};
 
 const getArtist = function (url) {
   fetch(url)
     .then((response) => {
       if (response.ok) {
-        return response.json()
+        return response.json();
       } else {
-        throw new Error("ERRORE NEL JSON", response.status)
+        throw new Error("ERRORE NEL JSON", response.status);
       }
     })
     .then((data) => {
-      const divCard = document.createElement("div")
-      const searchDiv = document.getElementById("search-container")
-      const randIndex = Math.floor(Math.random() * data.data.length)
+      const divCard = document.createElement("div");
+      const searchDiv = document.getElementById("search-container");
+      const randIndex = Math.floor(Math.random() * data.data.length);
 
-      let searchInput = form.querySelector("input").value
-      let index = 0
+      let searchInput = form.querySelector("input").value;
+      let index = 0;
 
       for (let i = 0; i < data.data.length; i++) {
         if (
           data.data[i].artist.name.toLowerCase() === searchInput.toLowerCase()
         ) {
-          index++
-          data.data.sort((a, b) => b.rank - a.rank)
-          searchDiv.innerHTML = ""
+          index++;
+          data.data.sort((a, b) => b.rank - a.rank);
+          searchDiv.innerHTML = "";
           divCard.innerHTML = `<div class="container rounded-2 text-light px-0 mt-4">
           <div class="row justify-content-center justify-content-md-between">
           <div class="col-9 col-md-4"><h2 class="fw-bold mb-4">Risultato più rilevante</h2>
@@ -77,12 +77,12 @@ const getArtist = function (url) {
                       <div class="card border-0 p-3">
                         <div class="card-body h-100">
                           <ul class="list-unstyled mb-0 d-flex justify-content-between flex-column h-100">
-                            <button class="border-0 p-0 shadow-none bg-transparent" onclick=playSong(
-                              '"${data.data[0].album.cover_medium}"',
-                              '"${data.data[0].title}"',
-                              '"${data.data[0].artist.name}"',
-                              '"${data.data[0].preview}"'
-                              )>
+                            <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
+                              '${data.data[0].album.cover_medium}',
+                              '${data.data[0].title.replaceAll("'", "")}',
+                              '${data.data[0].artist.name}',
+                              '${data.data[0].preview}'
+                              )">
                             <li class="d-flex gap-4"><img
                             src="${data.data[0].album.cover_medium}"
                             alt="album-picture"
@@ -137,23 +137,24 @@ const getArtist = function (url) {
                       </div>
                     </div>
                   </div>
-          `
+          `;
 
-          searchDiv.appendChild(divCard)
+          searchDiv.appendChild(divCard);
         }
       }
       if (index === 0) {
         for (let i = 0; i < data.data.length; i++) {
           if (data.data[i].title.toLowerCase() === searchInput.toLowerCase()) {
-            index++
-            const getRandom = () => Math.floor(Math.random() * data.data.length)
+            index++;
+            const getRandom = () =>
+              Math.floor(Math.random() * data.data.length);
 
-            const rand1 = getRandom()
-            const rand2 = getRandom()
-            const rand3 = getRandom()
-            const rand4 = getRandom()
+            const rand1 = getRandom();
+            const rand2 = getRandom();
+            const rand3 = getRandom();
+            const rand4 = getRandom();
 
-            searchDiv.innerHTML = ""
+            searchDiv.innerHTML = "";
             divCard.innerHTML = `<div class="container rounded-2 text-light px-0 mt-4">
           <div class="row justify-content-center justify-content-md-between">
           <div class="col-9 col-md-4"><h2 class="fw-bold mb-4">Risultato più rilevante</h2>
@@ -250,13 +251,13 @@ const getArtist = function (url) {
                       </div>
                     </div>
                   </div>
-          `
-            searchDiv.appendChild(divCard)
+          `;
+            searchDiv.appendChild(divCard);
           }
         }
       }
     })
     .catch((err) => {
-      console.log("ARTISTA NON TROVATO e SERVER", err)
-    })
-}
+      console.log("ARTISTA NON TROVATO e SERVER", err);
+    });
+};

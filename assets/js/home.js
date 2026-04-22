@@ -142,7 +142,7 @@ const getAdBannerSong = function (song) {
 
 const getTopReleases = function () {
   const newMusicFridayItalia = [
-    "VOLEVO CAPIRE CON MARRACASH",
+    "VOLEVO CAPIRE",
     "Focu 'Ranni",
     "Potential",
     "Comuni Immortali",
@@ -158,3 +158,50 @@ const getTopReleases = function () {
   getAdBannerSong(randomSong);
 };
 getTopReleases();
+
+const recommendedAlbum = [
+  "926698181",
+  "958295021",
+  "3602971",
+  "926720971",
+  "926721331",
+  "693008911",
+];
+localStorage.setItem("lastAlbumId", recommendedSongs);
+
+const urlAlbum = "https://striveschool-api.herokuapp.com/api/deezer/album/";
+
+const getRecommendedAlbum = function (albumindex) {
+  const urlAlbumCompleto = `${url}${recommendedAlbum[albumindex].replaceAll('"', "")}`;
+
+  fetch(urlAlbumCompleto)
+    .then((result) => {
+      if (result.ok) {
+        return result.json();
+      } else {
+        throw new Error("ERRORE JSON", result.status);
+      }
+    })
+    .then((data) => {})
+    .catch((err) => {
+      console.log("ERRORE NEL SERVER", err);
+    });
+};
+const getab = function (albumindex) {
+  fetch("https://striveschool-api.herokuapp.com/api/deezer/search?q=queen")
+    .then((result) => {
+      if (result.ok) {
+        return result.json();
+      } else {
+        throw new Error("ERRORE JSON", result.status);
+      }
+    })
+    .then((data) => {
+      console.log(data.data[1]);
+    })
+    .catch((err) => {
+      console.log("ERRORE NEL SERVER", err);
+    });
+};
+
+getab();

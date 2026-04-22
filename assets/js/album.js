@@ -73,156 +73,193 @@ fetch(`https://striveschool-api.herokuapp.com/api/deezer/album/${albumId}`)
 function initAudioPlayer(album) {
   let currentAudio = null
   let currentTrackIndex = null
-  let progressInterval = null
+  const volumeFill = document.querySelector(".col-4:last-child .progress-bar")
+  const volumeBar = document.querySelector(".col-4:last-child .progress")
+
+  volumeBar.addEventListener("click", function (evento) {
+    const larghezzaBarra = volumeBar.offsetWidth
+    const posizioneClick =
+      evento.clientX - volumeBar.getBoundingClientRect().left
+    const percentuale = posizioneClick / larghezzaBarra
+    volumeFill.style.width = percentuale * 100 + "%"
+    if (currentAudio !== null) {
+      currentAudio.volume = percentuale
+    }
+  })
 
   function updatePlayerBar(track) {
-    const desktopBar = document.querySelector(
-      "nav.fixed-bottom.d-lg-flex .col-4:first-child",
+    const titoloDesktop = document.querySelector(
+      "nav.fixed-bottom.d-lg-flex .fw-bold.small",
     )
-    if (desktopBar) {
-      const img = desktopBar.querySelector("img")
-      if (img) img.src = album.cover_small || "./assets/imgs/main/image-1.jpg"
-      const title = desktopBar.querySelector(".fw-bold.small")
-      if (title) title.textContent = track.title
-      const artist = desktopBar.querySelector(".text-muted.small")
-      if (artist) artist.textContent = album.artist.name
+    if (titoloDesktop !== null) {
+      titoloDesktop.textContent = track.title
     }
 
-    const mobileTitle = document.querySelector(
+    const artistaDesktop = document.querySelector(
+      "nav.fixed-bottom.d-lg-flex .text-muted.small",
+    )
+    if (artistaDesktop !== null) {
+      artistaDesktop.textContent = album.artist.name
+    }
+    const copertina = document.querySelector("nav.fixed-bottom.d-lg-flex img")
+    if (copertina !== null) {
+      if (album.cover_small) {
+        copertina.src = album.cover_small
+      } else {
+        copertina.src = "./assets/imgs/main/image-1.jpg"
+      }
+    }
+
+    const titoloMobile = document.querySelector(
       "nav.position-fixed .fw-bold.small",
     )
-    const mobileArtist = document.querySelector(
+    if (titoloMobile !== null) {
+      titoloMobile.textContent = track.title
+    }
+
+    const artistaMobile = document.querySelector(
       "nav.position-fixed .text-muted.small",
     )
-    if (mobileTitle) mobileTitle.textContent = track.title
-    if (mobileArtist) mobileArtist.textContent = album.artist.name
-  }
-
-  function setPlayingState(isPlaying) {
-    const desktopBtn = document.querySelector("nav.fixed-bottom .btn-light")
-    if (desktopBtn) {
-      desktopBtn.innerHTML = isPlaying
-        ? `<i class="bi bi-pause-fill fs-3"></i>`
-        : `<i class="bi bi-play-fill fs-3"></i>`
+    if (artistaMobile !== null) {
+      artistaMobile.textContent = album.artist.name
     }
 
-    const mobileIcon = document.querySelector(
-      "nav.position-fixed .bi-play-fill, nav.position-fixed .bi-pause-fill",
+    const tuttiITitoli = document.querySelectorAll(
+      "[data-track-index] .fw-bold",
     )
-    if (mobileIcon) {
-      mobileIcon.className = isPlaying ? "bi bi-pause-fill" : "bi bi-play-fill"
+    tuttiITitoli.forEach(function (titolo) {
+      titolo.classList.remove("text-primary")
+    })
+
+    const rigaAttiva = document.querySelector(
+      "[data-track-index='" + currentTrackIndex + "'] .fw-bold",
+    )
+    if (rigaAttiva !== null) {
+      rigaAttiva.classList.add("text-primary")
     }
   }
-  const volumeBar = document.querySelector(".col-4:last-child .progress")
-  const volumeFill = document.querySelector(".col-4:last-child .progress-bar")
 
-  if (volumeBar && volumeFill) {
-    volumeBar.style.cursor = "pointer"
-
-    volumeBar.addEventListener("click", (e) => {
-      const rect = volumeBar.getBoundingClientRect()
-      const clickX = e.clientX - rect.left
-      const percentage = clickX / rect.width
-
-      volumeFill.style.width = percentage * 100 + "%"
-
-      if (currentAudio) {
-        currentAudio.volume = percentage
+  function setPlayingState(produrre) {
+    const bottoneDesktop = document.querySelector("nav.fixed-bottom .btn-light")
+    if (produrre === true) {
+      bottoneDesktop.innerHTML = '<i class="bi bi-pause-fill fs-3"></i>'
+    } else {
+      bottoneDesktop.innerHTML = '<i class="bi bi-play-fill fs-3"></i>'
+    }
+    const tutteLeIcone = document.querySelectorAll(
+      ".playAudio i, nav.position-fixed .bi-play-fill, nav.position-fixed .bi-pause-fill",
+    )
+    tutteLeIcone.forEach(function (icona) {
+      if (produrre === true) {
+        icona.className = "bi bi-pause-fill fs-1"
+      } else {
+        icona.className = "bi bi-play-fill fs-1"
       }
     })
   }
+
   function togglePlayPause() {
-    if (!currentAudio) return
-    if (currentAudio.paused) {
-      currentAudio.play()
-      setPlayingState(true)
+    if (currentAudio === null) {
+      playTrack(album.tracks.data[0], 0)
+      return
+    }
+
+    if (currentAudio.paused === true) {
+      currentAudio.play().then(function () {
+        setPlayingState(true)
+      })
     } else {
       currentAudio.pause()
       setPlayingState(false)
     }
   }
 
-  document
-    .querySelector("nav.fixed-bottom .btn-light")
-    ?.addEventListener("click", togglePlayPause)
-
-  document.addEventListener("click", (e) => {
-    const btn = e.target.closest("nav.position-fixed button")
-    if (
-      btn &&
-      (btn.querySelector(".bi-play-fill") ||
-        btn.querySelector(".bi-pause-fill"))
-    ) {
-      togglePlayPause()
+  function playTrack(traccia, indice) {
+    if (currentAudio !== null) {
+      currentAudio.pause()
+      currentAudio = null
     }
-  })
 
-  document
-    .querySelector("nav.fixed-bottom .bi-skip-end-fill")
-    ?.closest("button")
-    ?.addEventListener("click", () => {
-      if (currentTrackIndex !== null) {
-        const next = album.tracks.data[currentTrackIndex + 1]
-        if (next) playTrack(next, currentTrackIndex + 1)
+    if (currentTrackIndex === indice) {
+      currentTrackIndex = null
+      setPlayingState(false)
+      return
+    }
+
+    currentTrackIndex = indice
+
+    currentAudio = new Audio(traccia.preview)
+
+    const volumeAttuale = parseFloat(volumeFill.style.width) / 100
+    if (volumeAttuale) {
+      currentAudio.volume = volumeAttuale
+    } else {
+      currentAudio.volume = 1
+    }
+
+    currentAudio.play().then(function () {
+      setPlayingState(true)
+      updatePlayerBar(traccia)
+    })
+    currentAudio.addEventListener("ended", function () {
+      currentTrackIndex = null
+      setPlayingState(false)
+
+      const tracciaSucessiva = album.tracks.data[indice + 1]
+      if (tracciaSucessiva) {
+        playTrack(tracciaSucessiva, indice + 1)
       }
     })
+  }
 
-  document
-    .querySelector("nav.fixed-bottom .bi-skip-start-fill")
-    ?.closest("button")
-    ?.addEventListener("click", () => {
-      if (currentTrackIndex !== null && currentTrackIndex > 0) {
+  const bottonePlayDesktop = document.querySelector(
+    "nav.fixed-bottom .btn-light",
+  )
+  if (bottonePlayDesktop !== null) {
+    bottonePlayDesktop.addEventListener("click", togglePlayPause)
+  }
+
+  const bottoneSuccessivo = document.querySelector(
+    "nav.fixed-bottom .bi-skip-end-fill",
+  )
+  if (bottoneSuccessivo !== null) {
+    bottoneSuccessivo.closest("button").addEventListener("click", function () {
+      if (
+        currentTrackIndex !== null &&
+        album.tracks.data[currentTrackIndex + 1]
+      ) {
+        playTrack(
+          album.tracks.data[currentTrackIndex + 1],
+          currentTrackIndex + 1,
+        )
+      }
+    })
+  }
+
+  const bottonePrecedente = document.querySelector(
+    "nav.fixed-bottom .bi-skip-start-fill",
+  )
+  if (bottonePrecedente !== null) {
+    bottonePrecedente.closest("button").addEventListener("click", function () {
+      if (currentTrackIndex > 0) {
         playTrack(
           album.tracks.data[currentTrackIndex - 1],
           currentTrackIndex - 1,
         )
       }
     })
-
-  function playTrack(track, index) {
-    console.log("Riproduzione:", track.title, track.preview)
-
-    if (currentAudio) {
-      currentAudio.pause()
-      clearInterval(progressInterval)
-      currentAudio = null
-    }
-
-    if (currentTrackIndex === index) {
-      currentTrackIndex = null
-      setPlayingState(false)
-      return
-    }
-
-    currentTrackIndex = index
-    currentAudio = new Audio(track.preview)
-    currentAudio.volume = parseFloat(volumeFill?.style.width) / 100 || 1
-
-    currentAudio
-      .play()
-      .then(() => {
-        setPlayingState(true)
-        updatePlayerBar(track)
-      })
-      .catch((err) => console.error("Errore play():", err))
-
-    currentAudio.addEventListener("ended", () => {
-      currentTrackIndex = null
-      setPlayingState(false)
-      clearInterval(progressInterval)
-
-      const next = album.tracks.data[index + 1]
-      if (next) playTrack(next, index + 1)
-    })
   }
 
-  const allRows = document.querySelectorAll("[data-track-index]")
-  allRows.forEach((row) => {
-    const trackIndex = parseInt(row.getAttribute("data-track-index"))
-    const track = album.tracks.data[trackIndex]
+  const bottoniPlay = document.querySelectorAll(".playAudio")
+  bottoniPlay.forEach(function (bottone) {
+    bottone.addEventListener("click", togglePlayPause)
+  })
 
-    row.addEventListener("click", (e) => {
-      playTrack(track, trackIndex)
+  const righeTracce = document.querySelectorAll("[data-track-index]")
+  righeTracce.forEach(function (riga) {
+    const indiceTraccia = parseInt(riga.getAttribute("data-track-index"))
+    riga.addEventListener("click", function () {
+      playTrack(album.tracks.data[indiceTraccia], indiceTraccia)
     })
   })
 }

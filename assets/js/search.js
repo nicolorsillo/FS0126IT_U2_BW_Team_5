@@ -52,7 +52,7 @@ const getArtist = function (url) {
           <div class="row justify-content-center justify-content-md-between">
           <div class="col-9 col-md-4"><h2 class="fw-bold mb-4">Risultato più rilevante</h2>
             </div>
-          <div class="d-none col-md-7"><h2 class="fw-bold mb-4">Brani più ascoltati</h2>
+          <div class="d-none d-md-flex col-md-7"><h2 class="fw-bold mb-4">Brani più ascoltati</h2>
             </div>
             </div>
                     <div class="row justify-content-center justify-content-md-between">
@@ -77,12 +77,12 @@ const getArtist = function (url) {
                       <div class="card border-0 p-3">
                         <div class="card-body h-100">
                           <ul class="list-unstyled mb-0 d-flex justify-content-between flex-column h-100">
-                            <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
-                              '${data.data[0].album.cover_medium}',
-                              '${data.data[0].title}',
-                              '${data.data[0].artist.name}',
-                              '${data.data[0].preview}'
-                              )">
+                            <button class="border-0 p-0 shadow-none bg-transparent" onclick=playSong(
+                              '"${data.data[0].album.cover_medium}"',
+                              '"${data.data[0].title}"',
+                              '"${data.data[0].artist.name}"',
+                              '"${data.data[0].preview}"'
+                              )>
                             <li class="d-flex gap-4"><img
                             src="${data.data[0].album.cover_medium}"
                             alt="album-picture"

@@ -971,8 +971,6 @@ const artistPage = function (artistId) {
           </div>
         </div>`;
 
-  const par = new URLSearchParams(window.location.search);
-
   fetch(`https://striveschool-api.herokuapp.com/api/deezer/artist/${artistId}`)
     .then((response) => {
       if (response.ok) {
@@ -1039,7 +1037,7 @@ const artistPage = function (artistId) {
         songDiv.innerHTML += `
         <div class="d-flex align-items-center py-2">
           <div class="text-secondary me-3 ">${i + 1}</div>
-            <a href="#" id="song-${i}">
+            <a href="#" id="song-${i}" data-track-index="${i}">
               <img
                 src="${data.data[i].album.cover}"
                 alt=""
@@ -1078,7 +1076,6 @@ const artistPage = function (artistId) {
 };
 
 function startPlayer(data, tipo) {
-  console.log(data.album.id);
   fetch(
     `https://striveschool-api.herokuapp.com/api/deezer/album/${data.album.id}`,
   )
@@ -1091,6 +1088,7 @@ function startPlayer(data, tipo) {
     })
     .then((dataAlbum) => {
       initAudioPlayer(dataAlbum);
+      console.log(dataAlbum);
     })
     .catch((err) => {
       console.log("Errore del server", err);

@@ -107,8 +107,14 @@ const getAdBannerSong = function (song) {
       const songAlbumId = document.getElementById("ad-banner-song-album-id");
       const songCover = document.getElementById("ad-banner-song-cover");
       const songAlbum = document.getElementById("ad-banner-song-album");
+      const songAlbumLink = document.getElementById(
+        "ad-banner-song-album-link",
+      );
       const songTitle = document.getElementById("ad-banner-song-title");
       const songArtist = document.getElementById("ad-banner-song-artist");
+      const songArtistLink = document.getElementById(
+        "ad-banner-song-artist-link",
+      );
       const songDescription = document.getElementById(
         "ad-banner-song-description",
       );
@@ -123,10 +129,12 @@ const getAdBannerSong = function (song) {
       songCover.src = data.data[0].album.cover_xl;
       songAlbum.classList.remove("placeholder");
       songAlbum.innerText = data.data[0].album.title;
+      songAlbumLink.href = "album.html?id=" + data.data[0].album.id;
       songTitle.classList.remove("placeholder");
       songTitle.innerText = data.data[0].title;
       songArtist.classList.remove("placeholder");
       songArtist.innerText = data.data[0].artist.name;
+      songArtistLink.href = "artist.html?id=" + data.data[0].artist.id;
       songDescription.classList.remove("placeholder");
       songDescription.querySelector("span").innerText =
         data.data[0].artist.name;
@@ -191,6 +199,7 @@ const getRecommendedAlbum = function (albumIndex, domIndex) {
         recommendedCard.querySelector("img").classList.remove("placeholder");
         recommendedCard.querySelector("p").innerText = data.title;
         recommendedCard.querySelector("p").classList.remove("placeholder");
+        recommendedCard.querySelector("a").href = "album.html?id=" + data.id;
       }
     })
     .catch((err) => {

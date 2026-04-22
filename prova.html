@@ -1,0 +1,17 @@
+<div class="d-flex align-items-center py-2">
+  <a href="#" class>
+    <div class="text-secondary me-3">${i + 1}</div>
+    <img
+      src="${data.data[i].album.cover}"
+      alt=""
+      class="me-3"
+      width="40"
+      height="40"
+    />
+    <div class="fw-semibold flex-grow-1">${data.data[i].title}</div>
+    <div class="text-secondary me-4 d-none d-md-block">276.616.912</div>
+    <div class="text-secondary">
+      ${String(data.data[i].duration)[0]}:${String(data.data[i].duration).slice(1)}
+    </div>
+  </a>
+</div>

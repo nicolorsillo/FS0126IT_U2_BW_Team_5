@@ -103,7 +103,7 @@ const getArtist = function (url) {
 
                            <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
                               '${data.data[1].album.cover_medium}',
-                              '${data.data[1].title}',
+                              '${data.data[1].title.replaceAll("'", "")}',
                               '${data.data[1].artist.name}',
                               '${data.data[1].preview}'
                               )"> 
@@ -117,7 +117,7 @@ const getArtist = function (url) {
 
                           <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
                               '${data.data[2].album.cover_medium}',
-                              '${data.data[2].title}',
+                              '${data.data[2].title.replaceAll("'", "")}',
                               '${data.data[2].artist.name}',
                               '${data.data[2].preview}'
                               )"> 
@@ -131,7 +131,7 @@ const getArtist = function (url) {
                           
                              <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
                               '${data.data[3].album.cover_medium}',
-                              '${data.data[3].title}',
+                              '${data.data[3].title.replaceAll("'", "")}',
                               '${data.data[3].artist.name}',
                               '${data.data[3].preview}'
                               )"> 
@@ -178,7 +178,7 @@ const getArtist = function (url) {
                         <div class="card-body">
                               <button class="border-0 shadow-none bg-transparent" onclick="playSong(
                               '${data.data[0].album.cover_medium}',
-                              '${data.data[0].title}',
+                              '${data.data[0].title.replaceAll("'", "")}',
                               '${data.data[0].artist.name}',
                               '${data.data[0].preview}'
                               )">
@@ -202,7 +202,7 @@ const getArtist = function (url) {
                             
                           <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
                               '${data.data[rand1].album.cover_medium}',
-                              '${data.data[rand1].title}',
+                              '${data.data[rand1].title.replaceAll("'", "")}',
                               '${data.data[rand1].artist.name}',
                               '${data.data[rand1].preview}'
                               )">
@@ -216,7 +216,7 @@ const getArtist = function (url) {
                           
                           <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
                               '${data.data[rand2].album.cover_medium}',
-                              '${data.data[rand2].title}',
+                              '${data.data[rand2].title.replaceAll("'", "")}',
                               '${data.data[rand2].artist.name}',
                               '${data.data[rand2].preview}'
                               )">
@@ -230,7 +230,7 @@ const getArtist = function (url) {
                           
                           <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
                               '${data.data[rand3].album.cover_medium}',
-                              '${data.data[rand3].title}',
+                              '${data.data[rand3].title.replaceAll("'", "")}',
                               '${data.data[rand3].artist.name}',
                               '${data.data[rand3].preview}'
                               )">
@@ -244,7 +244,7 @@ const getArtist = function (url) {
                           
                           <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
                               '${data.data[rand4].album.cover_medium}',
-                              '${data.data[rand4].title}',
+                              '${data.data[rand4].title.replaceAll("'", "")}',
                               '${data.data[rand4].artist.name}',
                               '${data.data[rand4].preview}'
                               )">

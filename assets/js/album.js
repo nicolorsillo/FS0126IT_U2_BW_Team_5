@@ -69,24 +69,24 @@ fetch(`https://striveschool-api.herokuapp.com/api/deezer/album/${albumId}`)
     initAudioPlayer(album)
   })
   .catch((err) => console.error("Errore fetch album:", err))
-
+// dichiaro la funzione dove ricevero un ogetto album
 function initAudioPlayer(album) {
-  let currentAudio = null
-  let currentTrackIndex = null
+  let currentAudio = null // laudio che ce adesso
+  let currentTrackIndex = null // lindice  della traccia attiva
   const volumeFill = document.querySelector(".col-4:last-child .progress-bar")
   const volumeBar = document.querySelector(".col-4:last-child .progress")
-
+  // qua chiamo la barra
   volumeBar.addEventListener("click", function (evento) {
     const larghezzaBarra = volumeBar.offsetWidth
     const posizioneClick =
-      evento.clientX - volumeBar.getBoundingClientRect().left
+      evento.clientX - volumeBar.getBoundingClientRect().left // questo lho cercato in teora dalla e prende la largezza dove in quel esatto momento ecc
     const percentuale = posizioneClick / larghezzaBarra
     volumeFill.style.width = percentuale * 100 + "%"
     if (currentAudio !== null) {
       currentAudio.volume = percentuale
     }
   })
-
+  // questa funzione e per cambiare la foto e il nome del img anche per cambiare il colore del brano in riprouzione
   function updatePlayerBar(track) {
     const titoloDesktop = document.querySelector(
       "nav.fixed-bottom.d-lg-flex .fw-bold.small",
@@ -125,20 +125,20 @@ function initAudioPlayer(album) {
     }
 
     const tuttiITitoli = document.querySelectorAll(
-      "[data-track-index] .fw-bold",
+      "[data-track-index] .fw-semibold",
     )
     tuttiITitoli.forEach(function (titolo) {
       titolo.classList.remove("text-primary")
     })
 
-    const rigaAttiva = document.querySelector(
-      "[data-track-index='" + currentTrackIndex + "'] .fw-bold",
+    const righeAttive = document.querySelectorAll(
+      "[data-track-index='" + currentTrackIndex + "'] .fw-semibold",
     )
-    if (rigaAttiva !== null) {
-      rigaAttiva.classList.add("text-primary")
-    }
+    righeAttive.forEach(function (riga) {
+      riga.classList.add("text-primary")
+    })
   }
-
+  // questa funzione e per cambiare il tasto quello tondo del play
   function setPlayingState(produrre) {
     const bottoneDesktop = document.querySelector("nav.fixed-bottom .btn-light")
     if (produrre === true) {
@@ -157,40 +157,43 @@ function initAudioPlayer(album) {
       }
     })
   }
-
+  // Funzione che viene chiamata quando si preme il bottone
   function togglePlayPause() {
+    // Se non c'è nessun audio caricato, avvia direttamente la prima traccia dell'album e esce dalla funzione.
     if (currentAudio === null) {
       playTrack(album.tracks.data[0], 0)
       return
     }
-
+    // Se l'audio è in pausa, lo riprende. .then() aspetta che parta davvero, poi aggiorna le icone.
     if (currentAudio.paused === true) {
       currentAudio.play().then(function () {
         setPlayingState(true)
       })
     } else {
+      //Se  sta suonando lo mette in pausa e aggiorna le icone.
       currentAudio.pause()
       setPlayingState(false)
     }
   }
-
+  // la funzione che avvia la tracia
   function playTrack(traccia, indice) {
+    // se ce qualcosa fermala
     if (currentAudio !== null) {
       currentAudio.pause()
       currentAudio = null
     }
-
+    // se clicchi su una attiva la fermi
     if (currentTrackIndex === indice) {
       currentTrackIndex = null
       setPlayingState(false)
       return
     }
-
+    // salva il numero ellla tracia
     currentTrackIndex = indice
-
+    // Crea un nuovo oggetto Audio con l'URL della preview della traccia
     currentAudio = new Audio(traccia.preview)
 
-    const volumeAttuale = parseFloat(volumeFill.style.width) / 100
+    const volumeAttuale = parseFloat(volumeFill.style.width) / 100 //questo e per il volume cosi rimane salvato copiato bovinamente
     if (volumeAttuale) {
       currentAudio.volume = volumeAttuale
     } else {
@@ -201,6 +204,7 @@ function initAudioPlayer(album) {
       setPlayingState(true)
       updatePlayerBar(traccia)
     })
+    // se ce una tracia dopo passa a quella dopo
     currentAudio.addEventListener("ended", function () {
       currentTrackIndex = null
       setPlayingState(false)
@@ -211,14 +215,20 @@ function initAudioPlayer(album) {
       }
     })
   }
-
+  // collego i bottoni alla funzione togglePlayPause
   const bottonePlayDesktop = document.querySelector(
     "nav.fixed-bottom .btn-light",
   )
   if (bottonePlayDesktop !== null) {
     bottonePlayDesktop.addEventListener("click", togglePlayPause)
   }
-
+  const bottonePlayMobile = document.querySelector(
+    "nav.position-fixed .btn-light",
+  )
+  if (bottonePlayMobile !== null) {
+    bottonePlayMobile.addEventListener("click", togglePlayPause)
+  }
+  // qua e per andare avanti e indietro con i bottoni
   const bottoneSuccessivo = document.querySelector(
     "nav.fixed-bottom .bi-skip-end-fill",
   )
@@ -249,12 +259,12 @@ function initAudioPlayer(album) {
       }
     })
   }
-
+  // colego dei boittoni nel html a cui ho dato una classe
   const bottoniPlay = document.querySelectorAll(".playAudio")
   bottoniPlay.forEach(function (bottone) {
     bottone.addEventListener("click", togglePlayPause)
   })
-
+  // Per ogni riga nella lista tracce legge il suo indice dallattributo HTML data-track-index e al click avvia quella traccia specifica.
   const righeTracce = document.querySelectorAll("[data-track-index]")
   righeTracce.forEach(function (riga) {
     const indiceTraccia = parseInt(riga.getAttribute("data-track-index"))

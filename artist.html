@@ -164,226 +164,275 @@
           </div>
         </nav>
       </div>
-      
-      <div class="col-12 col-lg-7 m-0 p-0 overflow-auto bg-black text-white vh-100 pb-5">
+
+      <div
+        class="col-12 col-lg-7 m-0 p-0 overflow-auto bg-black text-white vh-100 pb-5"
+      >
         <!-- HEADER ARTISTA -->
-        <div class="position-relative bg-dark ">
-          
+        <div class="position-relative bg-dark">
           <!-- NAV TOP -->
-       <div class="container-fluid py-7 ">
-         <div class="d-flex justify-content-between align-items-center">
-           
-           <div class="d-flex gap-2">
-             <button class="btn btn-dark rounded-circle">
-               <i class="bi bi-chevron-left text-white"></i>
-              </button>
-              <button class="btn btn-dark rounded-circle">
-                <i class="bi bi-chevron-right text-white"></i>
-              </button>
+          <div class="container-fluid py-7">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="d-flex gap-2">
+                <button class="btn btn-dark rounded-circle">
+                  <i class="bi bi-chevron-left text-white"></i>
+                </button>
+                <button class="btn btn-dark rounded-circle">
+                  <i class="bi bi-chevron-right text-white"></i>
+                </button>
+              </div>
+
+              <div class="dropdown">
+                <button
+                  class="btn btn-dark dropdown-toggle d-flex align-items-center gap-2 border-0"
+                  data-bs-toggle="dropdown"
+                >
+                  <img
+                    src=""
+                    alt=""
+                    class="rounded-circle"
+                    width="32"
+                    height="32"
+                  />
+                  <span class="fw-semibold small">Lidia Nautilus</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                  <li><a class="dropdown-item" href="#">Profilo</a></li>
+                  <li><a class="dropdown-item" href="#">Account</a></li>
+                  <li><a class="dropdown-item" href="#">Esci</a></li>
+                </ul>
+              </div>
             </div>
-            
-            <div class="dropdown">
-              <button
-            class="btn btn-dark dropdown-toggle d-flex align-items-center gap-2 border-0"
-            data-bs-toggle="dropdown"
+          </div>
+
+          <!-- IMMAGINE ARTISTA -->
+          <section id="artistDinamic"></section>
+        </div>
+
+        <!-- CONTENUTO -->
+        <div class="container-fluid mb-4 py-4">
+          <!-- BOTTONI -->
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <button class="btn btn-primary rounded-circle">
+              <i class="bi bi-play-fill fs-2 text-dark"></i>
+            </button>
+
+            <button class="btn btn-outline-light btn-sm px-4 fw-bold">
+              FOLLOWING
+            </button>
+
+            <button class="btn text-white fs-4 p-0">
+              <i class="bi bi-three-dots"></i>
+            </button>
+          </div>
+
+          <div class="row">
+            <!-- LISTA BRANI -->
+            <div class="col-12 col-lg-7">
+              <h3 class="fw-bold mb-4">Popolari</h3>
+              <div id="songDiv"></div>
+            </div>
+
+            <!-- COLONNA DESTRA -->
+            <div class="col-12 col-lg-5 mt-5 mt-lg-0">
+              <h3 class="fw-bold mb-4">Brani che ti piacciono</h3>
+
+              <div class="d-flex align-items-center gap-3">
+                <div class="position-relative">
+                  <img
+                    src=""
+                    alt=""
+                    class="rounded-circle"
+                    width="55"
+                    height="55"
+                  />
+                  <div
+                    class="position-absolute bottom-0 end-0 bg-primary rounded-circle d-flex align-items-center justify-content-center"
+                  >
+                    <i class="bi bi-heart-fill text-white"></i>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="fw-bold">Hai messo Mi piace a 11 brani</div>
+                  <div class="text-secondary small" id="like"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="col-lg-2 m-0 bg-black d-none d-lg-block text-white border-start border-secondary-subtle"
+      style="height: 100vh; overflow-y: auto"
+    ></div>
+    <div class="p-3">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h6 class="fw-bold m-0">Attività amici</h6>
+        <div class="d-flex align-items-center gap-3 text-secondary">
+          <i class="bi bi-person-plus"></i>
+          <i class="bi bi-x-lg"></i>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-start gap-2 px-2 py-2 mb-3 rounded">
+        <img
+          src="assets/imgs/main/NicolóOrsillo.jpg"
+          class="rounded-circle"
+          width="35"
+          height="35"
+        />
+
+        <div class="flex-grow-1">
+          <div class="d-flex justify-content-between">
+            <span class="fw-semibold text-white" style="font-size: 13px"
+              >Nicoló Orsillo</span
             >
-            <img src="" alt="" class="rounded-circle" width="32" height="32" />
-            <span class="fw-semibold small">Lidia Nautilus</span>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="#">Profilo</a></li>
-            <li><a class="dropdown-item" href="#">Account</a></li>
-            <li><a class="dropdown-item" href="#">Esci</a></li>
-          </ul>
-        </div>
-        
-      </div>
-    </div>
-
-    <!-- IMMAGINE ARTISTA -->
-    <section id="artistDinamic">
-
-    </section>
-  </div>
-
-  <!-- CONTENUTO -->
-  <div class="container-fluid mb-4 py-4">
-
-    <!-- BOTTONI -->
-    <div class="d-flex align-items-center gap-3 mb-4">
-      
-      <button class="btn btn-primary rounded-circle">
-        <i class="bi bi-play-fill fs-2 text-dark"></i>
-      </button>
-
-      <button class="btn btn-outline-light btn-sm px-4 fw-bold">
-        FOLLOWING
-      </button>
-
-      <button class="btn text-white fs-4 p-0">
-        <i class="bi bi-three-dots"></i>
-      </button>
-
-    </div>
-
-    <div class="row">
-
-      <!-- LISTA BRANI -->
-      <div class="col-12 col-lg-7 ">
-        <h3 class="fw-bold mb-4">Popolari</h3>
-        <div id="songDiv">
-       
-        </div>
-      </div>
-     
-      <!-- COLONNA DESTRA -->
-      <div class="col-12 col-lg-5 mt-5 mt-lg-0">
-        <h3 class="fw-bold mb-4">Brani che ti piacciono</h3>
-
-        <div class="d-flex align-items-center gap-3">
-          
-          <div class="position-relative">
-            <img src="" alt="" class="rounded-circle" width="55" height="55" />
-            <div class="position-absolute bottom-0 end-0 bg-primary rounded-circle d-flex align-items-center justify-content-center">
-              <i class="bi bi-heart-fill text-white"></i>
-            </div>
+            <span class="text-secondary" style="font-size: 12px">4 ore</span>
           </div>
 
-          <div>
-            <div class="fw-bold">Hai messo Mi piace a 11 brani</div>
-            <div class="text-secondary small" id="like"></div>
+          <div class="text-secondary" style="font-size: 12px">
+            Shoot To Trill • AC/DC
           </div>
-          
+
+          <div
+            class="d-flex align-items-center gap-1 text-secondary"
+            style="font-size: 12px"
+          >
+            <i class="bi bi-disc"></i>
+            <span>Back in Black</span>
+          </div>
         </div>
       </div>
 
+      <div class="d-flex align-items-start gap-2 px-2 py-2 mb-3 rounded">
+        <img
+          src="assets/imgs/main/MichelangeloDiCello.jpg"
+          class="rounded-circle"
+          width="35"
+          height="35"
+        />
+
+        <div class="flex-grow-1">
+          <div class="d-flex justify-content-between">
+            <span class="fw-semibold text-white" style="font-size: 13px"
+              >Michelangelo Di Cello</span
+            >
+            <span class="text-secondary" style="font-size: 12px">8 ore</span>
+          </div>
+
+          <div class="text-secondary" style="font-size: 11px">
+            Cose Che Non Vuoi Sentirti Dire • Nayt
+          </div>
+
+          <div
+            class="d-flex align-items-center gap-1 text-secondary"
+            style="font-size: 12px"
+          >
+            <i class="bi bi-disc"></i>
+            <span>DOOM</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-start gap-2 px-2 py-2 mb-3 rounded">
+        <img
+          src="assets/imgs/main/VincenzoMola.PNG"
+          class="rounded-circle"
+          width="35"
+          height="35"
+        />
+
+        <div class="flex-grow-1">
+          <div class="d-flex justify-content-between">
+            <span class="fw-semibold text-white" style="font-size: 13px"
+              >Vincenzo Mola</span
+            >
+            <span class="text-secondary" style="font-size: 12px">3 giorni</span>
+          </div>
+
+          <div class="text-secondary" style="font-size: 12px">
+            Gagnam Style • PSY
+          </div>
+
+          <div
+            class="d-flex align-items-center gap-1 text-secondary"
+            style="font-size: 12px"
+          >
+            <i class="bi bi-music-note-beamed"></i>
+            <span>PSY 6甲 (Six Rules)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-start gap-2 px-2 py-2 mb-3 rounded">
+        <img
+          src="assets/imgs/main/Simo.jpg"
+          class="rounded-circle"
+          width="35"
+          height="35"
+        />
+
+        <div class="flex-grow-1">
+          <div class="d-flex justify-content-between">
+            <span class="fw-semibold text-white" style="font-size: 13px"
+              >Simo</span
+            >
+            <span class="text-secondary" style="font-size: 12px">2 ore</span>
+          </div>
+
+          <div class="text-secondary" style="font-size: 12px">
+            Staline • ElGrandeToto
+          </div>
+
+          <div
+            class="d-flex align-items-center gap-1 text-secondary"
+            style="font-size: 12px"
+          >
+            <i class="bi bi-music-note-beamed"></i>
+            <span>SALGOAT</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-start gap-2 px-2 py-2 mb-3 rounded">
+        <img
+          src="assets/imgs/main/Daniele.jpeg"
+          class="rounded-circle"
+          width="35"
+          height="35"
+        />
+
+        <div class="flex-grow-1">
+          <div class="d-flex justify-content-between">
+            <span class="fw-semibold text-white" style="font-size: 13px"
+              >Daniele Bulgaru</span
+            >
+            <span class="text-secondary" style="font-size: 12px">1 giorno</span>
+          </div>
+
+          <div class="text-secondary" style="font-size: 12px">
+            V per Vangelo • Shiva
+          </div>
+
+          <div
+            class="d-flex align-items-center gap-1 text-secondary"
+            style="font-size: 12px"
+          >
+            <i class="bi bi-music-note-beamed"></i>
+            <span>Vangelo</span>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-  
-  
 
-       <div
-        class="col-lg-2 m-0 bg-black d-none d-lg-block text-white border-start border-secondary-subtle"
-        style="height: 100vh; overflow-y: auto"
-      ></div>
-<div class="p-3">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h6 class="fw-bold m-0">Attività amici</h6>
-    <div class="d-flex align-items-center gap-3 text-secondary">
-      <i class="bi bi-person-plus"></i>
-      <i class="bi bi-x-lg"></i>
-    </div>
-  </div>
-
-  <div class="d-flex align-items-start gap-2 px-2 py-2 mb-3 rounded">
-    <img src="assets/imgs/main/NicolóOrsillo.jpg" class="rounded-circle" width="35" height="35" />
-
-    <div class="flex-grow-1">
-      <div class="d-flex justify-content-between">
-        <span class="fw-semibold text-white" style="font-size: 13px">Nicoló Orsillo</span>
-        <span class="text-secondary" style="font-size: 12px">4 ore</span>
-      </div>
-
-      <div class="text-secondary" style="font-size: 12px">
-        Shoot To Trill • AC/DC
-      </div>
-
-      <div class="d-flex align-items-center gap-1 text-secondary" style="font-size: 12px">
-        <i class="bi bi-disc"></i>
-        <span>Back in Black</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="d-flex align-items-start gap-2 px-2 py-2 mb-3 rounded">
-    <img src="assets/imgs/main/MichelangeloDiCello.jpg" class="rounded-circle" width="35" height="35" />
-
-    <div class="flex-grow-1">
-      <div class="d-flex justify-content-between">
-        <span class="fw-semibold text-white" style="font-size: 13px">Michelangelo Di Cello</span>
-        <span class="text-secondary" style="font-size: 12px">8 ore</span>
-      </div>
-
-      <div class="text-secondary" style="font-size: 11px">
-        Cose Che Non Vuoi Sentirti Dire • Nayt
-      </div>
-
-      <div class="d-flex align-items-center gap-1 text-secondary" style="font-size: 12px">
-        <i class="bi bi-disc"></i>
-        <span>DOOM</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="d-flex align-items-start gap-2 px-2 py-2 mb-3 rounded">
-    <img src="assets/imgs/main/VincenzoMola.PNG" class="rounded-circle" width="35" height="35" />
-
-    <div class="flex-grow-1">
-      <div class="d-flex justify-content-between">
-        <span class="fw-semibold text-white" style="font-size: 13px">Vincenzo Mola</span>
-        <span class="text-secondary" style="font-size: 12px">3 giorni</span>
-      </div>
-
-      <div class="text-secondary" style="font-size: 12px">
-        Gagnam Style • PSY
-      </div>
-
-      <div class="d-flex align-items-center gap-1 text-secondary" style="font-size: 12px">
-        <i class="bi bi-music-note-beamed"></i>
-        <span>PSY 6甲 (Six Rules)</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="d-flex align-items-start gap-2 px-2 py-2 mb-3 rounded">
-    <img src="assets/imgs/main/Simo.jpg" class="rounded-circle" width="35" height="35" />
-
-    <div class="flex-grow-1">
-      <div class="d-flex justify-content-between">
-        <span class="fw-semibold text-white" style="font-size: 13px">Simo</span>
-        <span class="text-secondary" style="font-size: 12px">2 ore</span>
-      </div>
-
-      <div class="text-secondary" style="font-size: 12px">
-        Staline • ElGrandeToto
-      </div>
-
-      <div class="d-flex align-items-center gap-1 text-secondary" style="font-size: 12px">
-        <i class="bi bi-music-note-beamed"></i>
-        <span>SALGOAT</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="d-flex align-items-start gap-2 px-2 py-2 mb-3 rounded">
-    <img src="assets/imgs/main/Daniele.jpeg" class="rounded-circle" width="35" height="35" />
-
-    <div class="flex-grow-1">
-      <div class="d-flex justify-content-between">
-        <span class="fw-semibold text-white" style="font-size: 13px">Daniele Bulgaru</span>
-        <span class="text-secondary" style="font-size: 12px">1 giorno</span>
-      </div>
-
-      <div class="text-secondary" style="font-size: 12px">
-        V per Vangelo • Shiva
-      </div>
-
-      <div class="d-flex align-items-center gap-1 text-secondary" style="font-size: 12px">
-        <i class="bi bi-music-note-beamed"></i>
-        <span>Vangelo</span>
-      </div>
-    </div>
-   </div>
-  </div>
-
-  
-
-   <nav
+    <nav
       class="navbar fixed-bottom bg-body-tertiary original-player-bar d-none d-lg-flex"
     >
       <div class="container-fluid">
-        <div class="row w-100 align-items-center ">
+        <div class="row w-100 align-items-center">
           <div class="col-4 d-flex align-items-center gap-2">
             <img
               src="./assets/imgs/main/image-1.jpg"

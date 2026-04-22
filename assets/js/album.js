@@ -103,11 +103,13 @@ function initAudioPlayer(album) {
     }
     const copertina = document.querySelector("nav.fixed-bottom.d-lg-flex img")
     if (copertina !== null) {
-      if (album.cover_small) {
-        copertina.src = album.cover_small
-      } else {
-        copertina.src = "./assets/imgs/main/image-1.jpg"
-      }
+      copertina.src = album.cover_small || "./assets/imgs/main/image-1.jpg"
+    }
+
+    const copertinaMobile = document.querySelector("nav.position-fixed img")
+    if (copertinaMobile !== null) {
+      copertinaMobile.src =
+        album.cover_small || "./assets/imgs/main/image-1.jpg"
     }
 
     const titoloMobile = document.querySelector(
@@ -270,6 +272,11 @@ function initAudioPlayer(album) {
     const indiceTraccia = parseInt(riga.getAttribute("data-track-index"))
     riga.addEventListener("click", function () {
       playTrack(album.tracks.data[indiceTraccia], indiceTraccia)
+    })
+  })
+  document.querySelectorAll(".colore-verde").forEach(function (icona) {
+    icona.addEventListener("click", function () {
+      this.classList.toggle("text-primary")
     })
   })
 }

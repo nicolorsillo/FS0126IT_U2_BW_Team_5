@@ -55,7 +55,11 @@ const getArtist = function (url) {
                             style="width: 150px; height: 150px"
                           />
           
-                          <h3 class="card-title fw-bold m-0">${data.data[i].artist.name}</h3>
+                          <h3 class="card-title fw-bold m-0">
+  <a href="artist.html?id=${data.data[i].artist.id}" class="text-decoration-none text-white">
+    ${data.data[i].artist.name}
+  </a>
+</h3>
                           <p class="card-text text-secondary mt-1">Artista</p>
                         </div>
                       </div>

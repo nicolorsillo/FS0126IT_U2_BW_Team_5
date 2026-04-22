@@ -140,27 +140,21 @@ const getAdBannerSong = function (song) {
     });
 };
 
-const urlTop = "https://api.deezer.com/playlist/1116187241";
-const proxyTop = "https://cors-anywhere.herokuapp.com/";
-
 const getTopReleases = function () {
-  const urlTopReleases = proxyTop + urlTop;
-
-  fetch(urlTopReleases)
-    .then((result) => {
-      if (result.ok) {
-        return result.json();
-      } else {
-        throw new Error("ERRORE JSON", result.status);
-      }
-    })
-    .then((data) => {
-      let randomSongIndex = Math.floor(Math.random() * data.tracks.data.length);
-      let randomSong = data.tracks.data[randomSongIndex].title;
-      getAdBannerSong(randomSong);
-    })
-    .catch((err) => {
-      console.log("ERRORE NEL SERVER", err);
-    });
+  const newMusicFridayItalia = [
+    "VOLEVO CAPIRE CON MARRACASH",
+    "Focu 'Ranni",
+    "Potential",
+    "Comuni Immortali",
+    "First Light",
+    "drop dead",
+    "Wait For You",
+    "Foto Mosse",
+    "La più bella del mondo",
+    "Amarsi nel disordine",
+  ];
+  let randomSongIndex = Math.floor(Math.random() * newMusicFridayItalia.length);
+  let randomSong = newMusicFridayItalia[randomSongIndex];
+  getAdBannerSong(randomSong);
 };
 getTopReleases();

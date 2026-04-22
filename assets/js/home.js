@@ -1,14 +1,5 @@
 const centralPage = document.getElementById("central-page");
 
-const ApiAlbum = (id) => {
-  return fetch(
-    `https://striveschool-api.herokuapp.com/api/deezer/album/${id}`,
-  ).then((res) => {
-    if (!res.ok) throw new Error(`Errore: ${res.status}`);
-    return res.json();
-  });
-};
-
 const homePage = function () {
   centralPage.innerHTML = `  <div
           class="d-none d-lg-flex justify-content-between align-items-center my-2"
@@ -880,7 +871,7 @@ const albumPage = function (albumId) {
         .getElementById("forwardBtn")
         ?.addEventListener("click", () => window.history.forward());
 
-      initAudioPlayer(album, "album");
+      initAudioPlayer(album);
     })
     .catch((err) => console.error("Errore fetch album:", err));
 };
@@ -1087,167 +1078,227 @@ const artistPage = function (artistId) {
 };
 
 function startPlayer(data, tipo) {
-  if (tipo === "song") {
-    ApiAlbum(data.album.id)
-      .then((albumData) => initAudioPlayer(albumData, "album"))
-      .catch((err) => console.error(err));
-  } else {
-    initAudioPlayer(data, tipo);
-  }
+  console.log(data.album.id);
+  fetch(
+    `https://striveschool-api.herokuapp.com/api/deezer/album/${data.album.id}`,
+  )
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("ERRORE NEL JSON", response.status);
+      }
+    })
+    .then((dataAlbum) => {
+      initAudioPlayer(dataAlbum);
+    })
+    .catch((err) => {
+      console.log("Errore del server", err);
+    });
 }
 
-function initAudioPlayer(dataForPlayer, tipoDiFile) {
-  let currentAudio = null;
-  let currentTrackIndex = null;
-  const nuovaVariabile = dataForPlayer;
-
+function initAudioPlayer(album) {
+  let currentAudio = null; // laudio che ce adesso
+  let currentTrackIndex = null; // lindice  della traccia attiva
   const volumeFill = document.querySelector(".col-4:last-child .progress-bar");
   const volumeBar = document.querySelector(".col-4:last-child .progress");
-
+  // qua chiamo la barra
   volumeBar.addEventListener("click", function (evento) {
     const larghezzaBarra = volumeBar.offsetWidth;
     const posizioneClick =
-      evento.clientX - volumeBar.getBoundingClientRect().left;
-    const percentuale = Math.max(
-      0,
-      Math.min(1, posizioneClick / larghezzaBarra),
-    );
-
+      evento.clientX - volumeBar.getBoundingClientRect().left; // questo lho cercato in teora dalla e prende la largezza dove in quel esatto momento ecc
+    const percentuale = posizioneClick / larghezzaBarra;
     volumeFill.style.width = percentuale * 100 + "%";
-    if (currentAudio) {
+    if (currentAudio !== null) {
       currentAudio.volume = percentuale;
     }
   });
-
+  // questa funzione e per cambiare la foto e il nome del img anche per cambiare il colore del brano in riprouzione
   function updatePlayerBar(track) {
     const titoloDesktop = document.querySelector(
       "nav.fixed-bottom.d-lg-flex .fw-bold.small",
     );
-    if (titoloDesktop) titoloDesktop.textContent = track.title;
+    if (titoloDesktop !== null) {
+      titoloDesktop.textContent = track.title;
+    }
 
     const artistaDesktop = document.querySelector(
       "nav.fixed-bottom.d-lg-flex .text-muted.small",
     );
-    if (artistaDesktop) {
-      artistaDesktop.textContent = nuovaVariabile.artist
-        ? nuovaVariabile.artist.name
-        : nuovaVariabile.name;
+    if (artistaDesktop !== null) {
+      artistaDesktop.textContent = album.artist.name;
     }
-
     const copertina = document.querySelector("nav.fixed-bottom.d-lg-flex img");
-    if (copertina) {
-      copertina.src =
-        nuovaVariabile.cover_small || "./assets/imgs/main/image-1.jpg";
+    if (copertina !== null) {
+      if (album.cover_small) {
+        copertina.src = album.cover_small;
+      } else {
+        copertina.src = "./assets/imgs/main/image-1.jpg";
+      }
     }
 
     const titoloMobile = document.querySelector(
       "nav.position-fixed .fw-bold.small",
     );
-    if (titoloMobile) titoloMobile.textContent = track.title;
+    if (titoloMobile !== null) {
+      titoloMobile.textContent = track.title;
+    }
+
+    const artistaMobile = document.querySelector(
+      "nav.position-fixed .text-muted.small",
+    );
+    if (artistaMobile !== null) {
+      artistaMobile.textContent = album.artist.name;
+    }
 
     const tuttiITitoli = document.querySelectorAll(
       "[data-track-index] .fw-semibold",
     );
-    tuttiITitoli.forEach((t) => t.classList.remove("text-primary"));
+    tuttiITitoli.forEach(function (titolo) {
+      titolo.classList.remove("text-primary");
+    });
 
     const righeAttive = document.querySelectorAll(
-      `[data-track-index='${currentTrackIndex}'] .fw-semibold`,
+      "[data-track-index='" + currentTrackIndex + "'] .fw-semibold",
     );
-    righeAttive.forEach((r) => r.classList.add("text-primary"));
+    righeAttive.forEach(function (riga) {
+      riga.classList.add("text-primary");
+    });
   }
-
+  // questa funzione e per cambiare il tasto quello tondo del play
   function setPlayingState(produrre) {
-    const bottoniPlay = document.querySelectorAll(
-      "nav .btn-light, .playAudio i",
+    const bottoneDesktop = document.querySelector(
+      "nav.fixed-bottom .btn-light",
     );
-    bottoniPlay.forEach((btn) => {
-      if (btn.tagName === "I" || btn.querySelector("i")) {
-        const icon = btn.tagName === "I" ? btn : btn.querySelector("i");
-        icon.className = produrre
-          ? "bi bi-pause-fill fs-3"
-          : "bi bi-play-fill fs-3";
+    if (produrre === true) {
+      bottoneDesktop.innerHTML = '<i class="bi bi-pause-fill fs-3"></i>';
+    } else {
+      bottoneDesktop.innerHTML = '<i class="bi bi-play-fill fs-3"></i>';
+    }
+    const tutteLeIcone = document.querySelectorAll(
+      ".playAudio i, nav.position-fixed .bi-play-fill, nav.position-fixed .bi-pause-fill",
+    );
+    tutteLeIcone.forEach(function (icona) {
+      if (produrre === true) {
+        icona.className = "bi bi-pause-fill fs-1";
+      } else {
+        icona.className = "bi bi-play-fill fs-1";
       }
     });
   }
-
+  // Funzione che viene chiamata quando si preme il bottone
   function togglePlayPause() {
+    // Se non c'è nessun audio caricato, avvia direttamente la prima traccia dell'album e esce dalla funzione.
     if (currentAudio === null) {
-      playTrack(nuovaVariabile.tracks.data[0], 0);
+      playTrack(album.tracks.data[0], 0);
       return;
     }
-    if (currentAudio.paused) {
-      currentAudio.play().then(() => setPlayingState(true));
+    // Se l'audio è in pausa, lo riprende. .then() aspetta che parta davvero, poi aggiorna le icone.
+    if (currentAudio.paused === true) {
+      currentAudio.play().then(function () {
+        setPlayingState(true);
+      });
     } else {
+      //Se  sta suonando lo mette in pausa e aggiorna le icone.
       currentAudio.pause();
       setPlayingState(false);
     }
   }
-
+  // la funzione che avvia la tracia
   function playTrack(traccia, indice) {
-    if (currentAudio) {
+    // se ce qualcosa fermala
+    if (currentAudio !== null) {
       currentAudio.pause();
-      if (currentTrackIndex === indice) {
-        currentTrackIndex = null;
-        setPlayingState(false);
-        return;
-      }
+      currentAudio = null;
+    }
+    // se clicchi su una attiva la fermi
+    if (currentTrackIndex === indice) {
+      currentTrackIndex = null;
+      setPlayingState(false);
+      return;
+    }
+    // salva il numero ellla tracia
+    currentTrackIndex = indice;
+    // Crea un nuovo oggetto Audio con l'URL della preview della traccia
+    currentAudio = new Audio(traccia.preview);
+
+    const volumeAttuale = parseFloat(volumeFill.style.width) / 100; //questo e per il volume cosi rimane salvato copiato bovinamente
+    if (volumeAttuale) {
+      currentAudio.volume = volumeAttuale;
+    } else {
+      currentAudio.volume = 1;
     }
 
-    currentTrackIndex = indice;
-    currentAudio = new Audio(traccia.preview);
-    const volumeAttuale = parseFloat(volumeFill.style.width) / 100 || 1;
-    currentAudio.volume = volumeAttuale;
-
-    currentAudio.play().then(() => {
+    currentAudio.play().then(function () {
       setPlayingState(true);
       updatePlayerBar(traccia);
     });
+    // se ce una tracia dopo passa a quella dopo
+    currentAudio.addEventListener("ended", function () {
+      currentTrackIndex = null;
+      setPlayingState(false);
 
-    currentAudio.addEventListener("ended", () => {
-      const prossimaTraccia = nuovaVariabile.tracks.data[indice + 1];
-      if (prossimaTraccia) {
-        playTrack(prossimaTraccia, indice + 1);
-      } else {
-        setPlayingState(false);
+      const tracciaSucessiva = album.tracks.data[indice + 1];
+      if (tracciaSucessiva) {
+        playTrack(tracciaSucessiva, indice + 1);
       }
     });
   }
-
-  document.querySelectorAll("nav .btn-light, .playAudio").forEach((btn) => {
-    btn.addEventListener("click", togglePlayPause);
-  });
-
-  const btnNext = document.querySelector(".bi-skip-end-fill");
-  if (btnNext) {
-    btnNext.closest("button").addEventListener("click", () => {
+  // collego i bottoni alla funzione togglePlayPause
+  const bottonePlayDesktop = document.querySelector(
+    "nav.fixed-bottom .btn-light",
+  );
+  if (bottonePlayDesktop !== null) {
+    bottonePlayDesktop.addEventListener("click", togglePlayPause);
+  }
+  const bottonePlayMobile = document.querySelector(
+    "nav.position-fixed .btn-light",
+  );
+  if (bottonePlayMobile !== null) {
+    bottonePlayMobile.addEventListener("click", togglePlayPause);
+  }
+  // qua e per andare avanti e indietro con i bottoni
+  const bottoneSuccessivo = document.querySelector(
+    "nav.fixed-bottom .bi-skip-end-fill",
+  );
+  if (bottoneSuccessivo !== null) {
+    bottoneSuccessivo.closest("button").addEventListener("click", function () {
       if (
         currentTrackIndex !== null &&
-        nuovaVariabile.tracks.data[currentTrackIndex + 1]
+        album.tracks.data[currentTrackIndex + 1]
       ) {
         playTrack(
-          nuovaVariabile.tracks.data[currentTrackIndex + 1],
+          album.tracks.data[currentTrackIndex + 1],
           currentTrackIndex + 1,
         );
       }
     });
   }
 
-  const btnPrev = document.querySelector(".bi-skip-start-fill");
-  if (btnPrev) {
-    btnPrev.closest("button").addEventListener("click", () => {
+  const bottonePrecedente = document.querySelector(
+    "nav.fixed-bottom .bi-skip-start-fill",
+  );
+  if (bottonePrecedente !== null) {
+    bottonePrecedente.closest("button").addEventListener("click", function () {
       if (currentTrackIndex > 0) {
         playTrack(
-          nuovaVariabile.tracks.data[currentTrackIndex - 1],
+          album.tracks.data[currentTrackIndex - 1],
           currentTrackIndex - 1,
         );
       }
     });
   }
-
-  document.querySelectorAll("[data-track-index]").forEach((riga) => {
-    riga.addEventListener("click", () => {
-      const indice = parseInt(riga.getAttribute("data-track-index"));
-      playTrack(nuovaVariabile.tracks.data[indice], indice);
+  // colego dei boittoni nel html a cui ho dato una classe
+  const bottoniPlay = document.querySelectorAll(".playAudio");
+  bottoniPlay.forEach(function (bottone) {
+    bottone.addEventListener("click", togglePlayPause);
+  });
+  // Per ogni riga nella lista tracce legge il suo indice dallattributo HTML data-track-index e al click avvia quella traccia specifica.
+  const righeTracce = document.querySelectorAll("[data-track-index]");
+  righeTracce.forEach(function (riga) {
+    const indiceTraccia = parseInt(riga.getAttribute("data-track-index"));
+    riga.addEventListener("click", function () {
+      playTrack(album.tracks.data[indiceTraccia], indiceTraccia);
     });
   });
 }

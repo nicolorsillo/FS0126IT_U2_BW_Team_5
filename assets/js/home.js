@@ -1276,13 +1276,21 @@ function initAudioPlayer(album) {
     "nav.fixed-bottom .btn-light",
   )
   if (bottonePlayDesktop !== null) {
-    bottonePlayDesktop.addEventListener("click", togglePlayPause)
+    const nuovoBottone = bottonePlayDesktop.cloneNode(true)
+    bottonePlayDesktop.parentNode.replaceChild(nuovoBottone, bottonePlayDesktop)
+    nuovoBottone.addEventListener("click", togglePlayPause)
   }
+
   const bottonePlayMobile = document.querySelector(
     "nav.position-fixed .btn-light",
   )
   if (bottonePlayMobile !== null) {
-    bottonePlayMobile.addEventListener("click", togglePlayPause)
+    const nuovoBottoneMobile = bottonePlayMobile.cloneNode(true)
+    bottonePlayMobile.parentNode.replaceChild(
+      nuovoBottoneMobile,
+      bottonePlayMobile,
+    )
+    nuovoBottoneMobile.addEventListener("click", togglePlayPause)
   }
   // qua e per andare avanti e indietro con i bottoni
   const bottoneSuccessivo = document.querySelector(

@@ -675,50 +675,67 @@ const albumPage = function (albumId) {
           class="p-4 bg-gradient bg-opacity-75 pt-0"
           style="background: linear-gradient(180deg, #2e1a47 0%, #121212 100%)"
         >
-          <div
-            class="d-flex align-items-center justify-content-between px-4 pt-3 pb-2 mb-3"
-          >
-            <div class="d-flex gap-3">
-              <button
-                id="backBtn"
-                class="btn btn-dark rounded-circle p-2 d-flex align-items-center justify-content-center"
-                style="width: 32px; height: 32px"
-              >
-                <i class="bi bi-chevron-left"></i>
-              </button>
-
-              <button
-                id="forwardBtn"
-                class="btn btn-dark rounded-circle p-2 d-flex align-items-center justify-content-center"
-                style="width: 32px; height: 32px"
-              >
-                <i class="bi bi-chevron-right"></i>
-              </button>
-            </div>
+        <div
+          class="d-none d-lg-flex justify-content-between align-items-center my-2"
+        >
+          <div class="d-flex gap-2">
             <button
-              class="btn btn-dark rounded-5 p-0 pe-2 d-flex align-items-center justify-content-center"
+              id="backBtn"
+              class="btn btn-dark rounded-circle p-2 d-flex align-items-center justify-content-center"
+              style="width: 32px; height: 32px"
             >
-              <div class="d-flex align-items-center gap-3">
-                <img
-                  src="./assets/imgs/main/image-17.jpg"
-                  alt="PTN"
-                  class="rounded-circle"
-                  width="28"
-                  height="28"
-                />
-                <span class="text-white fw-semibold">Lidia Nautilus</span>
-              </div>
+              <i class="bi bi-chevron-left"></i>
+            </button>
+
+            <button
+              id="forwardBtn"
+              class="btn btn-dark rounded-circle p-2 d-flex align-items-center justify-content-center"
+              style="width: 32px; height: 32px"
+            >
+              <i class="bi bi-chevron-right"></i>
             </button>
           </div>
+          <div
+            class="bg-black text-white rounded-pill d-flex align-items-center p-1 gap-2"
+            style="max-width: 200px"
+          >
+            <img
+              src="./assets/imgs/profile/Lidia Nautilus.jpg"
+              alt="image profile"
+              class="rounded-circle object-fit-cover"
+              width="25"
+              height="25"
+            />
+            <div class="flex-grow-1 overflow-hidden">
+              <small class="d-block text-truncate fw-light"
+                >Lidia Nautilus</small
+              >
+            </div>
+            <div class="dropdown-center d-flex align-items-center">
+              <button
+                class="btn btn-outline-light border-0 rounded-circle p-1"
+                id="account-home-btn"
+                data-bs-toggle="dropdown"
+              >
+                <i
+                  class="bi bi-caret-down-fill d-flex justify-content-center align-items-center m-0"
+                ></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="#">Profilo</a></li>
+                <li><a class="dropdown-item" href="#">Account</a></li>
+                <li><a class="dropdown-item" href="#">Esci</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
           <div class="row align-items-end g-4">
             <div class="col-12 col-lg-auto text-center text-lg-start">
               <img
                 src="./assets/imgs/main/image-1.jpg"
                 alt="Gioventù Brucata"
                 class="rounded-3 shadow album-main-cover"
-                width="200"
-                height="200"
-                style="object-fit: cover"
+                style="object-fit: cover; max-width:200px; max-height:200px"
               />
             </div>
 

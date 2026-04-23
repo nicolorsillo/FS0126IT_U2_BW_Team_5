@@ -1242,7 +1242,7 @@ const searchPage = function (pushHistory = true) {
     <section class="p-2 container-fluid" style="height: 100vh">
       <form id="search-form">
         <div>
-          <h1 class="text-md-center">Cerca</h1>
+          <h1 class="ms-3 ms-md-0 text-md-center">Cerca</h1>
           <div
             class="input-group bg-dark rounded overflow-hidden mt-5 me-auto ms-auto"
             style="max-width: 400px"
@@ -1263,7 +1263,7 @@ const searchPage = function (pushHistory = true) {
       <div id="search-container">
         <div>
           <h2 class="fw-bold text-center mt-3">Sfoglia tutto</h2>
-          <div class="container-fluid bg-black py-3">
+          <div class="container-fluid py-3">
             <div class="row g-3">
               <div class="col-6 col-md-4 col-xl-2">
                 <div

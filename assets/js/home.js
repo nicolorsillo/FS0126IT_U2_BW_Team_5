@@ -1202,6 +1202,14 @@ function initAudioPlayer(album) {
     } else {
       bottoneDesktop.innerHTML = '<i class="bi bi-play-fill fs-3"></i>'
     }
+    const bottoneMobile = document.getElementById("mobilePlayBtn")
+    if (bottoneMobile !== null) {
+      if (produrre === true) {
+        bottoneMobile.innerHTML = '<i class="bi bi-pause-fill"></i>'
+      } else {
+        bottoneMobile.innerHTML = '<i class="bi bi-play-fill"></i>'
+      }
+    }
     const tutteLeIcone = document.querySelectorAll(
       ".playAudio i, nav.position-fixed .bi-play-fill, nav.position-fixed .bi-pause-fill",
     )
@@ -1281,9 +1289,7 @@ function initAudioPlayer(album) {
     nuovoBottone.addEventListener("click", togglePlayPause)
   }
 
-  const bottonePlayMobile = document.querySelector(
-    "nav.position-fixed .btn-light",
-  )
+  const bottonePlayMobile = document.getElementById("mobilePlayBtn")
   if (bottonePlayMobile !== null) {
     const nuovoBottoneMobile = bottonePlayMobile.cloneNode(true)
     bottonePlayMobile.parentNode.replaceChild(

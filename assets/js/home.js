@@ -1742,11 +1742,14 @@ const homePage = function (pushHistory = true) {
         });
         songDescription.classList.remove("placeholder");
         songDescription.querySelector("span").innerText =
-          data.data[0].artist.name;
-        songPlayBtn.classList.remove("disabled", "placeholder");
-        songPlayBtn.querySelector("small").innerText = "Play";
-        songSaveBtn.classList.remove("disabled", "placeholder");
-        songSaveBtn.querySelector("small").innerText = "Salva";
+          data.data[0].artist.name
+        songPlayBtn.classList.remove("disabled", "placeholder")
+        songPlayBtn.querySelector("small").innerText = "Play"
+        songPlayBtn.addEventListener("click", () => {
+          albumPage(data.data[0].album.id)
+        })
+        songSaveBtn.classList.remove("disabled", "placeholder")
+        songSaveBtn.querySelector("small").innerText = "Salva"
       })
       .catch((err) => {
         console.log("ERRORE NEL SERVER", err);
@@ -1857,6 +1860,7 @@ const albumPage = function (albumId, pushHistory = true) {
               <div
                 class="d-flex align-items-center gap-2 text-white-50 flex-wrap"
               >
+              <button class="btn" id="artist-link-btn">
                 <img
                   src="./assets/imgs/main/image-17.jpg"
                   alt="PTN"
@@ -1867,6 +1871,7 @@ const albumPage = function (albumId, pushHistory = true) {
                 <span class="fw-semibold text-white artist-name"
                   >Pinguini Tattici Nucleari</span
                 >
+                </button>
                 <span class="album-cover d-none d-lg-inline">•</span>
                 <span class="artist-name d-none d-lg-inline">2017</span>
                 <span class="album-year d-none d-lg-inline">•</span>
@@ -1940,6 +1945,14 @@ const albumPage = function (albumId, pushHistory = true) {
   fetch(`https://striveschool-api.herokuapp.com/api/deezer/album/${albumId}`)
     .then((res) => res.json())
     .then((album) => {
+        const artistBtn = document.getElementById("artist-link-btn");
+        if (artistBtn) {
+            artistBtn.addEventListener("click", () => {
+            artistPage(album.artist.id);
+            window.scrollTo(0, 0);
+          });
+        }
+      initAudioPlayer(album);
       document.querySelector("h1").textContent = album.title;
       document.querySelector(".album-main-cover").src = album.cover_xl;
       document.querySelector(".artist-avatar").src = album.artist.picture_small;
@@ -3060,95 +3073,99 @@ const searchPage = function (pushHistory = true) {
             data.data.sort((a, b) => b.rank - a.rank);
             searchDiv.innerHTML = "";
             divCard.innerHTML = `<div class="container rounded-2 text-light px-0 mt-4">
-          <div class="row justify-content-center justify-content-md-between">
-          <div class="col-9 col-md-4"><h2 class="fw-bold mb-4">Risultato più rilevante</h2>
-            </div>
-          <div class="d-none d-md-flex col-md-7"><h2 class="fw-bold mb-4">Brani più ascoltati</h2>
-            </div>
-            </div>
-                    <div class="row justify-content-center justify-content-md-between">
-                    <div class="col-9 col-md-4 bg-dark py-3 ps-3 rounded-2"
-          
-                      <div class="card border-0 p-3">
-                        <div class="card-body">
-                        <a href="/artist.html?id=${data.data[i].artist.id}">   
-                        <img
-                            src="${data.data[i].artist.picture_medium}"
-                            alt="Artist-picture"
-                            class="rounded-circle mb-3 shadow object-fit-cover"
-                            style="width: 150px; height: 150px"
-                          />
-                          </a>
-                          <h3 class="card-title fw-bold m-0">${data.data[i].artist.name}</h3>
-                          <p class="card-text text-secondary mt-1">Artista</p>
-                        </div>
-                      </div>
-                      <div class="col-9 d-md-none"><h2 class="fw-bold mt-4">Brani più ascoltati</h2></div>
-                    <div class="col-9 col-md-7 py-0 ps-3 rounded-2"
-                      <div class="card border-0 p-3">
-                        <div class="card-body h-100">
-                          <ul class="list-unstyled mb-0 d-flex justify-content-between flex-column h-100">
-                            <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
-                              '${data.data[0].album.cover_medium}',
-                              '${data.data[0].title.replaceAll("'", "")}',
-                              '${data.data[0].artist.name}',
-                              '${data.data[0].preview}'
-                              )">
-                            <li class="d-flex gap-4"><img
-                            src="${data.data[0].album.cover_medium}"
-                            alt="album-picture"
-                            class="rounded-2 shadow object-fit-cover p-1 p-md-0"
-                            style="width: 50px; height: 50px"
-                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 text-start ">${data.data[0].title.toUpperCase()}</h5><p class="text-secondary m-0 text-start">${data.data[i].artist.name}</p></div></li>
-                            </button>
+  <div class="row justify-content-center justify-content-md-between">
+    <div class="col-9 col-md-4"><h2 class="fw-bold mb-4">Risultato più rilevante</h2></div>
+    <div class="d-none d-md-flex col-md-7"><h2 class="fw-bold mb-4">Brani più ascoltati</h2></div>
+  </div>
+  <div class="row justify-content-center justify-content-md-between">
+    <div class="col-9 col-md-4 bg-dark py-3 ps-3 rounded-2">
+      <div class="card border-0 p-3">
+        <div class="card-body">
+          <a href="#" onclick="artistPage(${data.data[i].artist.id}); return false;">   
+            <img
+              src="${data.data[i].artist.picture_medium}"
+              alt="Artist-picture"
+              class="rounded-circle mb-3 shadow object-fit-cover"
+              style="width: 150px; height: 150px; cursor: pointer;"
+            />
+          </a>
+          <h3 class="card-title fw-bold m-0">${data.data[i].artist.name}</h3>
+          <p class="card-text text-secondary mt-1">Artista</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-9 d-md-none"><h2 class="fw-bold mt-4">Brani più ascoltati</h2></div>
+    <div class="col-9 col-md-7 py-0 ps-3 rounded-2">
+      <div class="card border-0 p-3">
+        <div class="card-body h-100">
+          <ul class="list-unstyled mb-0 d-flex justify-content-between flex-column h-100">
+            
+            <li class="d-flex gap-4 align-items-center">
+              <a href="#" onclick="event.stopPropagation(); albumPage(${data.data[0].album.id}); return false;">
+                <img src="${data.data[0].album.cover_medium}" alt="album-picture" class="rounded-2 shadow object-fit-cover p-1 p-md-0" style="width: 50px; height: 50px; cursor: pointer;" />
+              </a>
+              <div class="d-flex flex-column justify-content-between flex-grow-1">
+                <a href="#" onclick="event.stopPropagation(); albumPage(${data.data[0].album.id}); return false;" class="text-decoration-none">
+                  <h5 class="card-title fw-bold m-0 text-start text-white">${data.data[0].title.toUpperCase()}</h5>
+                </a>
+                <p class="text-secondary m-0 text-start">${data.data[0].artist.name}</p>
+              </div>
+              <button class="border-0 p-0 shadow-none bg-transparent" onclick="event.stopPropagation(); playSong('${data.data[0].album.cover_medium}', '${data.data[0].title.replaceAll("'", "")}', '${data.data[0].artist.name}', '${data.data[0].preview}')">
+                <i class="bi bi-play-circle fs-4 text-white"></i>
+              </button>
+            </li>
 
-                           <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
-                              '${data.data[1].album.cover_medium}',
-                              '${data.data[1].title.replaceAll("'", "")}',
-                              '${data.data[1].artist.name}',
-                              '${data.data[1].preview}'
-                              )"> 
-                          <li class="d-flex gap-4"><img
-                            src="${data.data[1].album.cover_medium}"
-                            alt="album-picture"
-                            class="rounded-2 shadow object-fit-cover p-1 p-md-0 "
-                            style="width: 50px; height: 50px"
-                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 text-start ">${data.data[1].title.toUpperCase()}</h5><p class="text-secondary m-0 text-start">${data.data[i].artist.name}</p></div></li>
-                            </button>
+            <li class="d-flex gap-4 align-items-center mt-2">
+              <a href="#" onclick="event.stopPropagation(); albumPage(${data.data[1].album.id}); return false;">
+                <img src="${data.data[1].album.cover_medium}" alt="album-picture" class="rounded-2 shadow object-fit-cover p-1 p-md-0" style="width: 50px; height: 50px; cursor: pointer;" />
+              </a>
+              <div class="d-flex flex-column justify-content-between flex-grow-1">
+                <a href="#" onclick="event.stopPropagation(); albumPage(${data.data[1].album.id}); return false;" class="text-decoration-none">
+                  <h5 class="card-title fw-bold m-0 text-start text-white">${data.data[1].title.toUpperCase()}</h5>
+                </a>
+                <p class="text-secondary m-0 text-start">${data.data[1].artist.name}</p>
+              </div>
+              <button class="border-0 p-0 shadow-none bg-transparent" onclick="event.stopPropagation(); playSong('${data.data[1].album.cover_medium}', '${data.data[1].title.replaceAll("'", "")}', '${data.data[1].artist.name}', '${data.data[1].preview}')">
+                <i class="bi bi-play-circle fs-4 text-white"></i>
+              </button>
+            </li>
 
-                          <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
-                              '${data.data[2].album.cover_medium}',
-                              '${data.data[2].title.replaceAll("'", "")}',
-                              '${data.data[2].artist.name}',
-                              '${data.data[2].preview}'
-                              )"> 
-                          <li class="d-flex gap-4"><img
-                            src="${data.data[2].album.cover_medium}"
-                            alt="album-picture"
-                            class="rounded-2 shadow object-fit-cover p-1 p-md-0"
-                            style="width: 50px; height: 50px"
-                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 text-start ">${data.data[2].title.toUpperCase()}</h5><p class="text-secondary m-0 text-start">${data.data[i].artist.name}</p></div></li>
-                            </button>
-                          
-                             <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
-                              '${data.data[3].album.cover_medium}',
-                              '${data.data[3].title.replaceAll("'", "")}',
-                              '${data.data[3].artist.name}',
-                              '${data.data[3].preview}'
-                              )"> 
-                          <li class="d-flex gap-4"><img
-                            src="${data.data[3].album.cover_medium}"
-                            alt="album-picture"
-                            class="rounded-2 shadow object-fit-cover p-1 p-md-0"
-                            style="width: 50px; height: 50px"
-                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 text-start ">${data.data[3].title.toUpperCase()}</h5><p class="text-secondary m-0 text-start">${data.data[i].artist.name}</p></div></li>
-                          </button>
-                          </ul>         
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-          `;
+            <li class="d-flex gap-4 align-items-center mt-2">
+              <a href="#" onclick="event.stopPropagation(); albumPage(${data.data[2].album.id}); return false;">
+                <img src="${data.data[2].album.cover_medium}" alt="album-picture" class="rounded-2 shadow object-fit-cover p-1 p-md-0" style="width: 50px; height: 50px; cursor: pointer;" />
+              </a>
+              <div class="d-flex flex-column justify-content-between flex-grow-1">
+                <a href="#" onclick="event.stopPropagation(); albumPage(${data.data[2].album.id}); return false;" class="text-decoration-none">
+                  <h5 class="card-title fw-bold m-0 text-start text-white">${data.data[2].title.toUpperCase()}</h5>
+                </a>
+                <p class="text-secondary m-0 text-start">${data.data[2].artist.name}</p>
+              </div>
+              <button class="border-0 p-0 shadow-none bg-transparent" onclick="event.stopPropagation(); playSong('${data.data[2].album.cover_medium}', '${data.data[2].title.replaceAll("'", "")}', '${data.data[2].artist.name}', '${data.data[2].preview}')">
+                <i class="bi bi-play-circle fs-4 text-white"></i>
+              </button>
+            </li>
+
+            <li class="d-flex gap-4 align-items-center mt-2">
+              <a href="#" onclick="event.stopPropagation(); albumPage(${data.data[3].album.id}); return false;">
+                <img src="${data.data[3].album.cover_medium}" alt="album-picture" class="rounded-2 shadow object-fit-cover p-1 p-md-0" style="width: 50px; height: 50px; cursor: pointer;" />
+              </a>
+              <div class="d-flex flex-column justify-content-between flex-grow-1">
+                <a href="#" onclick="event.stopPropagation(); albumPage(${data.data[3].album.id}); return false;" class="text-decoration-none">
+                  <h5 class="card-title fw-bold m-0 text-start text-white">${data.data[3].title.toUpperCase()}</h5>
+                </a>
+                <p class="text-secondary m-0 text-start">${data.data[3].artist.name}</p>
+              </div>
+              <button class="border-0 p-0 shadow-none bg-transparent" onclick="event.stopPropagation(); playSong('${data.data[3].album.cover_medium}', '${data.data[3].title.replaceAll("'", "")}', '${data.data[3].artist.name}', '${data.data[3].preview}')">
+                <i class="bi bi-play-circle fs-4 text-white"></i>
+              </button>
+            </li>
+
+          </ul>         
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`
 
             searchDiv.appendChild(divCard);
           }
@@ -3170,102 +3187,101 @@ const searchPage = function (pushHistory = true) {
               searchDiv.innerHTML = "";
               divCard.innerHTML = `<div class="container rounded-2 text-light px-0 mt-4">
           <div class="row justify-content-center justify-content-md-between">
-          <div class="col-9 col-md-4"><h2 class="fw-bold mb-4">Risultato più rilevante</h2>
+            <div class="col-9 col-md-4"><h2 class="fw-bold mb-4">Risultato più rilevante</h2></div>
+            <div class="d-none d-md-flex col-9 col-md-7"><h2 class="fw-bold mb-4">Ti potrebbe piacere anche</h2></div>
+          </div>
+          <div class="row justify-content-center justify-content-md-between">
+            <div class="col-9 col-md-4 bg-dark py-3 ps-3 rounded-2">
+              <div class="card border-0 p-3">
+                <div class="card-body">
+                  <a href="#" onclick="albumPage(${data.data[0].album.id}); return false;">
+                    <img
+                      src="${data.data[0].album.cover_medium}"
+                      alt="Album-picture"
+                      class="rounded-circle mb-3 shadow object-fit-cover"
+                      style="width: 150px; height: 150px; cursor: pointer;"
+                    />
+                  </a>
+                  <h3 class="card-title fw-bold m-0">${data.data[0].title}</h3>
+                  <p class="card-text text-secondary mt-1">${data.data[0].artist.name}</p>
+                  <button class="btn btn-primary btn-sm mt-2" onclick="event.stopPropagation(); playSong('${data.data[0].album.cover_medium}', '${data.data[0].title.replaceAll("'", "")}', '${data.data[0].artist.name}', '${data.data[0].preview}')">
+                    <i class="bi bi-play-fill"></i> Play
+                  </button>
+                </div>
+              </div>
             </div>
-          <div class="d-none d-md-flex col-9 col-md-7"><h2 class="fw-bold mb-4">Ti potrebbe piacere anche</h2>
-            </div>
-            </div>
-                    <div class="row justify-content-center justify-content-md-between">
-                    <div class="col-9 col-md-4 bg-dark py-3 ps-3 rounded-2"
-          
-                      <div class="card border-0 p-3">
-                        <div class="card-body">
-                              <button class="border-0 shadow-none bg-transparent" onclick="playSong(
-                              '${data.data[0].album.cover_medium}',
-                              '${data.data[0].title.replaceAll("'", "")}',
-                              '${data.data[0].artist.name}',
-                              '${data.data[0].preview}'
-                              )">
-                                <img
-                                src="${data.data[0].album.cover_medium}"
-                                alt="Artist-picture"
-                                class="rounded-circle mb-3 shadow object-fit-cover"
-                                style="width: 150px; height: 150px"
-                              />
-                              </button>
-                          <h3 class="card-title fw-bold m-0">${data.data[0].title}</h3>
-                          <p class="card-text text-secondary mt-1">${data.data[0].artist.name}</p>
-                        </div>
+            <div class="col-9 d-md-none col-9 col-md-7"><h2 class="fw-bold mt-4">Ti potrebbe piacere anche</h2></div>
+            <div class="col-9 col-md-7 py-0 ps-3 rounded-2">
+              <div class="card border-0 p-3">
+                <div class="card-body h-100">
+                  <ul class="list-unstyled mb-0 d-flex justify-content-between flex-column h-100">
+                    
+                    <li class="d-flex gap-4 align-content-center">
+                      <a href="#" onclick="event.stopPropagation(); albumPage(${data.data[rand1].album.id}); return false;">
+                        <img src="${data.data[rand1].album.cover_medium}" alt="album-picture" class="rounded-2 shadow object-fit-cover p-1 p-md-0" style="width: 50px; height: 50px; cursor: pointer;" />
+                      </a>
+                      <div class="d-flex flex-column justify-content-between flex-grow-1">
+                        <a href="#" onclick="event.stopPropagation(); albumPage(${data.data[rand1].album.id}); return false;" class="text-decoration-none">
+                          <h5 class="card-title fw-bold m-0 text-start text-white">${data.data[rand1].title.toUpperCase()}</h5>
+                        </a>
+                        <p class="text-secondary m-0 text-start">${data.data[rand1].artist.name}</p>
                       </div>
-                    <div class="col-9 d-md-none col-9 col-md-7"><h2 class="fw-bold mt-4">Ti potrebbe piacere anche</h2></div>
-                    <div class="col-9 col-md-7 py-0 ps-3 rounded-2"
-          
-                      <div class="card border-0 p-3">
-                        <div class="card-body h-100">
-                          <ul class="list-unstyled mb-0 d-flex justify-content-between flex-column h-100">
-                            
-                          <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
-                              '${data.data[rand1].album.cover_medium}',
-                              '${data.data[rand1].title.replaceAll("'", "")}',
-                              '${data.data[rand1].artist.name}',
-                              '${data.data[rand1].preview}'
-                              )">
-                          <li class="d-flex gap-4 align-content-center"><img
-                            src="${data.data[rand1].album.cover_medium}"
-                            alt="album-picture"
-                            class="rounded-2 shadow object-fit-cover p-1 p-md-0"
-                            style="width: 50px; height: 50px"
-                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 text-start ">${data.data[rand1].title.toUpperCase()}</h5><p class="text-secondary m-0 text-start">${data.data[rand1].artist.name}</p></div></li>
-                          </button>
-                          
-                          <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
-                              '${data.data[rand2].album.cover_medium}',
-                              '${data.data[rand2].title.replaceAll("'", "")}',
-                              '${data.data[rand2].artist.name}',
-                              '${data.data[rand2].preview}'
-                              )">
-                          <li class="d-flex gap-4 align-content-center"><img
-                            src="${data.data[rand2].album.cover_medium}"
-                            alt="album-picture"
-                            class="rounded-2 shadow object-fit-cover p-1 p-md-0"
-                            style="width: 50px; height: 50px"
-                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 text-start ">${data.data[rand2].title.toUpperCase()}</h5><p class="text-secondary m-0 text-start">${data.data[rand2].artist.name}</p></div></li>
-                          </button>
-                          
-                          <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
-                              '${data.data[rand3].album.cover_medium}',
-                              '${data.data[rand3].title.replaceAll("'", "")}',
-                              '${data.data[rand3].artist.name}',
-                              '${data.data[rand3].preview}'
-                              )">
-                          <li class="d-flex gap-4 align-content-center"><img
-                            src="${data.data[rand3].album.cover_medium}"
-                            alt="album-picture"
-                            class="rounded-2 shadow object-fit-cover p-1 p-md-0"
-                            style="width: 50px; height: 50px"
-                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 text-start ">${data.data[rand3].title.toUpperCase()}</h5><p class="text-secondary m-0 text-start">${data.data[rand3].artist.name}</p></div></li>
-                          </button>
-                          
-                          <button class="border-0 p-0 shadow-none bg-transparent" onclick="playSong(
-                              '${data.data[rand4].album.cover_medium}',
-                              '${data.data[rand4].title.replaceAll("'", "")}',
-                              '${data.data[rand4].artist.name}',
-                              '${data.data[rand4].preview}'
-                              )">
-                          <li class="d-flex gap-4 align-content-center"><img
-                            src="${data.data[rand4].album.cover_medium}"
-                            alt="album-picture"
-                            class="rounded-2 shadow object-fit-cover p-1 p-md-0"
-                            style="width: 50px; height: 50px"
-                          /><div class="d-flex flex-column justify-content-between"><h5 class="card-title fw-bold m-0 text-start ">${data.data[rand4].title.toUpperCase()}</h5><p class="text-secondary m-0 text-start">${data.data[rand4].artist.name}</p></div></li>
-                          </button>
-                          </ul>         
-                        </div>
+                      <button class="border-0 p-0 shadow-none bg-transparent" onclick="event.stopPropagation(); playSong('${data.data[rand1].album.cover_medium}', '${data.data[rand1].title.replaceAll("'", "")}', '${data.data[rand1].artist.name}', '${data.data[rand1].preview}')">
+                        <i class="bi bi-play-circle fs-4 text-white"></i>
+                      </button>
+                    </li>
+                  
+                    <li class="d-flex gap-4 align-content-center mt-2">
+                      <a href="#" onclick="event.stopPropagation(); albumPage(${data.data[rand2].album.id}); return false;">
+                        <img src="${data.data[rand2].album.cover_medium}" alt="album-picture" class="rounded-2 shadow object-fit-cover p-1 p-md-0" style="width: 50px; height: 50px; cursor: pointer;" />
+                      </a>
+                      <div class="d-flex flex-column justify-content-between flex-grow-1">
+                        <a href="#" onclick="event.stopPropagation(); albumPage(${data.data[rand2].album.id}); return false;" class="text-decoration-none">
+                          <h5 class="card-title fw-bold m-0 text-start text-white">${data.data[rand2].title.toUpperCase()}</h5>
+                        </a>
+                        <p class="text-secondary m-0 text-start">${data.data[rand2].artist.name}</p>
                       </div>
-                    </div>
-                  </div>
-          `;
-              searchDiv.appendChild(divCard);
+                      <button class="border-0 p-0 shadow-none bg-transparent" onclick="event.stopPropagation(); playSong('${data.data[rand2].album.cover_medium}', '${data.data[rand2].title.replaceAll("'", "")}', '${data.data[rand2].artist.name}', '${data.data[rand2].preview}')">
+                        <i class="bi bi-play-circle fs-4 text-white"></i>
+                      </button>
+                    </li>
+                  
+                    <li class="d-flex gap-4 align-content-center mt-2">
+                      <a href="#" onclick="event.stopPropagation(); albumPage(${data.data[rand3].album.id}); return false;">
+                        <img src="${data.data[rand3].album.cover_medium}" alt="album-picture" class="rounded-2 shadow object-fit-cover p-1 p-md-0" style="width: 50px; height: 50px; cursor: pointer;" />
+                      </a>
+                      <div class="d-flex flex-column justify-content-between flex-grow-1">
+                        <a href="#" onclick="event.stopPropagation(); albumPage(${data.data[rand3].album.id}); return false;" class="text-decoration-none">
+                          <h5 class="card-title fw-bold m-0 text-start text-white">${data.data[rand3].title.toUpperCase()}</h5>
+                        </a>
+                        <p class="text-secondary m-0 text-start">${data.data[rand3].artist.name}</p>
+                      </div>
+                      <button class="border-0 p-0 shadow-none bg-transparent" onclick="event.stopPropagation(); playSong('${data.data[rand3].album.cover_medium}', '${data.data[rand3].title.replaceAll("'", "")}', '${data.data[rand3].artist.name}', '${data.data[rand3].preview}')">
+                        <i class="bi bi-play-circle fs-4 text-white"></i>
+                      </button>
+                    </li>
+                  
+                    <li class="d-flex gap-4 align-content-center mt-2">
+                      <a href="#" onclick="event.stopPropagation(); albumPage(${data.data[rand4].album.id}); return false;">
+                        <img src="${data.data[rand4].album.cover_medium}" alt="album-picture" class="rounded-2 shadow object-fit-cover p-1 p-md-0" style="width: 50px; height: 50px; cursor: pointer;" />
+                      </a>
+                      <div class="d-flex flex-column justify-content-between flex-grow-1">
+                        <a href="#" onclick="event.stopPropagation(); albumPage(${data.data[rand4].album.id}); return false;" class="text-decoration-none">
+                          <h5 class="card-title fw-bold m-0 text-start text-white">${data.data[rand4].title.toUpperCase()}</h5>
+                        </a>
+                        <p class="text-secondary m-0 text-start">${data.data[rand4].artist.name}</p>
+                      </div>
+                      <button class="border-0 p-0 shadow-none bg-transparent" onclick="event.stopPropagation(); playSong('${data.data[rand4].album.cover_medium}', '${data.data[rand4].title.replaceAll("'", "")}', '${data.data[rand4].artist.name}', '${data.data[rand4].preview}')">
+                        <i class="bi bi-play-circle fs-4 text-white"></i>
+                      </button>
+                    </li>
+                  </ul>         
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`
+              searchDiv.appendChild(divCard)
             }
           }
         }
@@ -3302,16 +3318,11 @@ function handlePopState(event) {
   }
 }
 
-document.getElementById("search-mobile").addEventListener("click", (event) => {
-  event.preventDefault();
-  searchPage();
-});
-
-document.getElementById("home-mobile").addEventListener("click", (event) => {
-  event.preventDefault();
-  homePage();
-});
-
-window.addEventListener("popstate", handlePopState);
-window.history.replaceState({ page: "home" }, "", "#home");
-homePage(false);
+window.addEventListener("popstate", handlePopState)
+window.history.replaceState({ page: "home" }, "", "#home")
+homePage(false)
+document.querySelectorAll(".colore_bt").forEach((el) => {
+  el.addEventListener("click", function () {
+    this.classList.toggle("text-primary")
+  })
+})

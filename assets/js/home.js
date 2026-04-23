@@ -692,7 +692,7 @@ const albumPage = function (albumId) {
               class="btn btn-dark rounded-circle p-2 d-flex align-items-center justify-content-center"
               style="width: 32px; height: 32px"
             >
-              <i class="bi bi-chevron-right"></i>
+              <i class="bi bi-chevron-right"></i> 
             </button>
           </div>
           <div
@@ -939,10 +939,12 @@ const artistPage = function (artistId) {
         <div class="container-fluid mb-4 py-4">
           <!-- BOTTONI -->
           <div class="d-flex align-items-center gap-3 mb-4">
-            <button class="btn btn-primary rounded-circle">
-              <i class="bi bi-play-fill fs-2 text-dark"></i>
+            <button
+              class="btn btn-primary rounded-circle d-none d-lg-flex align-items-center justify-content-center p-3 playAudio"
+              style="width: 56px; height: 56px"
+            >
+              <i class="bi bi-play-fill fs-1"></i>
             </button>
-
             <button class="btn btn-outline-light btn-sm px-4 fw-bold">
               FOLLOWING
             </button>
@@ -1122,10 +1124,9 @@ function startPlayer(data, tipo) {
       console.log("Errore del server", err)
     })
 }
-
+let currentAudio = null // laudio che ce adesso
+let currentTrackIndex = null // lindice  della traccia attiva
 function initAudioPlayer(album) {
-  let currentAudio = null // laudio che ce adesso
-  let currentTrackIndex = null // lindice  della traccia attiva
   const volumeFill = document.querySelector(".col-4:last-child .progress-bar")
   const volumeBar = document.querySelector(".col-4:last-child .progress")
   // qua chiamo la barra

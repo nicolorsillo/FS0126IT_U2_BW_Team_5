@@ -1156,7 +1156,9 @@ function initAudioPlayer(album) {
     }
     const copertina = document.querySelector("nav.fixed-bottom.d-lg-flex img")
     if (copertina !== null) {
-      if (album.cover_small) {
+      if (track.album && track.album.cover_small) {
+        copertina.src = track.album.cover_small
+      } else if (album.cover_small) {
         copertina.src = album.cover_small
       } else {
         copertina.src = "./assets/imgs/main/image-1.jpg"

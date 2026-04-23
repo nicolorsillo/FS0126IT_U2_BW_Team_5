@@ -845,10 +845,12 @@ const artistPage = function (artistId, pushHistory = true) {
         <div class="container-fluid mb-4 py-4">
           <!-- BOTTONI -->
           <div class="d-flex align-items-center gap-3 mb-4">
-            <button class="btn btn-primary rounded-circle">
-              <i class="bi bi-play-fill fs-2 text-dark"></i>
+            <button
+              class="btn btn-primary rounded-circle d-none d-lg-flex align-items-center justify-content-center p-3 playAudio"
+              style="width: 56px; height: 56px"
+            >
+              <i class="bi bi-play-fill fs-1"></i>
             </button>
-
             <button class="btn btn-outline-light btn-sm px-4 fw-bold">
               FOLLOWING
             </button>
@@ -959,42 +961,53 @@ const artistPage = function (artistId, pushHistory = true) {
     })
     .then((data) => {
       const songDiv = document.getElementById("songDiv");
-      for (i = 0; i < 5; i++) {
+      const nuovoAlbum = {
+        artist: { name: data.data[0].artist.name },
+        cover_small: data.data[0].album.cover_small,
+        tracks: {
+          data: data.data.slice(0, 5),
+        },
+      };
+      // for (i = 0; i < 5; i++) {
+      //   songDiv.innerHTML += `
+      //   <div class="d-flex align-items-center py-2">
+      //     <div class="text-secondary me-3 ">${i + 1}</div>
+      //       <a href="#" id="song-${i}" data-track-index="${i}">
+      //         <img
+      //           src="${data.data[i].album.cover}"
+      //           alt=""
+      //           class="me-3"
+      //           width="40"
+      //           height="40"
+      //         />
+      //       </a>
+      //       <div class="fw-semibold flex-grow-1">${data.data[i].title}</div>
+      //       <div class="text-secondary me-4 d-none d-md-block">276.616.912</div>
+      //       <div class="text-secondary">
+      //         ${String(data.data[i].duration)[0]}:${String(data.data[i].duration).slice(1)}
+      //     </div>
+      //   </div>
+      //   `
+      // }
+      for (let i = 0; i < 5; i++) {
         songDiv.innerHTML += `
-        <div class="d-flex align-items-center py-2">
-          <div class="text-secondary me-3 ">${i + 1}</div>
-            <a href="#" id="song-${i}" data-track-index="${i}">
-              <img
-                src="${data.data[i].album.cover}"
-                alt=""
-                class="me-3"
-                width="40"
-                height="40"
-              /> 
-            </a>
-            <div class="fw-semibold flex-grow-1">${data.data[i].title}</div>
-            <div class="text-secondary me-4 d-none d-md-block">276.616.912</div>
-            <div class="text-secondary">
-              ${String(data.data[i].duration)[0]}:${String(data.data[i].duration).slice(1)}
+        <div class="d-flex align-items-center py-2" data-track-index="${i}" style="cursor: pointer">
+          <div class="text-secondary me-3">${i + 1}</div>
+          <img
+            src="${data.data[i].album.cover}"
+            alt=""
+            class="me-3"
+            width="40"
+            height="40"
+          />
+          <div class="fw-semibold flex-grow-1">${data.data[i].title}</div>
+          <div class="text-secondary me-4 d-none d-md-block">276.616.912</div>
+          <div class="text-secondary">
+            ${String(data.data[i].duration)[0]}:${String(data.data[i].duration).slice(1)}
           </div>
-        </div>
-        `;
+        </div>`;
       }
-      document.getElementById(`song-${0}`).addEventListener("click", () => {
-        startPlayer(data.data[0], "song");
-      });
-      document.getElementById(`song-${1}`).addEventListener("click", () => {
-        startPlayer(data.data[1], "song");
-      });
-      document.getElementById(`song-${2}`).addEventListener("click", () => {
-        startPlayer(data.data[2], "song");
-      });
-      document.getElementById(`song-${3}`).addEventListener("click", () => {
-        startPlayer(data.data[3], "song");
-      });
-      document.getElementById(`song-${4}`).addEventListener("click", () => {
-        startPlayer(data.data[4], "song");
-      });
+      initAudioPlayer(nuovoAlbum);
     })
     .catch((err) => {
       console.log("ARTISTA NON TROVATO", err);
@@ -1021,11 +1034,35 @@ function startPlayer(data, tipo) {
     });
 }
 
+let currentAudio = null; // laudio che ce adesso
+let currentTrackIndex = null; // lindice  della traccia attiva
+
 function initAudioPlayer(album) {
-  let currentAudio = null; // laudio che ce adesso
-  let currentTrackIndex = null; // lindice  della traccia attiva
   const volumeFill = document.querySelector(".col-4:last-child .progress-bar");
   const volumeBar = document.querySelector(".col-4:last-child .progress");
+
+  const trackBar = document.querySelector(".col-4.flex-column .progress");
+  // La barra bianca (quella che deve crescere)
+  const trackFill = document.querySelector(".col-4.flex-column .progress-bar");
+  // I testi del tempo (opzionale, se vuoi aggiornare i numeri 0:38 e 3:20)
+  const currentTimeTxt = document.querySelector(
+    ".col-4.flex-column small:first-child",
+  );
+  // muove la barra al click del mouse
+  trackBar.addEventListener("click", function (evento) {
+    if (currentAudio !== null) {
+      const larghezzaBarra = trackBar.offsetWidth;
+      const posizioneClick =
+        evento.clientX - trackBar.getBoundingClientRect().left;
+      const percentuale = posizioneClick / larghezzaBarra;
+      // Calcola il secondo esatto (percentuale di 30)
+      const nuovoTempo = percentuale * 30;
+      currentAudio.currentTime = nuovoTempo;
+      // Aggiorna la grafica
+      trackFill.style.width = percentuale * 100 + "%";
+    }
+  });
+
   // qua chiamo la barra
   volumeBar.addEventListener("click", function (evento) {
     const larghezzaBarra = volumeBar.offsetWidth;
@@ -1054,7 +1091,9 @@ function initAudioPlayer(album) {
     }
     const copertina = document.querySelector("nav.fixed-bottom.d-lg-flex img");
     if (copertina !== null) {
-      if (album.cover_small) {
+      if (track.album && track.album.cover_small) {
+        copertina.src = track.album.cover_small;
+      } else if (album.cover_small) {
         copertina.src = album.cover_small;
       } else {
         copertina.src = "./assets/imgs/main/image-1.jpg";
@@ -1099,6 +1138,14 @@ function initAudioPlayer(album) {
     } else {
       bottoneDesktop.innerHTML = '<i class="bi bi-play-fill fs-3"></i>';
     }
+    const bottoneMobile = document.getElementById("mobilePlayBtn");
+    if (bottoneMobile !== null) {
+      if (produrre === true) {
+        bottoneMobile.innerHTML = '<i class="bi bi-pause-fill"></i>';
+      } else {
+        bottoneMobile.innerHTML = '<i class="bi bi-play-fill"></i>';
+      }
+    }
     const tutteLeIcone = document.querySelectorAll(
       ".playAudio i, nav.position-fixed .bi-play-fill, nav.position-fixed .bi-pause-fill",
     );
@@ -1130,38 +1177,53 @@ function initAudioPlayer(album) {
   }
   // la funzione che avvia la tracia
   function playTrack(traccia, indice) {
-    // se ce qualcosa fermala
+    //  Reset grafico immediato
+    if (trackFill) trackFill.style.width = "0%";
+
+    //  Se c'è un audio in corso, fermalo
     if (currentAudio !== null) {
       currentAudio.pause();
       currentAudio = null;
     }
-    // se clicchi su una attiva la fermi
+
+    //  Controllo se hai cliccato sulla traccia già attiva
     if (currentTrackIndex === indice) {
       currentTrackIndex = null;
       setPlayingState(false);
       return;
     }
-    // salva il numero ellla tracia
+
+    //  Salva l'indice e CREA L'AUDIO
     currentTrackIndex = indice;
-    // Crea un nuovo oggetto Audio con l'URL della preview della traccia
     currentAudio = new Audio(traccia.preview);
 
-    const volumeAttuale = parseFloat(volumeFill.style.width) / 100; //questo e per il volume cosi rimane salvato copiato bovinamente
-    if (volumeAttuale) {
-      currentAudio.volume = volumeAttuale;
-    } else {
-      currentAudio.volume = 1;
-    }
+    //  AGGIUNGI GLI EVENTI
+    currentAudio.addEventListener("timeupdate", function () {
+      const percentuale = (currentAudio.currentTime / 30) * 100;
+      if (trackFill) {
+        trackFill.style.width = percentuale + "%";
+      }
 
+      if (currentTimeTxt) {
+        const secondi = Math.floor(currentAudio.currentTime);
+        currentTimeTxt.textContent = `0:${secondi < 10 ? "0" + secondi : secondi}`;
+      }
+    });
+
+    // 6. Gestione Volume
+    const volumeAttuale = parseFloat(volumeFill.style.width) / 100;
+    currentAudio.volume = isNaN(volumeAttuale) ? 1 : volumeAttuale;
+
+    // 7. Fai partire l'audio
     currentAudio.play().then(function () {
       setPlayingState(true);
       updatePlayerBar(traccia);
     });
-    // se ce una tracia dopo passa a quella dopo
+
+    // 8. Gestione fine traccia
     currentAudio.addEventListener("ended", function () {
       currentTrackIndex = null;
       setPlayingState(false);
-
       const tracciaSucessiva = album.tracks.data[indice + 1];
       if (tracciaSucessiva) {
         playTrack(tracciaSucessiva, indice + 1);
@@ -1173,13 +1235,22 @@ function initAudioPlayer(album) {
     "nav.fixed-bottom .btn-light",
   );
   if (bottonePlayDesktop !== null) {
-    bottonePlayDesktop.addEventListener("click", togglePlayPause);
+    const nuovoBottone = bottonePlayDesktop.cloneNode(true);
+    bottonePlayDesktop.parentNode.replaceChild(
+      nuovoBottone,
+      bottonePlayDesktop,
+    );
+    nuovoBottone.addEventListener("click", togglePlayPause);
   }
-  const bottonePlayMobile = document.querySelector(
-    "nav.position-fixed .btn-light",
-  );
+
+  const bottonePlayMobile = document.getElementById("mobilePlayBtn");
   if (bottonePlayMobile !== null) {
-    bottonePlayMobile.addEventListener("click", togglePlayPause);
+    const nuovoBottoneMobile = bottonePlayMobile.cloneNode(true);
+    bottonePlayMobile.parentNode.replaceChild(
+      nuovoBottoneMobile,
+      bottonePlayMobile,
+    );
+    nuovoBottoneMobile.addEventListener("click", togglePlayPause);
   }
   // qua e per andare avanti e indietro con i bottoni
   const bottoneSuccessivo = document.querySelector(

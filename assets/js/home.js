@@ -1,4 +1,4 @@
-const centralPage = document.getElementById("central-page");
+const centralPage = document.getElementById("central-page")
 
 const homePage = function () {
   centralPage.innerHTML = `  <div
@@ -520,85 +520,85 @@ const homePage = function () {
             </div>
           </div>
         </div>
-        <div style="height: 15vh"></div>`;
-  const url = "https://striveschool-api.herokuapp.com/api/deezer/search?q=";
-  const backBtn = document.getElementById("backBtn");
-  const forwardBtn = document.getElementById("forwardBtn");
+        <div style="height: 15vh"></div>`
+  const url = "https://striveschool-api.herokuapp.com/api/deezer/search?q="
+  const backBtn = document.getElementById("backBtn")
+  const forwardBtn = document.getElementById("forwardBtn")
 
   if (backBtn) {
     backBtn.addEventListener("click", () => {
-      window.history.back();
-    });
+      window.history.back()
+    })
   }
 
   if (forwardBtn) {
     forwardBtn.addEventListener("click", () => {
-      window.history.forward();
-    });
+      window.history.forward()
+    })
   }
 
   const getAdBannerSong = function (song) {
-    const urlCompleto = `${url}${song}`;
+    const urlCompleto = `${url}${song}`
 
     fetch(urlCompleto)
       .then((result) => {
         if (result.ok) {
-          return result.json();
+          return result.json()
         } else {
-          throw new Error("ERRORE JSON", result.status);
+          throw new Error("ERRORE JSON", result.status)
         }
       })
       .then((data) => {
-        const songContainer = document.getElementById("ad-banner");
-        const songAlbumId = document.getElementById("ad-banner-song-album-id");
-        const songCover = document.getElementById("ad-banner-song-cover");
-        const songAlbum = document.getElementById("ad-banner-song-album");
+        const songContainer = document.getElementById("ad-banner")
+        const songAlbumId = document.getElementById("ad-banner-song-album-id")
+        const songCover = document.getElementById("ad-banner-song-cover")
+        const songAlbum = document.getElementById("ad-banner-song-album")
         const songAlbumLink = document.getElementById(
           "ad-banner-song-album-link",
-        );
-        const songTitle = document.getElementById("ad-banner-song-title");
-        const songArtist = document.getElementById("ad-banner-song-artist");
+        )
+        const songTitle = document.getElementById("ad-banner-song-title")
+        const songArtist = document.getElementById("ad-banner-song-artist")
         const songArtistLink = document.getElementById(
           "ad-banner-song-artist-link",
-        );
+        )
         const songDescription = document.getElementById(
           "ad-banner-song-description",
-        );
-        const songPlayBtn = document.getElementById("ad-banner-song-play-btn");
-        const songSaveBtn = document.getElementById("ad-banner-song-save-btn");
+        )
+        const songPlayBtn = document.getElementById("ad-banner-song-play-btn")
+        const songSaveBtn = document.getElementById("ad-banner-song-save-btn")
 
-        songContainer.classList.remove("placeholder-glow");
-        songContainer.querySelector("h6").classList.remove("placeholder");
-        songAlbumId.classList.remove("placeholder");
+        songContainer.classList.remove("placeholder-glow")
+        songContainer.querySelector("h6").classList.remove("placeholder")
+        songAlbumId.classList.remove("placeholder")
         songAlbumId.addEventListener("click", () =>
           albumPage(data.data[0].album.id),
-        );
-        songCover.classList.remove("placeholder");
-        songCover.src = data.data[0].album.cover_xl;
-        songAlbum.classList.remove("placeholder");
-        songAlbum.innerText = data.data[0].album.title;
+        )
+        songCover.classList.remove("placeholder")
+        songCover.src = data.data[0].album.cover_xl
+        songAlbum.classList.remove("placeholder")
+        songAlbum.innerText = data.data[0].album.title
         songAlbumLink.addEventListener("click", () =>
           albumPage(data.data[0].album.id),
-        );
-        songTitle.classList.remove("placeholder");
-        songTitle.innerText = data.data[0].title;
-        songArtist.classList.remove("placeholder");
-        songArtist.innerText = data.data[0].artist.name;
+        )
+        songTitle.classList.remove("placeholder")
+        songTitle.innerText = data.data[0].title
+        songArtist.classList.remove("placeholder")
+        songArtist.innerText = data.data[0].artist.name
         songArtistLink.addEventListener("click", () =>
           artistPage(data.data[0].artist.id),
-        );
-        songDescription.classList.remove("placeholder");
+        )
+        songDescription.classList.remove("placeholder")
         songDescription.querySelector("span").innerText =
-          data.data[0].artist.name;
-        songPlayBtn.classList.remove("disabled", "placeholder");
-        songPlayBtn.querySelector("small").innerText = "Play";
-        songSaveBtn.classList.remove("disabled", "placeholder");
-        songSaveBtn.querySelector("small").innerText = "Salva";
+          data.data[0].artist.name
+        songPlayBtn.classList.remove("disabled", "placeholder")
+        songPlayBtn.querySelector("small").innerText = "Play"
+        songSaveBtn.classList.remove("disabled", "placeholder")
+        songSaveBtn.querySelector("small").innerText = "Salva"
       })
       .catch((err) => {
-        console.log("ERRORE NEL SERVER", err);
-      });
-  };
+        console.log("ERRORE NEL SERVER", err)
+      })
+  }
 
   const getTopReleases = function () {
     const newMusicFridayItalia = [
@@ -612,63 +612,63 @@ const homePage = function () {
       "Foto Mosse",
       "La piu bella del mondo",
       "Amarsi nel disordine",
-    ];
+    ]
     let randomSongIndex = Math.floor(
       Math.random() * newMusicFridayItalia.length,
-    );
-    let randomSong = newMusicFridayItalia[randomSongIndex];
-    getAdBannerSong(randomSong);
-  };
-  getTopReleases();
+    )
+    let randomSong = newMusicFridayItalia[randomSongIndex]
+    getAdBannerSong(randomSong)
+  }
+  getTopReleases()
 
   let recommendedAlbum = [
     926698181, 958295021, 3602971, 926720971, 926721331, 693008911,
-  ];
+  ]
 
   if (!localStorage.getItem("lastAlbumId")) {
-    localStorage.setItem("lastAlbumId", JSON.stringify(recommendedAlbum));
+    localStorage.setItem("lastAlbumId", JSON.stringify(recommendedAlbum))
   }
 
-  recommendedAlbum = JSON.parse(localStorage.getItem("lastAlbumId"));
+  recommendedAlbum = JSON.parse(localStorage.getItem("lastAlbumId"))
 
-  const urlAlbum = "https://striveschool-api.herokuapp.com/api/deezer/album/";
+  const urlAlbum = "https://striveschool-api.herokuapp.com/api/deezer/album/"
 
   const getRecommendedAlbum = function (albumIndex, domIndex) {
-    const urlAlbumCompleto = `${urlAlbum}${recommendedAlbum[albumIndex]}`;
+    const urlAlbumCompleto = `${urlAlbum}${recommendedAlbum[albumIndex]}`
 
     fetch(urlAlbumCompleto)
       .then((result) => {
         if (result.ok) {
-          return result.json();
+          return result.json()
         } else {
-          throw new Error("ERRORE JSON", result.status);
+          throw new Error("ERRORE JSON", result.status)
         }
       })
       .then((data) => {
         const recommendedCard = document.querySelector(
           `.recommended-album:nth-of-type(${domIndex})`,
-        );
+        )
         if (recommendedCard) {
-          recommendedCard.querySelector("img").src = data.cover_medium;
-          recommendedCard.querySelector("img").classList.remove("placeholder");
-          recommendedCard.querySelector("p").innerText = data.title;
-          recommendedCard.querySelector("p").classList.remove("placeholder");
+          recommendedCard.querySelector("img").src = data.cover_medium
+          recommendedCard.querySelector("img").classList.remove("placeholder")
+          recommendedCard.querySelector("p").innerText = data.title
+          recommendedCard.querySelector("p").classList.remove("placeholder")
           recommendedCard
             .querySelector("a")
-            .addEventListener("click", () => albumPage(data.id));
+            .addEventListener("click", () => albumPage(data.id))
         }
       })
       .catch((err) => {
-        console.log("ERRORE NEL SERVER", err);
-      });
-  };
+        console.log("ERRORE NEL SERVER", err)
+      })
+  }
 
   for (let i = 0; i < 6; i++) {
-    const arrayIndex = recommendedAlbum.length - 1 - i;
-    const domPosition = i + 1;
-    getRecommendedAlbum(arrayIndex, domPosition);
+    const arrayIndex = recommendedAlbum.length - 1 - i
+    const domPosition = i + 1
+    getRecommendedAlbum(arrayIndex, domPosition)
   }
-};
+}
 
 const albumPage = function (albumId) {
   centralPage.innerHTML = `        <div
@@ -817,42 +817,42 @@ const albumPage = function (albumId) {
             </tr>
           </thead>
           <tbody></tbody>
-        </table>`;
+        </table>`
 
-  const params = new URLSearchParams(window.location.search);
+  const params = new URLSearchParams(window.location.search)
 
   fetch(`https://striveschool-api.herokuapp.com/api/deezer/album/${albumId}`)
     .then((res) => res.json())
     .then((album) => {
-      document.querySelector("h1").textContent = album.title;
-      document.querySelector(".album-main-cover").src = album.cover_xl;
-      document.querySelector(".artist-avatar").src = album.artist.picture_small;
-      document.querySelector(".artist-name").textContent = album.artist.name;
+      document.querySelector("h1").textContent = album.title
+      document.querySelector(".album-main-cover").src = album.cover_xl
+      document.querySelector(".artist-avatar").src = album.artist.picture_small
+      document.querySelector(".artist-name").textContent = album.artist.name
       document.querySelector(".album-year").textContent = new Date(
         album.release_date,
-      ).getFullYear();
+      ).getFullYear()
       document.querySelector(".album-meta").textContent =
-        `${album.nb_tracks} brani, ${Math.floor(album.duration / 60)} min ${album.duration % 60} sec.`;
+        `${album.nb_tracks} brani, ${Math.floor(album.duration / 60)} min ${album.duration % 60} sec.`
 
       document.querySelectorAll(".artist-name").forEach((el) => {
-        el.textContent = album.artist.name;
-      });
+        el.textContent = album.artist.name
+      })
 
-      const tbody = document.querySelector("tbody");
-      tbody.innerHTML = "";
+      const tbody = document.querySelector("tbody")
+      tbody.innerHTML = ""
 
       album.tracks.data.forEach((track, index) => {
-        const minutes = Math.floor(track.duration / 60);
-        const seconds = String(track.duration % 60).padStart(2, "0");
+        const minutes = Math.floor(track.duration / 60)
+        const seconds = String(track.duration % 60).padStart(2, "0")
         const rank = track.rank
           ? Number(track.rank).toLocaleString("it-IT")
-          : "—";
+          : "—"
 
-        const mobileRow = document.createElement("div");
+        const mobileRow = document.createElement("div")
         mobileRow.className =
-          "d-lg-none d-flex justify-content-between align-items-center w-100 mb-3";
-        mobileRow.setAttribute("data-track-index", index);
-        mobileRow.style.cursor = "pointer";
+          "d-lg-none d-flex justify-content-between align-items-center w-100 mb-3"
+        mobileRow.setAttribute("data-track-index", index)
+        mobileRow.style.cursor = "pointer"
         mobileRow.innerHTML = `
         <div class="d-flex align-items-center gap-3">
           <div>
@@ -861,12 +861,12 @@ const albumPage = function (albumId) {
           </div>
         </div>
         <i class="bi bi-three-dots-vertical text-white-50 fs-3"></i>
-      `;
+      `
 
-        const desktopRow = document.createElement("tr");
-        desktopRow.className = "d-none d-lg-table-row";
-        desktopRow.setAttribute("data-track-index", index);
-        desktopRow.style.cursor = "pointer";
+        const desktopRow = document.createElement("tr")
+        desktopRow.className = "d-none d-lg-table-row"
+        desktopRow.setAttribute("data-track-index", index)
+        desktopRow.style.cursor = "pointer"
         desktopRow.innerHTML = `
         <td class="text-white-50 text-end">${index + 1}</td>
         <td>
@@ -875,23 +875,23 @@ const albumPage = function (albumId) {
         </td>
         <td class="text-end text-white-50">${rank}</td>
         <td class="text-end pe-4 text-white-50">${minutes}:${seconds}</td>
-      `;
+      `
 
-        tbody.appendChild(mobileRow);
-        tbody.appendChild(desktopRow);
-      });
+        tbody.appendChild(mobileRow)
+        tbody.appendChild(desktopRow)
+      })
 
       document
         .getElementById("backBtn")
-        ?.addEventListener("click", () => window.history.back());
+        ?.addEventListener("click", () => window.history.back())
       document
         .getElementById("forwardBtn")
-        ?.addEventListener("click", () => window.history.forward());
+        ?.addEventListener("click", () => window.history.forward())
 
-      initAudioPlayer(album);
+      initAudioPlayer(album)
     })
-    .catch((err) => console.error("Errore fetch album:", err));
-};
+    .catch((err) => console.error("Errore fetch album:", err))
+}
 
 const artistPage = function (artistId) {
   centralPage.innerHTML = `       <!-- HEADER ARTISTA -->
@@ -986,19 +986,19 @@ const artistPage = function (artistId) {
               </div>
             </div>
           </div>
-        </div>`;
+        </div>`
 
   fetch(`https://striveschool-api.herokuapp.com/api/deezer/artist/${artistId}`)
     .then((response) => {
       if (response.ok) {
-        return response.json();
+        return response.json()
       } else {
-        throw new Error("ERRORE NEL JSON", response.status);
+        throw new Error("ERRORE NEL JSON", response.status)
       }
     })
     .then((data) => {
-      const profileSection = document.getElementById("artistDinamic");
-      const like = document.getElementById("like");
+      const profileSection = document.getElementById("artistDinamic")
+      const like = document.getElementById("like")
       profileSection.innerHTML = `
     <div
       class="container-fluid px-0"
@@ -1028,14 +1028,14 @@ const artistPage = function (artistId) {
           
         </div>
       </div>
-    `;
+    `
       like.innerHTML = `
           <div class="text-secondary small" id="like">Di ${data.name}</div>
-        `;
+        `
     })
     .catch((err) => {
-      console.log("Errore del server", err);
-    });
+      console.log("Errore del server", err)
+    })
   fetch(
     "https://striveschool-api.herokuapp.com/api/deezer/artist/" +
       artistId +
@@ -1043,54 +1043,65 @@ const artistPage = function (artistId) {
   )
     .then((response) => {
       if (response.ok) {
-        return response.json();
+        return response.json()
       } else {
-        throw new Error("ERRORE NEL JSON", response.status);
+        throw new Error("ERRORE NEL JSON", response.status)
       }
     })
     .then((data) => {
-      const songDiv = document.getElementById("songDiv");
-      for (i = 0; i < 5; i++) {
-        songDiv.innerHTML += `
-        <div class="d-flex align-items-center py-2">
-          <div class="text-secondary me-3 ">${i + 1}</div>
-            <a href="#" id="song-${i}" data-track-index="${i}">
-              <img
-                src="${data.data[i].album.cover}"
-                alt=""
-                class="me-3"
-                width="40"
-                height="40"
-              /> 
-            </a>
-            <div class="fw-semibold flex-grow-1">${data.data[i].title}</div>
-            <div class="text-secondary me-4 d-none d-md-block">276.616.912</div>
-            <div class="text-secondary">
-              ${String(data.data[i].duration)[0]}:${String(data.data[i].duration).slice(1)}
-          </div>
-        </div>
-        `;
+      const songDiv = document.getElementById("songDiv")
+      const nuovoAlbum = {
+        artist: { name: data.data[0].artist.name },
+        cover_small: data.data[0].album.cover_small,
+        tracks: {
+          data: data.data.slice(0, 5),
+        },
       }
-      document.getElementById(`song-${0}`).addEventListener("click", () => {
-        startPlayer(data.data[0], "song");
-      });
-      document.getElementById(`song-${1}`).addEventListener("click", () => {
-        startPlayer(data.data[1], "song");
-      });
-      document.getElementById(`song-${2}`).addEventListener("click", () => {
-        startPlayer(data.data[2], "song");
-      });
-      document.getElementById(`song-${3}`).addEventListener("click", () => {
-        startPlayer(data.data[3], "song");
-      });
-      document.getElementById(`song-${4}`).addEventListener("click", () => {
-        startPlayer(data.data[4], "song");
-      });
+      // for (i = 0; i < 5; i++) {
+      //   songDiv.innerHTML += `
+      //   <div class="d-flex align-items-center py-2">
+      //     <div class="text-secondary me-3 ">${i + 1}</div>
+      //       <a href="#" id="song-${i}" data-track-index="${i}">
+      //         <img
+      //           src="${data.data[i].album.cover}"
+      //           alt=""
+      //           class="me-3"
+      //           width="40"
+      //           height="40"
+      //         />
+      //       </a>
+      //       <div class="fw-semibold flex-grow-1">${data.data[i].title}</div>
+      //       <div class="text-secondary me-4 d-none d-md-block">276.616.912</div>
+      //       <div class="text-secondary">
+      //         ${String(data.data[i].duration)[0]}:${String(data.data[i].duration).slice(1)}
+      //     </div>
+      //   </div>
+      //   `
+      // }
+      for (let i = 0; i < 5; i++) {
+        songDiv.innerHTML += `
+        <div class="d-flex align-items-center py-2" data-track-index="${i}" style="cursor: pointer">
+          <div class="text-secondary me-3">${i + 1}</div>
+          <img
+            src="${data.data[i].album.cover}"
+            alt=""
+            class="me-3"
+            width="40"
+            height="40"
+          />
+          <div class="fw-semibold flex-grow-1">${data.data[i].title}</div>
+          <div class="text-secondary me-4 d-none d-md-block">276.616.912</div>
+          <div class="text-secondary">
+            ${String(data.data[i].duration)[0]}:${String(data.data[i].duration).slice(1)}
+          </div>
+        </div>`
+      }
+      initAudioPlayer(nuovoAlbum)
     })
     .catch((err) => {
-      console.log("ARTISTA NON TROVATO", err);
-    });
-};
+      console.log("ARTISTA NON TROVATO", err)
+    })
+}
 
 function startPlayer(data, tipo) {
   fetch(
@@ -1098,184 +1109,182 @@ function startPlayer(data, tipo) {
   )
     .then((response) => {
       if (response.ok) {
-        return response.json();
+        return response.json()
       } else {
-        throw new Error("ERRORE NEL JSON", response.status);
+        throw new Error("ERRORE NEL JSON", response.status)
       }
     })
     .then((dataAlbum) => {
-      initAudioPlayer(dataAlbum);
-      console.log(dataAlbum);
+      initAudioPlayer(dataAlbum)
+      console.log(dataAlbum)
     })
     .catch((err) => {
-      console.log("Errore del server", err);
-    });
+      console.log("Errore del server", err)
+    })
 }
 
 function initAudioPlayer(album) {
-  let currentAudio = null; // laudio che ce adesso
-  let currentTrackIndex = null; // lindice  della traccia attiva
-  const volumeFill = document.querySelector(".col-4:last-child .progress-bar");
-  const volumeBar = document.querySelector(".col-4:last-child .progress");
+  let currentAudio = null // laudio che ce adesso
+  let currentTrackIndex = null // lindice  della traccia attiva
+  const volumeFill = document.querySelector(".col-4:last-child .progress-bar")
+  const volumeBar = document.querySelector(".col-4:last-child .progress")
   // qua chiamo la barra
   volumeBar.addEventListener("click", function (evento) {
-    const larghezzaBarra = volumeBar.offsetWidth;
+    const larghezzaBarra = volumeBar.offsetWidth
     const posizioneClick =
-      evento.clientX - volumeBar.getBoundingClientRect().left; // questo lho cercato in teora dalla e prende la largezza dove in quel esatto momento ecc
-    const percentuale = posizioneClick / larghezzaBarra;
-    volumeFill.style.width = percentuale * 100 + "%";
+      evento.clientX - volumeBar.getBoundingClientRect().left // questo lho cercato in teora dalla e prende la largezza dove in quel esatto momento ecc
+    const percentuale = posizioneClick / larghezzaBarra
+    volumeFill.style.width = percentuale * 100 + "%"
     if (currentAudio !== null) {
-      currentAudio.volume = percentuale;
+      currentAudio.volume = percentuale
     }
-  });
+  })
   // questa funzione e per cambiare la foto e il nome del img anche per cambiare il colore del brano in riprouzione
   function updatePlayerBar(track) {
     const titoloDesktop = document.querySelector(
       "nav.fixed-bottom.d-lg-flex .fw-bold.small",
-    );
+    )
     if (titoloDesktop !== null) {
-      titoloDesktop.textContent = track.title;
+      titoloDesktop.textContent = track.title
     }
 
     const artistaDesktop = document.querySelector(
       "nav.fixed-bottom.d-lg-flex .text-muted.small",
-    );
+    )
     if (artistaDesktop !== null) {
-      artistaDesktop.textContent = album.artist.name;
+      artistaDesktop.textContent = album.artist.name
     }
-    const copertina = document.querySelector("nav.fixed-bottom.d-lg-flex img");
+    const copertina = document.querySelector("nav.fixed-bottom.d-lg-flex img")
     if (copertina !== null) {
       if (album.cover_small) {
-        copertina.src = album.cover_small;
+        copertina.src = album.cover_small
       } else {
-        copertina.src = "./assets/imgs/main/image-1.jpg";
+        copertina.src = "./assets/imgs/main/image-1.jpg"
       }
     }
 
     const titoloMobile = document.querySelector(
       "nav.position-fixed .fw-bold.small",
-    );
+    )
     if (titoloMobile !== null) {
-      titoloMobile.textContent = track.title;
+      titoloMobile.textContent = track.title
     }
 
     const artistaMobile = document.querySelector(
       "nav.position-fixed .text-muted.small",
-    );
+    )
     if (artistaMobile !== null) {
-      artistaMobile.textContent = album.artist.name;
+      artistaMobile.textContent = album.artist.name
     }
 
     const tuttiITitoli = document.querySelectorAll(
       "[data-track-index] .fw-semibold",
-    );
+    )
     tuttiITitoli.forEach(function (titolo) {
-      titolo.classList.remove("text-primary");
-    });
+      titolo.classList.remove("text-primary")
+    })
 
     const righeAttive = document.querySelectorAll(
       "[data-track-index='" + currentTrackIndex + "'] .fw-semibold",
-    );
+    )
     righeAttive.forEach(function (riga) {
-      riga.classList.add("text-primary");
-    });
+      riga.classList.add("text-primary")
+    })
   }
   // questa funzione e per cambiare il tasto quello tondo del play
   function setPlayingState(produrre) {
-    const bottoneDesktop = document.querySelector(
-      "nav.fixed-bottom .btn-light",
-    );
+    const bottoneDesktop = document.querySelector("nav.fixed-bottom .btn-light")
     if (produrre === true) {
-      bottoneDesktop.innerHTML = '<i class="bi bi-pause-fill fs-3"></i>';
+      bottoneDesktop.innerHTML = '<i class="bi bi-pause-fill fs-3"></i>'
     } else {
-      bottoneDesktop.innerHTML = '<i class="bi bi-play-fill fs-3"></i>';
+      bottoneDesktop.innerHTML = '<i class="bi bi-play-fill fs-3"></i>'
     }
     const tutteLeIcone = document.querySelectorAll(
       ".playAudio i, nav.position-fixed .bi-play-fill, nav.position-fixed .bi-pause-fill",
-    );
+    )
     tutteLeIcone.forEach(function (icona) {
       if (produrre === true) {
-        icona.className = "bi bi-pause-fill fs-1";
+        icona.className = "bi bi-pause-fill fs-1"
       } else {
-        icona.className = "bi bi-play-fill fs-1";
+        icona.className = "bi bi-play-fill fs-1"
       }
-    });
+    })
   }
   // Funzione che viene chiamata quando si preme il bottone
   function togglePlayPause() {
     // Se non c'è nessun audio caricato, avvia direttamente la prima traccia dell'album e esce dalla funzione.
     if (currentAudio === null) {
-      playTrack(album.tracks.data[0], 0);
-      return;
+      playTrack(album.tracks.data[0], 0)
+      return
     }
     // Se l'audio è in pausa, lo riprende. .then() aspetta che parta davvero, poi aggiorna le icone.
     if (currentAudio.paused === true) {
       currentAudio.play().then(function () {
-        setPlayingState(true);
-      });
+        setPlayingState(true)
+      })
     } else {
       //Se  sta suonando lo mette in pausa e aggiorna le icone.
-      currentAudio.pause();
-      setPlayingState(false);
+      currentAudio.pause()
+      setPlayingState(false)
     }
   }
   // la funzione che avvia la tracia
   function playTrack(traccia, indice) {
     // se ce qualcosa fermala
     if (currentAudio !== null) {
-      currentAudio.pause();
-      currentAudio = null;
+      currentAudio.pause()
+      currentAudio = null
     }
     // se clicchi su una attiva la fermi
     if (currentTrackIndex === indice) {
-      currentTrackIndex = null;
-      setPlayingState(false);
-      return;
+      currentTrackIndex = null
+      setPlayingState(false)
+      return
     }
     // salva il numero ellla tracia
-    currentTrackIndex = indice;
+    currentTrackIndex = indice
     // Crea un nuovo oggetto Audio con l'URL della preview della traccia
-    currentAudio = new Audio(traccia.preview);
+    currentAudio = new Audio(traccia.preview)
 
-    const volumeAttuale = parseFloat(volumeFill.style.width) / 100; //questo e per il volume cosi rimane salvato copiato bovinamente
+    const volumeAttuale = parseFloat(volumeFill.style.width) / 100 //questo e per il volume cosi rimane salvato copiato bovinamente
     if (volumeAttuale) {
-      currentAudio.volume = volumeAttuale;
+      currentAudio.volume = volumeAttuale
     } else {
-      currentAudio.volume = 1;
+      currentAudio.volume = 1
     }
 
     currentAudio.play().then(function () {
-      setPlayingState(true);
-      updatePlayerBar(traccia);
-    });
+      setPlayingState(true)
+      updatePlayerBar(traccia)
+    })
     // se ce una tracia dopo passa a quella dopo
     currentAudio.addEventListener("ended", function () {
-      currentTrackIndex = null;
-      setPlayingState(false);
+      currentTrackIndex = null
+      setPlayingState(false)
 
-      const tracciaSucessiva = album.tracks.data[indice + 1];
+      const tracciaSucessiva = album.tracks.data[indice + 1]
       if (tracciaSucessiva) {
-        playTrack(tracciaSucessiva, indice + 1);
+        playTrack(tracciaSucessiva, indice + 1)
       }
-    });
+    })
   }
   // collego i bottoni alla funzione togglePlayPause
   const bottonePlayDesktop = document.querySelector(
     "nav.fixed-bottom .btn-light",
-  );
+  )
   if (bottonePlayDesktop !== null) {
-    bottonePlayDesktop.addEventListener("click", togglePlayPause);
+    bottonePlayDesktop.addEventListener("click", togglePlayPause)
   }
   const bottonePlayMobile = document.querySelector(
     "nav.position-fixed .btn-light",
-  );
+  )
   if (bottonePlayMobile !== null) {
-    bottonePlayMobile.addEventListener("click", togglePlayPause);
+    bottonePlayMobile.addEventListener("click", togglePlayPause)
   }
   // qua e per andare avanti e indietro con i bottoni
   const bottoneSuccessivo = document.querySelector(
     "nav.fixed-bottom .bi-skip-end-fill",
-  );
+  )
   if (bottoneSuccessivo !== null) {
     bottoneSuccessivo.closest("button").addEventListener("click", function () {
       if (
@@ -1285,37 +1294,37 @@ function initAudioPlayer(album) {
         playTrack(
           album.tracks.data[currentTrackIndex + 1],
           currentTrackIndex + 1,
-        );
+        )
       }
-    });
+    })
   }
 
   const bottonePrecedente = document.querySelector(
     "nav.fixed-bottom .bi-skip-start-fill",
-  );
+  )
   if (bottonePrecedente !== null) {
     bottonePrecedente.closest("button").addEventListener("click", function () {
       if (currentTrackIndex > 0) {
         playTrack(
           album.tracks.data[currentTrackIndex - 1],
           currentTrackIndex - 1,
-        );
+        )
       }
-    });
+    })
   }
   // colego dei boittoni nel html a cui ho dato una classe
-  const bottoniPlay = document.querySelectorAll(".playAudio");
+  const bottoniPlay = document.querySelectorAll(".playAudio")
   bottoniPlay.forEach(function (bottone) {
-    bottone.addEventListener("click", togglePlayPause);
-  });
+    bottone.addEventListener("click", togglePlayPause)
+  })
   // Per ogni riga nella lista tracce legge il suo indice dallattributo HTML data-track-index e al click avvia quella traccia specifica.
-  const righeTracce = document.querySelectorAll("[data-track-index]");
+  const righeTracce = document.querySelectorAll("[data-track-index]")
   righeTracce.forEach(function (riga) {
-    const indiceTraccia = parseInt(riga.getAttribute("data-track-index"));
+    const indiceTraccia = parseInt(riga.getAttribute("data-track-index"))
     riga.addEventListener("click", function () {
-      playTrack(album.tracks.data[indiceTraccia], indiceTraccia);
-    });
-  });
+      playTrack(album.tracks.data[indiceTraccia], indiceTraccia)
+    })
+  })
 }
 
 const searchPage = function () {
@@ -1829,67 +1838,67 @@ const searchPage = function () {
         </div>
       </nav>
     </section>
-  `;
-  const url = "https://striveschool-api.herokuapp.com/api/deezer/search?q=";
-  const allParam = new URLSearchParams(location.search);
-  const id = allParam.get("id");
+  `
+  const url = "https://striveschool-api.herokuapp.com/api/deezer/search?q="
+  const allParam = new URLSearchParams(location.search)
+  const id = allParam.get("id")
 
-  const form = document.getElementById("search-form");
+  const form = document.getElementById("search-form")
   form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    let searchInput = form.querySelector("input").value;
+    e.preventDefault()
+    let searchInput = form.querySelector("input").value
 
-    const fullUrl = url + searchInput;
-    getArtist(fullUrl);
-    searchInput = "";
-  });
+    const fullUrl = url + searchInput
+    getArtist(fullUrl)
+    searchInput = ""
+  })
 
-  let currentAudio = null;
+  let currentAudio = null
 
   const stopPlaySong = function () {
     if (currentAudio.paused) {
-      currentAudio.play();
+      currentAudio.play()
     } else {
-      currentAudio.pause();
+      currentAudio.pause()
     }
-  };
+  }
 
   const playSong = function (songCover, songName, artistName, songPreview) {
-    document.getElementById("song-cover").src = songCover;
-    document.getElementById("song-name").innerText = songName;
-    document.getElementById("song-artist").innerText = artistName;
+    document.getElementById("song-cover").src = songCover
+    document.getElementById("song-name").innerText = songName
+    document.getElementById("song-artist").innerText = artistName
 
-    if (currentAudio) currentAudio.pause();
-    currentAudio = new Audio(songPreview);
-    currentAudio.play();
-    currentAudio.volume = 0.1;
-  };
+    if (currentAudio) currentAudio.pause()
+    currentAudio = new Audio(songPreview)
+    currentAudio.play()
+    currentAudio.volume = 0.1
+  }
 
   const getArtist = function (url) {
     fetch(url)
       .then((response) => {
         if (response.ok) {
-          return response.json();
+          return response.json()
         } else {
-          throw new Error("ERRORE NEL JSON", response.status);
+          throw new Error("ERRORE NEL JSON", response.status)
         }
       })
       .then((data) => {
-        const divCard = document.createElement("div");
-        const searchDiv = document.getElementById("search-container");
-        const randIndex = Math.floor(Math.random() * data.data.length);
+        const divCard = document.createElement("div")
+        const searchDiv = document.getElementById("search-container")
+        const randIndex = Math.floor(Math.random() * data.data.length)
 
-        let searchInput = form.querySelector("input").value;
-        let index = 0;
+        let searchInput = form.querySelector("input").value
+        let index = 0
 
         for (let i = 0; i < data.data.length; i++) {
           if (
             data.data[i].artist.name.toLowerCase() === searchInput.toLowerCase()
           ) {
-            index++;
+            index++
 
-            data.data.sort((a, b) => b.rank - a.rank);
-            searchDiv.innerHTML = "";
+            data.data.sort((a, b) => b.rank - a.rank)
+            searchDiv.innerHTML = ""
             divCard.innerHTML = `<div class="container rounded-2 text-light px-0 mt-4">
           <div class="row justify-content-center justify-content-md-between">
           <div class="col-9 col-md-4"><h2 class="fw-bold mb-4">Risultato più rilevante</h2>
@@ -1979,9 +1988,9 @@ const searchPage = function () {
                       </div>
                     </div>
                   </div>
-          `;
+          `
 
-            searchDiv.appendChild(divCard);
+            searchDiv.appendChild(divCard)
           }
         }
         if (index === 0) {
@@ -1989,16 +1998,16 @@ const searchPage = function () {
             if (
               data.data[i].title.toLowerCase() === searchInput.toLowerCase()
             ) {
-              index++;
+              index++
               const getRandom = () =>
-                Math.floor(Math.random() * data.data.length);
+                Math.floor(Math.random() * data.data.length)
 
-              const rand1 = getRandom();
-              const rand2 = getRandom();
-              const rand3 = getRandom();
-              const rand4 = getRandom();
+              const rand1 = getRandom()
+              const rand2 = getRandom()
+              const rand3 = getRandom()
+              const rand4 = getRandom()
 
-              searchDiv.innerHTML = "";
+              searchDiv.innerHTML = ""
               divCard.innerHTML = `<div class="container rounded-2 text-light px-0 mt-4">
           <div class="row justify-content-center justify-content-md-between">
           <div class="col-9 col-md-4"><h2 class="fw-bold mb-4">Risultato più rilevante</h2>
@@ -2095,15 +2104,15 @@ const searchPage = function () {
                       </div>
                     </div>
                   </div>
-          `;
-              searchDiv.appendChild(divCard);
+          `
+              searchDiv.appendChild(divCard)
             }
           }
         }
       })
       .catch((err) => {
-        console.log("ARTISTA NON TROVATO e SERVER", err);
-      });
-  };
-};
-homePage();
+        console.log("ARTISTA NON TROVATO e SERVER", err)
+      })
+  }
+}
+homePage()

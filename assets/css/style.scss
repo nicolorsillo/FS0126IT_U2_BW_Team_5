@@ -69,3 +69,7 @@ $theme-colors:  map-merge($theme-colors, $new-theme-colors);
       background-color: rgba(0, 0, 0, 0.301);
       backdrop-filter: blur(10px);
     }
+
+    .table_custom { --bs-table-bg: transparent !important; }
+
+    .custom_width {width: 58.4%}

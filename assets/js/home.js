@@ -1,9 +1,17 @@
 const centralPage = document.getElementById("central-page");
 
-const homePage = function () {
+const homePage = function (pushHistory = true) {
+  document
+    .getElementById("account-bar")
+    .classList.replace("position-fixed", "position-sticky");
+
+  document
+    .getElementById("account-bar")
+    .classList.replace("custom_width", "w-100");
+
   centralPage.innerHTML = ` 
         <div
-          class="card mb-3 bg-gradient-dark border-0 rounded-0 placeholder-glow d-none d-lg-block"
+          class="card mb-3 bg-gradient-dark border-0 rounded-0 placeholder-glow d-none d-lg-block mx-3"
           id="ad-banner"
         >
           <div class="row g-0">
@@ -74,7 +82,7 @@ const homePage = function () {
             </div>
           </div>
         </div>
-        <div class="mt-3">
+        <div class="mt-3 mx-3">
           <div class="d-flex justify-content-between mb-2">
             <h4>Buonasera</h4>
             <div class="d-flex gap-2 align-items-center d-lg-none">
@@ -466,8 +474,11 @@ const homePage = function () {
               </div>
             </div>
           </div>
-        </div>
-        <div style="height: 15vh"></div>`;
+        </div>`;
+  if (pushHistory) {
+    window.history.pushState({ page: "home" }, "", "#home");
+  }
+
   const url = "https://striveschool-api.herokuapp.com/api/deezer/search?q=";
   const backBtn = document.getElementById("backBtn");
   const forwardBtn = document.getElementById("forwardBtn");
@@ -517,23 +528,29 @@ const homePage = function () {
         songContainer.classList.remove("placeholder-glow");
         songContainer.querySelector("h6").classList.remove("placeholder");
         songAlbumId.classList.remove("placeholder");
-        songAlbumId.addEventListener("click", () =>
-          albumPage(data.data[0].album.id),
-        );
+        songAlbumId.href = `#album-${data.data[0].album.id}`;
+        songAlbumId.addEventListener("click", (event) => {
+          event.preventDefault();
+          albumPage(data.data[0].album.id);
+        });
         songCover.classList.remove("placeholder");
         songCover.src = data.data[0].album.cover_xl;
         songAlbum.classList.remove("placeholder");
         songAlbum.innerText = data.data[0].album.title;
-        songAlbumLink.addEventListener("click", () =>
-          albumPage(data.data[0].album.id),
-        );
+        songAlbumLink.href = `#album-${data.data[0].album.id}`;
+        songAlbumLink.addEventListener("click", (event) => {
+          event.preventDefault();
+          albumPage(data.data[0].album.id);
+        });
         songTitle.classList.remove("placeholder");
         songTitle.innerText = data.data[0].title;
         songArtist.classList.remove("placeholder");
         songArtist.innerText = data.data[0].artist.name;
-        songArtistLink.addEventListener("click", () =>
-          artistPage(data.data[0].artist.id),
-        );
+        songArtistLink.href = `#artist-${data.data[0].artist.id}`;
+        songArtistLink.addEventListener("click", (event) => {
+          event.preventDefault();
+          artistPage(data.data[0].artist.id);
+        });
         songDescription.classList.remove("placeholder");
         songDescription.querySelector("span").innerText =
           data.data[0].artist.name;
@@ -600,9 +617,12 @@ const homePage = function () {
           recommendedCard.querySelector("img").classList.remove("placeholder");
           recommendedCard.querySelector("p").innerText = data.title;
           recommendedCard.querySelector("p").classList.remove("placeholder");
-          recommendedCard
-            .querySelector("a")
-            .addEventListener("click", () => albumPage(data.id));
+          const albumLink = recommendedCard.querySelector("a");
+          albumLink.href = `#album-${data.id}`;
+          albumLink.addEventListener("click", (event) => {
+            event.preventDefault();
+            albumPage(data.id);
+          });
         }
       })
       .catch((err) => {
@@ -617,8 +637,16 @@ const homePage = function () {
   }
 };
 
-const albumPage = function (albumId) {
+const albumPage = function (albumId, pushHistory = true) {
+  document
+    .getElementById("account-bar")
+    .classList.replace("position-fixed", "position-sticky");
+
+  document
+    .getElementById("account-bar")
+    .classList.replace("custom_width", "w-100");
   centralPage.innerHTML = `
+  <div  class="mx-3">
           <div class="row align-items-end g-4">
             <div class="col-12 col-lg-auto text-center text-lg-start">
               <img
@@ -692,22 +720,31 @@ const albumPage = function (albumId) {
           </div>
         </div>
         <table
-          class="table table-dark table-hover align-middle table-borderless mb-0"
+          class="table table_custom table-hover align-middle table-borderless mb-0"
         >
           <thead>
             <tr
               class="text-white-50 small fw-semibold border-bottom border-secondary d-none d-lg-table-row"
             >
-              <th scope="col" class="col-1 text-end">#</th>
+              <th scope="col" class="col-1 text-center">#</th>
               <th scope="col" class="col-5">TITOLO</th>
               <th scope="col" class="col-3 text-end">RIPRODUZIONI</th>
               <th scope="col" class="col-3 text-end pe-4">
-                <i class="bi bi-clock"></i>
+                <i class="bi bi-clock me-2"></i>
               </th>
             </tr>
           </thead>
           <tbody></tbody>
-        </table>`;
+        </table>
+        </div>`;
+
+  if (pushHistory) {
+    window.history.pushState(
+      { page: "album", albumId },
+      "",
+      `#album-${albumId}`,
+    );
+  }
 
   const params = new URLSearchParams(window.location.search);
 
@@ -745,12 +782,12 @@ const albumPage = function (albumId) {
         mobileRow.style.cursor = "pointer";
         mobileRow.innerHTML = `
         <div class="d-flex align-items-center gap-3">
-          <div>
+          <div class="ms-3">
             <div class="fw-semibold">${track.title}</div>
             <div class="small text-white-50">${album.artist.name}</div>
           </div>
         </div>
-        <i class="bi bi-three-dots-vertical text-white-50 fs-3"></i>
+        <i class="bi bi-three-dots-vertical text-white-50 fs-3 me-4"></i>
       `;
 
         const desktopRow = document.createElement("tr");
@@ -758,7 +795,7 @@ const albumPage = function (albumId) {
         desktopRow.setAttribute("data-track-index", index);
         desktopRow.style.cursor = "pointer";
         desktopRow.innerHTML = `
-        <td class="text-white-50 text-end">${index + 1}</td>
+        <td class="text-white-50 text-center">${index + 1}</td>
         <td>
           <div class="fw-semibold">${track.title}</div>
           <div class="small text-white-50">${album.artist.name}</div>
@@ -783,46 +820,25 @@ const albumPage = function (albumId) {
     .catch((err) => console.error("Errore fetch album:", err));
 };
 
-const artistPage = function (artistId) {
-  centralPage.innerHTML = `       <!-- HEADER ARTISTA -->
-        <div class="position-relative bg-black">
-          <!-- NAV TOP -->
-          <div class="container-fluid py-7">
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="d-flex gap-2">
-                <button class="btn btn-black rounded-circle">
-                  <i class="bi bi-chevron-left text-white"></i>
-                </button>
-                <button class="btn btn-black rounded-circle">
-                  <i class="bi bi-chevron-right text-white"></i>
-                </button>
-              </div>
-
-              <div class="dropdown">
-                <button
-                  class="btn btn-black dropdown-toggle d-flex align-items-center gap-2 border-0"
-                  data-bs-toggle="dropdown"
-                >
-                  <img
-                    src=""
-                    alt=""
-                    class="rounded-circle"
-                    width="32"
-                    height="32"
-                  />
-                  <span class="fw-semibold small">Lidia Nautilus</span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-dark">
-                  <li><a class="dropdown-item" href="#">Profilo</a></li>
-                  <li><a class="dropdown-item" href="#">Account</a></li>
-                  <li><a class="dropdown-item" href="#">Esci</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
+const artistPage = function (artistId, pushHistory = true) {
+  if (pushHistory) {
+    window.history.pushState(
+      { page: "artist", artistId },
+      "",
+      `#artist-${artistId}`,
+    );
+  }
+  centralPage.innerHTML = ` <div id="artist-img" style="height:50vh" class="position-sticky top-0 z-0"> </div> 
+  <div class="px-lg-4 position-relative z-2" 
+        style="background: #212529;
+          background: linear-gradient(0deg, 
+          rgba(33, 37, 41, 1) 0%, 
+          rgba(33, 37, 41, 1) 80%, 
+          rgba(65, 69, 72, 0) 100%);">    
+          <!-- HEADER ARTISTA -->
+        <div class="position-relative bg-transparent">
           <!-- IMMAGINE ARTISTA -->
-          <section id="artistDinamic"></section>
+          <section id="artistDinamic" class="bg-transparent"></section>
         </div>
 
         <!-- CONTENUTO -->
@@ -876,7 +892,15 @@ const artistPage = function (artistId) {
               </div>
             </div>
           </div>
-        </div>`;
+        </div></div> `;
+
+  document
+    .getElementById("account-bar")
+    .classList.replace("position-sticky", "position-fixed");
+
+  document
+    .getElementById("account-bar")
+    .classList.replace("w-100", "custom_width");
 
   fetch(`https://striveschool-api.herokuapp.com/api/deezer/artist/${artistId}`)
     .then((response) => {
@@ -889,17 +913,12 @@ const artistPage = function (artistId) {
     .then((data) => {
       const profileSection = document.getElementById("artistDinamic");
       const like = document.getElementById("like");
+      document.getElementById("artist-img").innerHTML = `
+      <div class="h-100 w-100" style="background-image: url('${data.picture_xl}');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;"></div>`;
       profileSection.innerHTML = `
-    <div
-      class="container-fluid px-0"
-      style="
-    height: 70vh;
-    background-image: url('${data.picture_xl}');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    "
-      ></div>
       
       <div class="position-absolute bottom-0 start-0 w-100 px-4 pb-4">
         <div class="pt-4">
@@ -1208,7 +1227,17 @@ function initAudioPlayer(album) {
   });
 }
 
-const searchPage = function () {
+const searchPage = function (pushHistory = true) {
+  document
+    .getElementById("account-bar")
+    .classList.replace("position-fixed", "position-sticky");
+
+  document
+    .getElementById("account-bar")
+    .classList.replace("custom_width", "w-100");
+  if (pushHistory) {
+    window.history.pushState({ page: "search" }, "", "#search");
+  }
   centralPage.innerHTML = `
     <section class="p-2 container-fluid" style="height: 100vh">
       <form id="search-form">
@@ -1986,4 +2015,33 @@ const searchPage = function () {
       });
   };
 };
-homePage();
+
+function handlePopState(event) {
+  const state = event.state || { page: "home" };
+
+  switch (state.page) {
+    case "search":
+      searchPage(false);
+      break;
+    case "album":
+      if (state.albumId) {
+        albumPage(state.albumId, false);
+      } else {
+        homePage(false);
+      }
+      break;
+    case "artist":
+      if (state.artistId) {
+        artistPage(state.artistId, false);
+      } else {
+        homePage(false);
+      }
+      break;
+    default:
+      homePage(false);
+  }
+}
+
+window.addEventListener("popstate", handlePopState);
+window.history.replaceState({ page: "home" }, "", "#home");
+homePage(false);

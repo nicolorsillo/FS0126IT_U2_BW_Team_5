@@ -49,7 +49,7 @@ const homePage = function () {
               </button>
               <ul class="dropdown-menu dropdown-menu-dark">
                 <li><a class="dropdown-item" href="#">Profilo</a></li>
-                <li><a class="dropdown-item" href="#">Account</a></li>
+                <li><a class="dropdown-item" href="accountPage.html">Account</a></li>
                 <li><a class="dropdown-item" href="#">Esci</a></li>
               </ul>
             </div>
@@ -1224,6 +1224,14 @@ const currentTimeTxt = document.querySelector(".col-4.flex-column small:first-ch
     } else {
       bottoneDesktop.innerHTML = '<i class="bi bi-play-fill fs-3"></i>'
     }
+    const bottoneMobile = document.getElementById("mobilePlayBtn")
+    if (bottoneMobile !== null) {
+      if (produrre === true) {
+        bottoneMobile.innerHTML = '<i class="bi bi-pause-fill"></i>'
+      } else {
+        bottoneMobile.innerHTML = '<i class="bi bi-play-fill"></i>'
+      }
+    }
     const tutteLeIcone = document.querySelectorAll(
       ".playAudio i, nav.position-fixed .bi-play-fill, nav.position-fixed .bi-pause-fill",
     )
@@ -1318,9 +1326,7 @@ const currentTimeTxt = document.querySelector(".col-4.flex-column small:first-ch
     nuovoBottone.addEventListener("click", togglePlayPause)
   }
 
-  const bottonePlayMobile = document.querySelector(
-    "nav.position-fixed .btn-light",
-  )
+  const bottonePlayMobile = document.getElementById("mobilePlayBtn")
   if (bottonePlayMobile !== null) {
     const nuovoBottoneMobile = bottonePlayMobile.cloneNode(true)
     bottonePlayMobile.parentNode.replaceChild(

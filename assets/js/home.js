@@ -1,5 +1,20 @@
 const centralPage = document.getElementById("central-page");
 
+const backBtn = document.getElementById("backBtn");
+const forwardBtn = document.getElementById("forwardBtn");
+
+if (backBtn) {
+  backBtn.addEventListener("click", () => {
+    window.history.back();
+  });
+}
+
+if (forwardBtn) {
+  forwardBtn.addEventListener("click", () => {
+    window.history.forward();
+  });
+}
+
 function scrollOrizzontal(direction, carouselName) {
   const container = document.getElementById(carouselName);
   const scrollAmount = container.scrollWidth * 0.1;
@@ -1669,20 +1684,6 @@ const homePage = function (pushHistory = true) {
   }
 
   const url = "https://striveschool-api.herokuapp.com/api/deezer/search?q=";
-  const backBtn = document.getElementById("backBtn");
-  const forwardBtn = document.getElementById("forwardBtn");
-
-  if (backBtn) {
-    backBtn.addEventListener("click", () => {
-      window.history.back();
-    });
-  }
-
-  if (forwardBtn) {
-    forwardBtn.addEventListener("click", () => {
-      window.history.forward();
-    });
-  }
 
   const getAdBannerSong = function (song) {
     const urlCompleto = `${url}${song}`;
@@ -1838,7 +1839,7 @@ const albumPage = function (albumId, pushHistory = true) {
     .getElementById("account-bar")
     .classList.replace("custom_width", "w-100");
   centralPage.innerHTML = `
-  <div  class="mx-3">
+  <div  class="mx-3 mt-3 mt-lg-0">
           <div class="row align-items-end g-4">
             <div class="col-12 col-lg-auto text-center text-lg-start">
               <img
@@ -2009,13 +2010,6 @@ const albumPage = function (albumId, pushHistory = true) {
         tbody.appendChild(mobileRow);
         tbody.appendChild(desktopRow);
       });
-
-      document
-        .getElementById("backBtn")
-        ?.addEventListener("click", () => window.history.back());
-      document
-        .getElementById("forwardBtn")
-        ?.addEventListener("click", () => window.history.forward());
 
       initAudioPlayer(album);
     })

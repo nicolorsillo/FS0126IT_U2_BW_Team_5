@@ -1132,8 +1132,11 @@ function initAudioPlayer(album) {
   const volumeFill = document.querySelector(".col-4:last-child .progress-bar")
   const volumeBar = document.querySelector(".col-4:last-child .progress")
 
-  const trackBar = document.querySelector(".col-4:nth-child(2) .progress") 
-  const trackFill = document.querySelector(".col-4:nth-child(2) .progress-bar")
+ const trackBar = document.querySelector(".col-4.flex-column .progress") 
+// La barra bianca (quella che deve crescere)
+const trackFill = document.querySelector(".col-4.flex-column .progress-bar")
+// I testi del tempo (opzionale, se vuoi aggiornare i numeri 0:38 e 3:20)
+const currentTimeTxt = document.querySelector(".col-4.flex-column small:first-child")
   // muove la barra al click del mouse
   trackBar.addEventListener("click", function (evento) {
     if (currentAudio !== null) {
@@ -1252,53 +1255,59 @@ function initAudioPlayer(album) {
   }
   // la funzione che avvia la tracia
   function playTrack(traccia, indice) {
-    if (trackFill) trackFill.style.width = "0%"
-    // se ce qualcosa fermala
-    if (currentAudio !== null) {
-      currentAudio.pause()
-      currentAudio = null
-    }
-    // dovrebbe far avanzare la barra delle tracce
-    currentAudio = new Audio(traccia.preview)
-    currentAudio.addEventListener("timeupdate", function () {
-    const percentuale = (currentAudio.currentTime / 30) * 100
-     if (trackFill) {
-       trackFill.style.width = percentuale + "%"
-     }
-  })
-    // se clicchi su una attiva la fermi
-    if (currentTrackIndex === indice) {
-      currentTrackIndex = null
-      setPlayingState(false)
-      return
-    }
-    // salva il numero ellla tracia
-    currentTrackIndex = indice
-    // Crea un nuovo oggetto Audio con l'URL della preview della traccia
-    currentAudio = new Audio(traccia.preview)
+  //  Reset grafico immediato
+  if (trackFill) trackFill.style.width = "0%";
 
-    const volumeAttuale = parseFloat(volumeFill.style.width) / 100 //questo e per il volume cosi rimane salvato copiato bovinamente
-    if (volumeAttuale) {
-      currentAudio.volume = volumeAttuale
-    } else {
-      currentAudio.volume = 1
-    }
-
-    currentAudio.play().then(function () {
-      setPlayingState(true)
-      updatePlayerBar(traccia)
-    })
-    // se ce una tracia dopo passa a quella dopo
-    currentAudio.addEventListener("ended", function () {
-      currentTrackIndex = null
-      setPlayingState(false)
-
-      const tracciaSucessiva = album.tracks.data[indice + 1]
-      if (tracciaSucessiva) {
-        playTrack(tracciaSucessiva, indice + 1)
-      }
-    })
+  //  Se c'è un audio in corso, fermalo
+  if (currentAudio !== null) {
+    currentAudio.pause();
+    currentAudio = null;
   }
+
+  //  Controllo se hai cliccato sulla traccia già attiva 
+  if (currentTrackIndex === indice) {
+    currentTrackIndex = null;
+    setPlayingState(false);
+    return;
+  }
+
+  //  Salva l'indice e CREA L'AUDIO 
+  currentTrackIndex = indice;
+  currentAudio = new Audio(traccia.preview);
+
+  //  AGGIUNGI GLI EVENTI
+  currentAudio.addEventListener("timeupdate", function () {
+    const percentuale = (currentAudio.currentTime / 30) * 100;
+    if (trackFill) {
+      trackFill.style.width = percentuale + "%";
+    }
+
+    if (currentTimeTxt) {
+      const secondi = Math.floor(currentAudio.currentTime);
+      currentTimeTxt.textContent = `0:${secondi < 10 ? "0" + secondi : secondi}`;
+    }
+  });
+
+  // 6. Gestione Volume
+  const volumeAttuale = parseFloat(volumeFill.style.width) / 100;
+  currentAudio.volume = isNaN(volumeAttuale) ? 1 : volumeAttuale;
+
+  // 7. Fai partire l'audio
+  currentAudio.play().then(function () {
+    setPlayingState(true);
+    updatePlayerBar(traccia);
+  });
+
+  // 8. Gestione fine traccia
+  currentAudio.addEventListener("ended", function () {
+    currentTrackIndex = null;
+    setPlayingState(false);
+    const tracciaSucessiva = album.tracks.data[indice + 1];
+    if (tracciaSucessiva) {
+      playTrack(tracciaSucessiva, indice + 1);
+    }
+  });
+}
   // collego i bottoni alla funzione togglePlayPause
   const bottonePlayDesktop = document.querySelector(
     "nav.fixed-bottom .btn-light",

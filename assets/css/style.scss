@@ -73,3 +73,25 @@ $theme-colors:  map-merge($theme-colors, $new-theme-colors);
     .table_custom { --bs-table-bg: transparent !important; }
 
     .custom_width {width: 57.9%}
+
+    // carousell
+
+    .snap-stop{
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    div{
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
+    }
+  
+}
+
+.scroll-container {
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+  }
+
+  .btn-scroll:active {
+    transform: scale(0.7);
+  }  
+ 

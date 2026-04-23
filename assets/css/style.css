@@ -12121,4 +12121,22 @@ textarea.form-control-lg {
 
 .custom_width {
   width: 57.9%;
+}
+
+.snap-stop {
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+}
+.snap-stop div {
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+.scroll-container {
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.btn-scroll:active {
+  transform: scale(0.7);
 }/*# sourceMappingURL=style.css.map */

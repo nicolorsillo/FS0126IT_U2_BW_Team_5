@@ -1838,9 +1838,9 @@ const searchPage = function () {
   window.stopPlaySong = stopPlaySong
 
   const playSong = function (songCover, songName, artistName, songPreview, e) {
-    document.getElementById("song-cover").src = songCover
-    document.getElementById("song-name").innerText = songName
-    document.getElementById("song-artist").innerText = artistName
+    document.getElementById("song-cover-desktop").src = songCover
+    document.getElementById("song-name-desktop").innerText = songName
+    document.getElementById("song-artist-desktop").innerText = artistName
 
     const songsBtn = document.querySelectorAll(".songButton")
     songsBtn.forEach((btn) => {

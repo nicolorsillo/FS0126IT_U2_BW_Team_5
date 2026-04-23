@@ -1,60 +1,7 @@
 const centralPage = document.getElementById("central-page");
 
 const homePage = function () {
-  centralPage.innerHTML = `  <div
-          class="d-none d-lg-flex justify-content-between align-items-center my-2"
-        >
-          <div class="d-flex gap-2">
-            <button
-              id="backBtn"
-              class="btn btn-dark rounded-circle p-2 d-flex align-items-center justify-content-center"
-              style="width: 32px; height: 32px"
-            >
-              <i class="bi bi-chevron-left"></i>
-            </button>
-
-            <button
-              id="forwardBtn"
-              class="btn btn-dark rounded-circle p-2 d-flex align-items-center justify-content-center"
-              style="width: 32px; height: 32px"
-            >
-              <i class="bi bi-chevron-right"></i>
-            </button>
-          </div>
-          <div
-            class="bg-black text-white rounded-pill d-flex align-items-center p-1 gap-2"
-            style="max-width: 200px"
-          >
-            <img
-              src="./assets/imgs/profile/Lidia Nautilus.jpg"
-              alt="image profile"
-              class="rounded-circle object-fit-cover"
-              width="25"
-              height="25"
-            />
-            <div class="flex-grow-1 overflow-hidden">
-              <small class="d-block text-truncate fw-light"
-                >Lidia Nautilus</small
-              >
-            </div>
-            <div class="dropdown-center d-flex align-items-center">
-              <button
-                class="btn btn-outline-light border-0 rounded-circle p-1"
-                id="account-home-btn"
-                data-bs-toggle="dropdown"
-              >
-                <i
-                  class="bi bi-caret-down-fill d-flex justify-content-center align-items-center m-0"
-                ></i>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-dark">
-                <li><a class="dropdown-item" href="#">Profilo</a></li>
-                <li><a class="dropdown-item" href="#">Account</a></li>
-                <li><a class="dropdown-item" href="#">Esci</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+  centralPage.innerHTML = ` 
         <div
           class="card mb-3 bg-gradient-dark border-0 rounded-0 placeholder-glow d-none d-lg-block"
           id="ad-banner"
@@ -671,64 +618,7 @@ const homePage = function () {
 };
 
 const albumPage = function (albumId) {
-  centralPage.innerHTML = `        <div
-          class="p-4 bg-gradient bg-opacity-75 pt-0"
-          style="background: linear-gradient(180deg, #2e1a47 0%, #121212 100%)"
-        >
-        <div
-          class="d-none d-lg-flex justify-content-between align-items-center my-2"
-        >
-          <div class="d-flex gap-2">
-            <button
-              id="backBtn"
-              class="btn btn-dark rounded-circle p-2 d-flex align-items-center justify-content-center"
-              style="width: 32px; height: 32px"
-            >
-              <i class="bi bi-chevron-left"></i>
-            </button>
-
-            <button
-              id="forwardBtn"
-              class="btn btn-dark rounded-circle p-2 d-flex align-items-center justify-content-center"
-              style="width: 32px; height: 32px"
-            >
-              <i class="bi bi-chevron-right"></i>
-            </button>
-          </div>
-          <div
-            class="bg-black text-white rounded-pill d-flex align-items-center p-1 gap-2"
-            style="max-width: 200px"
-          >
-            <img
-              src="./assets/imgs/profile/Lidia Nautilus.jpg"
-              alt="image profile"
-              class="rounded-circle object-fit-cover"
-              width="25"
-              height="25"
-            />
-            <div class="flex-grow-1 overflow-hidden">
-              <small class="d-block text-truncate fw-light"
-                >Lidia Nautilus</small
-              >
-            </div>
-            <div class="dropdown-center d-flex align-items-center">
-              <button
-                class="btn btn-outline-light border-0 rounded-circle p-1"
-                id="account-home-btn"
-                data-bs-toggle="dropdown"
-              >
-                <i
-                  class="bi bi-caret-down-fill d-flex justify-content-center align-items-center m-0"
-                ></i>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-dark">
-                <li><a class="dropdown-item" href="#">Profilo</a></li>
-                <li><a class="dropdown-item" href="#">Account</a></li>
-                <li><a class="dropdown-item" href="#">Esci</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+  centralPage.innerHTML = `
           <div class="row align-items-end g-4">
             <div class="col-12 col-lg-auto text-center text-lg-start">
               <img
@@ -1320,17 +1210,7 @@ function initAudioPlayer(album) {
 
 const searchPage = function () {
   centralPage.innerHTML = `
-      <div class="position-absolute d-none d-lg-block m-3">
-      <div class="d-flex justify-content-between" style="width: 100%">
-        <div class="container-fluid d-flex flex-column align-items-center">
-          <a class="navbar-brand m-0 p-0 text-center" href="/home.html"
-            ><i class="bi bi-house-fill fs-3"></i
-          ></a>
-          <p class="mb-1">Home</p>
-        </div>
-      </div>
-    </div>
-    <section class="p-2 overflow-auto container-fluid" style="height: 100vh">
+    <section class="p-2 container-fluid" style="height: 100vh">
       <form id="search-form">
         <div>
           <h1 class="text-md-center">Cerca</h1>

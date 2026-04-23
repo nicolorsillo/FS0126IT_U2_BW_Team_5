@@ -1742,14 +1742,14 @@ const homePage = function (pushHistory = true) {
         });
         songDescription.classList.remove("placeholder");
         songDescription.querySelector("span").innerText =
-          data.data[0].artist.name
-        songPlayBtn.classList.remove("disabled", "placeholder")
-        songPlayBtn.querySelector("small").innerText = "Play"
+          data.data[0].artist.name;
+        songPlayBtn.classList.remove("disabled", "placeholder");
+        songPlayBtn.querySelector("small").innerText = "Play";
         songPlayBtn.addEventListener("click", () => {
-          albumPage(data.data[0].album.id)
-        })
-        songSaveBtn.classList.remove("disabled", "placeholder")
-        songSaveBtn.querySelector("small").innerText = "Salva"
+          albumPage(data.data[0].album.id);
+        });
+        songSaveBtn.classList.remove("disabled", "placeholder");
+        songSaveBtn.querySelector("small").innerText = "Salva";
       })
       .catch((err) => {
         console.log("ERRORE NEL SERVER", err);
@@ -1945,13 +1945,13 @@ const albumPage = function (albumId, pushHistory = true) {
   fetch(`https://striveschool-api.herokuapp.com/api/deezer/album/${albumId}`)
     .then((res) => res.json())
     .then((album) => {
-        const artistBtn = document.getElementById("artist-link-btn");
-        if (artistBtn) {
-            artistBtn.addEventListener("click", () => {
-            artistPage(album.artist.id);
-            window.scrollTo(0, 0);
-          });
-        }
+      const artistBtn = document.getElementById("artist-link-btn");
+      if (artistBtn) {
+        artistBtn.addEventListener("click", () => {
+          artistPage(album.artist.id);
+          window.scrollTo(0, 0);
+        });
+      }
       initAudioPlayer(album);
       document.querySelector("h1").textContent = album.title;
       document.querySelector(".album-main-cover").src = album.cover_xl;
@@ -2291,6 +2291,7 @@ function initAudioPlayer(album) {
     if (artistaDesktop !== null) {
       artistaDesktop.textContent = album.artist.name;
     }
+
     const copertina = document.querySelector("nav.fixed-bottom.d-lg-flex img");
     if (copertina !== null) {
       if (track.album && track.album.cover_small) {
@@ -2302,6 +2303,18 @@ function initAudioPlayer(album) {
       }
     }
 
+    const copertinaMobile = document.querySelector(
+      "nav.position-fixed.d-lg-none img",
+    );
+    if (copertinaMobile !== null) {
+      if (track.album && track.album.cover_small) {
+        copertinaMobile.src = track.album.cover_small;
+      } else if (album.cover_small) {
+        copertinaMobile.src = album.cover_small;
+      } else {
+        copertinaMobile.src = "./assets/imgs/main/image-1.jpg";
+      }
+    }
     const titoloMobile = document.querySelector(
       "nav.position-fixed .fw-bold.small",
     );
@@ -3165,7 +3178,7 @@ const searchPage = function (pushHistory = true) {
       </div>
     </div>
   </div>
-</div>`
+</div>`;
 
             searchDiv.appendChild(divCard);
           }
@@ -3280,8 +3293,8 @@ const searchPage = function (pushHistory = true) {
               </div>
             </div>
           </div>
-        </div>`
-              searchDiv.appendChild(divCard)
+        </div>`;
+              searchDiv.appendChild(divCard);
             }
           }
         }
@@ -3318,11 +3331,11 @@ function handlePopState(event) {
   }
 }
 
-window.addEventListener("popstate", handlePopState)
-window.history.replaceState({ page: "home" }, "", "#home")
-homePage(false)
+window.addEventListener("popstate", handlePopState);
+window.history.replaceState({ page: "home" }, "", "#home");
+homePage(false);
 document.querySelectorAll(".colore_bt").forEach((el) => {
   el.addEventListener("click", function () {
-    this.classList.toggle("text-primary")
-  })
-})
+    this.classList.toggle("text-primary");
+  });
+});

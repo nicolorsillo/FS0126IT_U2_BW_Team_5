@@ -2113,6 +2113,16 @@ function handlePopState(event) {
   }
 }
 
+document.getElementById("search-mobile").addEventListener("click", (event) => {
+  event.preventDefault();
+  searchPage();
+});
+
+document.getElementById("home-mobile").addEventListener("click", (event) => {
+  event.preventDefault();
+  homePage();
+});
+
 window.addEventListener("popstate", handlePopState);
 window.history.replaceState({ page: "home" }, "", "#home");
 homePage(false);

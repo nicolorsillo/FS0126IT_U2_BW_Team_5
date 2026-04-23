@@ -478,11 +478,7 @@ const homePage = function (pushHistory = true) {
   if (pushHistory) {
     window.history.pushState({ page: "home" }, "", "#home")
   }
-  songPlayBtn.classList.remove("disabled", "placeholder")
-  songPlayBtn.querySelector("small").innerText = "Play"
-  songPlayBtn.addEventListener("click", () => {
-    albumPage(data.data[0].album.id)
-  })
+
   const url = "https://striveschool-api.herokuapp.com/api/deezer/search?q="
   const backBtn = document.getElementById("backBtn")
   const forwardBtn = document.getElementById("forwardBtn")

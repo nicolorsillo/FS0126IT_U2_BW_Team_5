@@ -723,7 +723,7 @@ const albumPage = function (albumId) {
               </button>
               <ul class="dropdown-menu dropdown-menu-dark">
                 <li><a class="dropdown-item" href="#">Profilo</a></li>
-                <li><a class="dropdown-item" href="#">Account</a></li>
+                <li><a class="dropdown-item" href="accountPage.html">Account</a></li>
                 <li><a class="dropdown-item" href="#">Esci</a></li>
               </ul>
             </div>

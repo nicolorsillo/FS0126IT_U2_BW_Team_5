@@ -668,6 +668,7 @@ const albumPage = function (albumId, pushHistory = true) {
               <div
                 class="d-flex align-items-center gap-2 text-white-50 flex-wrap"
               >
+              <button class="btn" id="artist-link-btn">
                 <img
                   src="./assets/imgs/main/image-17.jpg"
                   alt="PTN"
@@ -678,6 +679,7 @@ const albumPage = function (albumId, pushHistory = true) {
                 <span class="fw-semibold text-white artist-name"
                   >Pinguini Tattici Nucleari</span
                 >
+                </button>
                 <span class="album-cover d-none d-lg-inline">•</span>
                 <span class="artist-name d-none d-lg-inline">2017</span>
                 <span class="album-year d-none d-lg-inline">•</span>
@@ -751,6 +753,14 @@ const albumPage = function (albumId, pushHistory = true) {
   fetch(`https://striveschool-api.herokuapp.com/api/deezer/album/${albumId}`)
     .then((res) => res.json())
     .then((album) => {
+        const artistBtn = document.getElementById("artist-link-btn");
+        if (artistBtn) {
+            artistBtn.addEventListener("click", () => {
+            artistPage(album.artist.id);
+            window.scrollTo(0, 0);
+          });
+        }
+      initAudioPlayer(album);
       document.querySelector("h1").textContent = album.title;
       document.querySelector(".album-main-cover").src = album.cover_xl;
       document.querySelector(".artist-avatar").src = album.artist.picture_small;

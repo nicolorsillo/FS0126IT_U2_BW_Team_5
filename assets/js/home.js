@@ -1124,11 +1124,30 @@ function startPlayer(data, tipo) {
       console.log("Errore del server", err)
     })
 }
+
 let currentAudio = null // laudio che ce adesso
 let currentTrackIndex = null // lindice  della traccia attiva
+
 function initAudioPlayer(album) {
   const volumeFill = document.querySelector(".col-4:last-child .progress-bar")
   const volumeBar = document.querySelector(".col-4:last-child .progress")
+
+  const trackBar = document.querySelector(".col-4:nth-child(2) .progress") 
+  const trackFill = document.querySelector(".col-4:nth-child(2) .progress-bar")
+  // muove la barra al click del mouse
+  trackBar.addEventListener("click", function (evento) {
+    if (currentAudio !== null) {
+        const larghezzaBarra = trackBar.offsetWidth
+        const posizioneClick = evento.clientX - trackBar.getBoundingClientRect().left
+        const percentuale = posizioneClick / larghezzaBarra
+        // Calcola il secondo esatto (percentuale di 30)
+        const nuovoTempo = percentuale * 30
+        currentAudio.currentTime = nuovoTempo
+        // Aggiorna la grafica
+        trackFill.style.width = (percentuale * 100) + "%"
+    }
+})
+  
   // qua chiamo la barra
   volumeBar.addEventListener("click", function (evento) {
     const larghezzaBarra = volumeBar.offsetWidth
@@ -1233,11 +1252,20 @@ function initAudioPlayer(album) {
   }
   // la funzione che avvia la tracia
   function playTrack(traccia, indice) {
+    if (trackFill) trackFill.style.width = "0%"
     // se ce qualcosa fermala
     if (currentAudio !== null) {
       currentAudio.pause()
       currentAudio = null
     }
+    // dovrebbe far avanzare la barra delle tracce
+    currentAudio = new Audio(traccia.preview)
+    currentAudio.addEventListener("timeupdate", function () {
+    const percentuale = (currentAudio.currentTime / 30) * 100
+     if (trackFill) {
+       trackFill.style.width = percentuale + "%"
+     }
+  })
     // se clicchi su una attiva la fermi
     if (currentTrackIndex === indice) {
       currentTrackIndex = null

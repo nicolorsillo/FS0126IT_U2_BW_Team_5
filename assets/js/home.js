@@ -3,6 +3,48 @@ const centralPage = document.getElementById("central-page");
 const backBtn = document.getElementById("backBtn");
 const forwardBtn = document.getElementById("forwardBtn");
 
+async function setAverageBg(imageUrl, containerId) {
+  const img = new Image();
+  containerId;
+
+  // Cruciale per evitare errori di CORS se l'immagine viene da un'API esterna
+  img.crossOrigin = "Anonymous";
+  img.src = imageUrl;
+
+  img.onload = () => {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    // Ridimensioniamo il canvas a dimensioni minime per performance estreme
+    canvas.width = 50;
+    canvas.height = 50;
+
+    ctx.drawImage(img, 0, 0, 50, 50);
+
+    // Otteniamo i dati dei pixel (RGBA)
+    const imageData = ctx.getImageData(0, 0, 50, 50).data;
+    let r = 0,
+      g = 0,
+      b = 0;
+
+    for (let i = 0; i < imageData.length; i += 4) {
+      r += imageData[i];
+      g += imageData[i + 1];
+      b += imageData[i + 2];
+    }
+
+    // Calcoliamo la media
+    const pixelsCount = imageData.length / 4;
+    r = Math.floor(r / pixelsCount);
+    g = Math.floor(g / pixelsCount);
+    b = Math.floor(b / pixelsCount);
+
+    // Applichiamo il colore al background
+    containerId.style.transition = "background-color 0.5s ease";
+    containerId.style.background = `linear-gradient(180deg, rgba(${r},${g},${b},1) 0%, rgba(18,18,18,1) 100%)`;
+  };
+}
+
 let recommendedAlbum = [
   926698181, 958295021, 3602971, 926720971, 926721331, 693008911,
 ];
@@ -1755,6 +1797,22 @@ const homePage = function (pushHistory = true) {
         });
         songSaveBtn.classList.remove("disabled", "placeholder");
         songSaveBtn.querySelector("small").innerText = "Salva";
+
+        songSaveBtn.addEventListener("click", () => {
+          const libreria = JSON.parse(localStorage.getItem("libreria")) || [];
+          const albumId = data.data[0].album.id;
+
+          libreria.push({
+            albumId: albumId,
+            albumTitle: data.data[0].album.title,
+            albumCover: data.data[0].album.cover_medium,
+            artistName: data.data[0].artist.name,
+            artistId: data.data[0].artist.id,
+          });
+
+          localStorage.setItem("libreria", JSON.stringify(libreria));
+          songSaveBtn.querySelector("small").innerText = "Salvato ";
+        });
       })
       .catch((err) => {
         console.log("ERRORE NEL SERVER", err);
@@ -1839,8 +1897,8 @@ const albumPage = function (albumId, pushHistory = true) {
     .getElementById("account-bar")
     .classList.replace("custom_width", "w-100");
   centralPage.innerHTML = `          <div class="mx-3 mt-3 mt-lg-0">
-            <div class="row align-items-end g-4 placeholder-glow">
-              <div class="col-12 col-lg-auto text-center text-lg-start">
+            <div id="album-cover-container" class="row align-items-end g-4 rounded-2 placeholder-glow">
+              <div class="col-12 col-lg-auto text-center text-lg-start pb-2">
                 <img
                   src="./assets/imgs/main/placeholder.jpg"
                   alt="Album cover"
@@ -1971,6 +2029,12 @@ const albumPage = function (albumId, pushHistory = true) {
       initAudioPlayer(album);
       document.querySelector("h1").textContent = album.title;
       document.querySelector(".album-main-cover").src = album.cover_xl;
+      const albumContainer = document.getElementById("album-cover-container");
+      setAverageBg(
+        document.querySelector(".album-main-cover").src,
+        albumContainer,
+      );
+
       document.querySelector(".artist-avatar").src = album.artist.picture_small;
       document.querySelector(".artist-name").textContent = album.artist.name;
       document.querySelector(".album-year").textContent = new Date(

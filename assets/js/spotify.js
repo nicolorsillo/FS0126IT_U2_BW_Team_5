@@ -3517,9 +3517,19 @@ function handlePopState(event) {
   }
 }
 
+document.getElementById("search-desktop").addEventListener("click", (e) => {
+  e.preventDefault();
+  searchPage();
+});
+
 document.getElementById("search-mobile").addEventListener("click", (e) => {
   e.preventDefault();
   searchPage();
+});
+
+document.getElementById("home-desktop").addEventListener("click", (e) => {
+  e.preventDefault();
+  homePage();
 });
 
 document.getElementById("home-mobile").addEventListener("click", (e) => {

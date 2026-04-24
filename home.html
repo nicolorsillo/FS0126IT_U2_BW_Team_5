@@ -13,7 +13,10 @@
       .fixed-navbar-spotify {
         background-color: rgba(0, 0, 0, 0.301);
         backdrop-filter: blur(10px);
-      }
+        }
+      .dropdown-fix {
+       left: -10px !important;
+        }
     </style>
   </head>
 
@@ -484,11 +487,14 @@
                   class="bi bi-caret-down-fill d-flex justify-content-center align-items-center m-0"
                 ></i>
               </button>
-              <ul class="dropdown-menu dropdown-menu-dark">
+              <ul class="dropdown-menu dropdown-menu-dark dropdown-fix">
                 <li><a class="dropdown-item" href="#">Profilo</a></li>
                 <li>
-                  <a class="dropdown-item" href="accountPage.html">Account</a>
-                </li>
+                    <a class="dropdown-item d-flex align-items-center" href="accountPage.html">
+                      Account
+                      <i class="bi bi-box-arrow-right ms-auto text-white"></i>
+                    </a>
+                  </li>
                 <li><a class="dropdown-item" href="#">Esci</a></li>
               </ul>
             </div>

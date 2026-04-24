@@ -1765,7 +1765,7 @@ const homePage = function (pushHistory = true) {
           })
 
           localStorage.setItem("libreria", JSON.stringify(libreria))
-          songSaveBtn.querySelector("small").innerText = "Salvato ✓"
+          songSaveBtn.querySelector("small").innerText = "Salvato "
         })
       })
       .catch((err) => {

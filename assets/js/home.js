@@ -3,46 +3,60 @@ const centralPage = document.getElementById("central-page");
 const backBtn = document.getElementById("backBtn");
 const forwardBtn = document.getElementById("forwardBtn");
 
+const backgroundContainer = document.getElementById("background-gradient");
+const imgBackGround = "grigio";
+
 async function setAverageBg(imageUrl, containerId) {
   const img = new Image();
   containerId;
 
-  // Cruciale per evitare errori di CORS se l'immagine viene da un'API esterna
-  img.crossOrigin = "Anonymous";
-  img.src = imageUrl;
+  if (imageUrl === "grigio") {
+    containerId.style.background = `linear-gradient(                
+            0deg,
+            rgba(33, 37, 41, 1) 0%,
+            rgba(33, 37, 41, 1) 72%,
+            rgba(65, 69, 72, 1) 100%)`;
+  } else {
+    // Cruciale per evitare errori di CORS se l'immagine viene da un'API esterna
+    img.crossOrigin = "Anonymous";
+    img.src = imageUrl;
 
-  img.onload = () => {
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
 
-    // Ridimensioniamo il canvas a dimensioni minime per performance estreme
-    canvas.width = 50;
-    canvas.height = 50;
+      // Ridimensioniamo il canvas a dimensioni minime per performance estreme
+      canvas.width = 50;
+      canvas.height = 50;
 
-    ctx.drawImage(img, 0, 0, 50, 50);
+      ctx.drawImage(img, 0, 0, 50, 50);
 
-    // Otteniamo i dati dei pixel (RGBA)
-    const imageData = ctx.getImageData(0, 0, 50, 50).data;
-    let r = 0,
-      g = 0,
-      b = 0;
+      // Otteniamo i dati dei pixel (RGBA)
+      const imageData = ctx.getImageData(0, 0, 50, 50).data;
+      let r = 0,
+        g = 0,
+        b = 0;
 
-    for (let i = 0; i < imageData.length; i += 4) {
-      r += imageData[i];
-      g += imageData[i + 1];
-      b += imageData[i + 2];
-    }
+      for (let i = 0; i < imageData.length; i += 4) {
+        r += imageData[i];
+        g += imageData[i + 1];
+        b += imageData[i + 2];
+      }
 
-    // Calcoliamo la media
-    const pixelsCount = imageData.length / 4;
-    r = Math.floor(r / pixelsCount);
-    g = Math.floor(g / pixelsCount);
-    b = Math.floor(b / pixelsCount);
+      // Calcoliamo la media
+      const pixelsCount = imageData.length / 4;
+      r = Math.floor(r / pixelsCount);
+      g = Math.floor(g / pixelsCount);
+      b = Math.floor(b / pixelsCount);
 
-    // Applichiamo il colore al background
-    containerId.style.transition = "background-color 0.5s ease";
-    containerId.style.background = `linear-gradient(180deg, rgba(${r},${g},${b},1) 0%, rgba(18,18,18,1) 100%)`;
-  };
+      // Applichiamo il colore al background
+      containerId.style.background = `linear-gradient(                
+            0deg,
+            rgba(33, 37, 41, 1) 0%,
+            rgba(33, 37, 41, 1) 72%,
+            rgba(${r},${g},${b},1) 100%)`;
+    };
+  }
 }
 
 let recommendedAlbum = [
@@ -73,6 +87,8 @@ function scrollOrizzontal(direction, carouselName) {
 }
 
 const homePage = function (pushHistory = true) {
+  setAverageBg(imgBackGround, backgroundContainer);
+
   document
     .getElementById("account-bar")
     .classList.replace("position-fixed", "position-sticky");
@@ -2029,10 +2045,9 @@ const albumPage = function (albumId, pushHistory = true) {
       initAudioPlayer(album);
       document.querySelector("h1").textContent = album.title;
       document.querySelector(".album-main-cover").src = album.cover_xl;
-      const albumContainer = document.getElementById("album-cover-container");
       setAverageBg(
         document.querySelector(".album-main-cover").src,
-        albumContainer,
+        backgroundContainer,
       );
 
       document.querySelector(".artist-avatar").src = album.artist.picture_small;
@@ -2588,6 +2603,7 @@ function initAudioPlayer(album) {
 }
 
 const searchPage = function (pushHistory = true) {
+  setAverageBg(imgBackGround, backgroundContainer);
   document
     .getElementById("account-bar")
     .classList.replace("position-fixed", "position-sticky");

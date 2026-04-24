@@ -3,6 +3,48 @@ const centralPage = document.getElementById("central-page")
 const backBtn = document.getElementById("backBtn")
 const forwardBtn = document.getElementById("forwardBtn")
 
+async function setAverageBg(imageUrl, containerId) {
+  const img = new Image()
+  containerId
+
+  // Cruciale per evitare errori di CORS se l'immagine viene da un'API esterna
+  img.crossOrigin = "Anonymous"
+  img.src = imageUrl
+
+  img.onload = () => {
+    const canvas = document.createElement("canvas")
+    const ctx = canvas.getContext("2d")
+
+    // Ridimensioniamo il canvas a dimensioni minime per performance estreme
+    canvas.width = 50
+    canvas.height = 50
+
+    ctx.drawImage(img, 0, 0, 50, 50)
+
+    // Otteniamo i dati dei pixel (RGBA)
+    const imageData = ctx.getImageData(0, 0, 50, 50).data
+    let r = 0,
+      g = 0,
+      b = 0
+
+    for (let i = 0; i < imageData.length; i += 4) {
+      r += imageData[i]
+      g += imageData[i + 1]
+      b += imageData[i + 2]
+    }
+
+    // Calcoliamo la media
+    const pixelsCount = imageData.length / 4
+    r = Math.floor(r / pixelsCount)
+    g = Math.floor(g / pixelsCount)
+    b = Math.floor(b / pixelsCount)
+
+    // Applichiamo il colore al background
+    containerId.style.transition = "background-color 0.5s ease"
+    containerId.style.background = `linear-gradient(180deg, rgba(${r},${g},${b},1) 0%, rgba(18,18,18,1) 100%)`
+  }
+}
+
 if (backBtn) {
   backBtn.addEventListener("click", () => {
     window.history.back()
@@ -36,7 +78,7 @@ const homePage = function (pushHistory = true) {
     .classList.replace("custom_width", "w-100")
 
   centralPage.innerHTML = `    <div
-      class="card mb-3 bg-gradient-dark border-0 rounded-0 placeholder-glow d-none d-lg-block mx-3"
+      class="card mb-3 border-0 rounded-0 placeholder-glow d-none d-lg-block mx-3"
       id="ad-banner"
     >
       <div class="row g-0">
@@ -1726,6 +1768,7 @@ const homePage = function (pushHistory = true) {
         songCover.classList.remove("placeholder")
         songCover.src = data.data[0].album.cover_xl
         songAlbum.classList.remove("placeholder")
+
         songAlbum.innerText = data.data[0].album.title
         songAlbumLink.href = `#album-${data.data[0].album.id}`
         songAlbumLink.addEventListener("click", (event) => {
@@ -1839,8 +1882,8 @@ const albumPage = function (albumId, pushHistory = true) {
     .getElementById("account-bar")
     .classList.replace("custom_width", "w-100")
   centralPage.innerHTML = `
-  <div  class="mx-3 mt-3 mt-lg-0">
-          <div class="row align-items-end g-4">
+  <div   class="mx-3 mt-3 mt-lg-0">
+          <div id="album-cover-container" class="row align-items-end g-4 rounded-2">
             <div class="col-12 col-lg-auto text-center text-lg-start">
               <img
                 src="./assets/imgs/main/image-1.jpg"
@@ -1956,6 +1999,12 @@ const albumPage = function (albumId, pushHistory = true) {
       initAudioPlayer(album)
       document.querySelector("h1").textContent = album.title
       document.querySelector(".album-main-cover").src = album.cover_xl
+      const albumContainer = document.getElementById("album-cover-container")
+      setAverageBg(
+        document.querySelector(".album-main-cover").src,
+        albumContainer,
+      )
+
       document.querySelector(".artist-avatar").src = album.artist.picture_small
       document.querySelector(".artist-name").textContent = album.artist.name
       document.querySelector(".album-year").textContent = new Date(

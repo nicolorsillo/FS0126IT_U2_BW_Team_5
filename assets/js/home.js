@@ -2229,13 +2229,14 @@ function startPlayer(data, tipo) {
       console.log("Errore del server", err)
     })
 }
-
+let currentAlbum = null
 let currentAudio = null // laudio che ce adesso
 let currentTrackIndex = null // lindice  della traccia attiva
 
-let playerInitialized = false 
+let playerInitialized = false
 
 function initAudioPlayer(album) {
+  currentAlbum = album
   const volumeFill = document.querySelector(".col-4:last-child .progress-bar")
   const volumeBar = document.querySelector(".col-4:last-child .progress")
   const trackBar = document.querySelector(".col-4.flex-column .progress")
@@ -2370,7 +2371,6 @@ function initAudioPlayer(album) {
     })
   }
 
-  
   if (!playerInitialized) {
     playerInitialized = true
 
@@ -2422,10 +2422,10 @@ function initAudioPlayer(album) {
         .addEventListener("click", function () {
           if (
             currentTrackIndex !== null &&
-            album.tracks.data[currentTrackIndex + 1]
+            currentAlbum.tracks.data[currentTrackIndex + 1]
           ) {
             playTrack(
-              album.tracks.data[currentTrackIndex + 1],
+              currentAlbum.tracks.data[currentTrackIndex + 1],
               currentTrackIndex + 1,
             )
           }
@@ -2441,7 +2441,7 @@ function initAudioPlayer(album) {
         .addEventListener("click", function () {
           if (currentTrackIndex > 0) {
             playTrack(
-              album.tracks.data[currentTrackIndex - 1],
+              currentAlbum.tracks.data[currentTrackIndex - 1],
               currentTrackIndex - 1,
             )
           }
@@ -2449,7 +2449,6 @@ function initAudioPlayer(album) {
     }
   }
 
- 
   document.querySelectorAll(".playAudio").forEach((bottone) => {
     const nuovoBottone = bottone.cloneNode(true)
     bottone.parentNode.replaceChild(nuovoBottone, bottone)

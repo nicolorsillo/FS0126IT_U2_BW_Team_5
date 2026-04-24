@@ -2277,281 +2277,239 @@ function startPlayer(data, tipo) {
       console.log("Errore del server", err);
     });
 }
-
+let currentAlbum = null;
 let currentAudio = null; // laudio che ce adesso
 let currentTrackIndex = null; // lindice  della traccia attiva
 
+let playerInitialized = false;
+
 function initAudioPlayer(album) {
+  currentAlbum = album;
   const volumeFill = document.querySelector(".col-4:last-child .progress-bar");
   const volumeBar = document.querySelector(".col-4:last-child .progress");
-
   const trackBar = document.querySelector(".col-4.flex-column .progress");
-  // La barra bianca (quella che deve crescere)
   const trackFill = document.querySelector(".col-4.flex-column .progress-bar");
-  // I testi del tempo (opzionale, se vuoi aggiornare i numeri 0:38 e 3:20)
   const currentTimeTxt = document.querySelector(
     ".col-4.flex-column small:first-child",
   );
-  // muove la barra al click del mouse
-  trackBar.addEventListener("click", function (evento) {
-    if (currentAudio !== null) {
-      const larghezzaBarra = trackBar.offsetWidth;
-      const posizioneClick =
-        evento.clientX - trackBar.getBoundingClientRect().left;
-      const percentuale = posizioneClick / larghezzaBarra;
-      // Calcola il secondo esatto (percentuale di 30)
-      const nuovoTempo = percentuale * 30;
-      currentAudio.currentTime = nuovoTempo;
-      // Aggiorna la grafica
-      trackFill.style.width = percentuale * 100 + "%";
-    }
-  });
 
-  // qua chiamo la barra
-  volumeBar.addEventListener("click", function (evento) {
-    const larghezzaBarra = volumeBar.offsetWidth;
-    const posizioneClick =
-      evento.clientX - volumeBar.getBoundingClientRect().left; // questo lho cercato in teora dalla e prende la largezza dove in quel esatto momento ecc
-    const percentuale = posizioneClick / larghezzaBarra;
-    volumeFill.style.width = percentuale * 100 + "%";
-    if (currentAudio !== null) {
-      currentAudio.volume = percentuale;
-    }
-  });
-  // questa funzione e per cambiare la foto e il nome del img anche per cambiare il colore del brano in riprouzione
   function updatePlayerBar(track) {
     const titoloDesktop = document.querySelector(
       "nav.fixed-bottom.d-lg-flex .fw-bold.small",
     );
-    if (titoloDesktop !== null) {
-      titoloDesktop.textContent = track.title;
-    }
+    if (titoloDesktop !== null) titoloDesktop.textContent = track.title;
 
     const artistaDesktop = document.querySelector(
       "nav.fixed-bottom.d-lg-flex .text-muted.small",
     );
-    if (artistaDesktop !== null) {
-      artistaDesktop.textContent = album.artist.name;
-    }
+    if (artistaDesktop !== null) artistaDesktop.textContent = album.artist.name;
 
     const copertina = document.querySelector("nav.fixed-bottom.d-lg-flex img");
     if (copertina !== null) {
-      if (track.album && track.album.cover_small) {
-        copertina.src = track.album.cover_small;
-      } else if (album.cover_small) {
-        copertina.src = album.cover_small;
-      } else {
-        copertina.src = "./assets/imgs/main/image-1.jpg";
-      }
+      copertina.src =
+        track.album?.cover_small ||
+        album.cover_small ||
+        "./assets/imgs/main/image-1.jpg";
     }
 
     const copertinaMobile = document.querySelector(
       "nav.position-fixed.d-lg-none img",
     );
     if (copertinaMobile !== null) {
-      if (track.album && track.album.cover_small) {
-        copertinaMobile.src = track.album.cover_small;
-      } else if (album.cover_small) {
-        copertinaMobile.src = album.cover_small;
-      } else {
-        copertinaMobile.src = "./assets/imgs/main/image-1.jpg";
-      }
+      copertinaMobile.src =
+        track.album?.cover_small ||
+        album.cover_small ||
+        "./assets/imgs/main/image-1.jpg";
     }
+
     const titoloMobile = document.querySelector(
       "nav.position-fixed .fw-bold.small",
     );
-    if (titoloMobile !== null) {
-      titoloMobile.textContent = track.title;
-    }
+    if (titoloMobile !== null) titoloMobile.textContent = track.title;
 
     const artistaMobile = document.querySelector(
       "nav.position-fixed .text-muted.small",
     );
-    if (artistaMobile !== null) {
-      artistaMobile.textContent = album.artist.name;
-    }
+    if (artistaMobile !== null) artistaMobile.textContent = album.artist.name;
 
-    const tuttiITitoli = document.querySelectorAll(
-      "[data-track-index] .fw-semibold",
-    );
-    tuttiITitoli.forEach(function (titolo) {
-      titolo.classList.remove("text-primary");
-    });
-
-    const righeAttive = document.querySelectorAll(
-      "[data-track-index='" + currentTrackIndex + "'] .fw-semibold",
-    );
-    righeAttive.forEach(function (riga) {
-      riga.classList.add("text-primary");
-    });
+    document
+      .querySelectorAll("[data-track-index] .fw-semibold")
+      .forEach((t) => t.classList.remove("text-primary"));
+    document
+      .querySelectorAll(
+        `[data-track-index='${currentTrackIndex}'] .fw-semibold`,
+      )
+      .forEach((r) => r.classList.add("text-primary"));
   }
-  // questa funzione e per cambiare il tasto quello tondo del play
+
   function setPlayingState(produrre) {
     const bottoneDesktop = document.querySelector(
       "nav.fixed-bottom .btn-light",
     );
-    if (produrre === true) {
-      bottoneDesktop.innerHTML = '<i class="bi bi-pause-fill fs-3"></i>';
-    } else {
-      bottoneDesktop.innerHTML = '<i class="bi bi-play-fill fs-3"></i>';
+    if (bottoneDesktop) {
+      bottoneDesktop.innerHTML = produrre
+        ? '<i class="bi bi-pause-fill fs-3"></i>'
+        : '<i class="bi bi-play-fill fs-3"></i>';
     }
+
     const bottoneMobile = document.getElementById("mobilePlayBtn");
     if (bottoneMobile !== null) {
-      if (produrre === true) {
-        bottoneMobile.innerHTML = '<i class="bi bi-pause-fill"></i>';
-      } else {
-        bottoneMobile.innerHTML = '<i class="bi bi-play-fill"></i>';
-      }
+      bottoneMobile.innerHTML = produrre
+        ? '<i class="bi bi-pause-fill"></i>'
+        : '<i class="bi bi-play-fill"></i>';
     }
-    const tutteLeIcone = document.querySelectorAll(
-      ".playAudio i, nav.position-fixed .bi-play-fill, nav.position-fixed .bi-pause-fill",
-    );
-    tutteLeIcone.forEach(function (icona) {
-      if (produrre === true) {
-        icona.className = "bi bi-pause-fill fs-1";
-      } else {
-        icona.className = "bi bi-play-fill fs-1";
-      }
+
+    document.querySelectorAll(".playAudio i").forEach((icona) => {
+      icona.className = produrre
+        ? "bi bi-pause-fill fs-1"
+        : "bi bi-play-fill fs-1";
     });
   }
-  // Funzione che viene chiamata quando si preme il bottone
+
   function togglePlayPause() {
-    // Se non c'è nessun audio caricato, avvia direttamente la prima traccia dell'album e esce dalla funzione.
     if (currentAudio === null) {
       playTrack(album.tracks.data[0], 0);
       return;
     }
-    // Se l'audio è in pausa, lo riprende. .then() aspetta che parta davvero, poi aggiorna le icone.
-    if (currentAudio.paused === true) {
-      currentAudio.play().then(function () {
-        setPlayingState(true);
-      });
+    if (currentAudio.paused) {
+      currentAudio.play().then(() => setPlayingState(true));
     } else {
-      //Se  sta suonando lo mette in pausa e aggiorna le icone.
       currentAudio.pause();
       setPlayingState(false);
     }
   }
-  // la funzione che avvia la tracia
+
   function playTrack(traccia, indice) {
-    //  Reset grafico immediato
     if (trackFill) trackFill.style.width = "0%";
 
-    //  Se c'è un audio in corso, fermalo
     if (currentAudio !== null) {
       currentAudio.pause();
       currentAudio = null;
     }
 
-    //  Controllo se hai cliccato sulla traccia già attiva
     if (currentTrackIndex === indice) {
       currentTrackIndex = null;
       setPlayingState(false);
       return;
     }
 
-    //  Salva l'indice e CREA L'AUDIO
     currentTrackIndex = indice;
     currentAudio = new Audio(traccia.preview);
 
-    //  AGGIUNGI GLI EVENTI
     currentAudio.addEventListener("timeupdate", function () {
       const percentuale = (currentAudio.currentTime / 30) * 100;
-      if (trackFill) {
-        trackFill.style.width = percentuale + "%";
-      }
-
+      if (trackFill) trackFill.style.width = percentuale + "%";
       if (currentTimeTxt) {
         const secondi = Math.floor(currentAudio.currentTime);
         currentTimeTxt.textContent = `0:${secondi < 10 ? "0" + secondi : secondi}`;
       }
     });
 
-    // 6. Gestione Volume
     const volumeAttuale = parseFloat(volumeFill.style.width) / 100;
     currentAudio.volume = isNaN(volumeAttuale) ? 1 : volumeAttuale;
 
-    // 7. Fai partire l'audio
-    currentAudio.play().then(function () {
+    currentAudio.play().then(() => {
       setPlayingState(true);
       updatePlayerBar(traccia);
     });
 
-    // 8. Gestione fine traccia
     currentAudio.addEventListener("ended", function () {
       currentTrackIndex = null;
       setPlayingState(false);
       const tracciaSucessiva = album.tracks.data[indice + 1];
-      if (tracciaSucessiva) {
-        playTrack(tracciaSucessiva, indice + 1);
-      }
+      if (tracciaSucessiva) playTrack(tracciaSucessiva, indice + 1);
     });
   }
-  // collego i bottoni alla funzione togglePlayPause
-  const bottonePlayDesktop = document.querySelector(
-    "nav.fixed-bottom .btn-light",
-  );
-  if (bottonePlayDesktop !== null) {
-    const nuovoBottone = bottonePlayDesktop.cloneNode(true);
-    bottonePlayDesktop.parentNode.replaceChild(
-      nuovoBottone,
-      bottonePlayDesktop,
+
+  if (!playerInitialized) {
+    playerInitialized = true;
+
+    trackBar.addEventListener("click", function (evento) {
+      if (currentAudio === null) return;
+      const percentuale =
+        (evento.clientX - trackBar.getBoundingClientRect().left) /
+        trackBar.offsetWidth;
+      currentAudio.currentTime = percentuale * 30;
+      if (trackFill) trackFill.style.width = percentuale * 100 + "%";
+    });
+
+    volumeBar.addEventListener("click", function (evento) {
+      const percentuale =
+        (evento.clientX - volumeBar.getBoundingClientRect().left) /
+        volumeBar.offsetWidth;
+      if (volumeFill) volumeFill.style.width = percentuale * 100 + "%";
+      if (currentAudio !== null) currentAudio.volume = percentuale;
+    });
+
+    const bottonePlayDesktop = document.querySelector(
+      "nav.fixed-bottom .btn-light",
     );
+    if (bottonePlayDesktop !== null) {
+      const nuovoBottone = bottonePlayDesktop.cloneNode(true);
+      bottonePlayDesktop.parentNode.replaceChild(
+        nuovoBottone,
+        bottonePlayDesktop,
+      );
+      nuovoBottone.addEventListener("click", togglePlayPause);
+    }
+
+    const bottonePlayMobile = document.getElementById("mobilePlayBtn");
+    if (bottonePlayMobile !== null) {
+      const nuovoBottoneMobile = bottonePlayMobile.cloneNode(true);
+      bottonePlayMobile.parentNode.replaceChild(
+        nuovoBottoneMobile,
+        bottonePlayMobile,
+      );
+      nuovoBottoneMobile.addEventListener("click", togglePlayPause);
+    }
+
+    const bottoneSuccessivo = document.querySelector(
+      "nav.fixed-bottom .bi-skip-end-fill",
+    );
+    if (bottoneSuccessivo !== null) {
+      bottoneSuccessivo
+        .closest("button")
+        .addEventListener("click", function () {
+          if (
+            currentTrackIndex !== null &&
+            currentAlbum.tracks.data[currentTrackIndex + 1]
+          ) {
+            playTrack(
+              currentAlbum.tracks.data[currentTrackIndex + 1],
+              currentTrackIndex + 1,
+            );
+          }
+        });
+    }
+
+    const bottonePrecedente = document.querySelector(
+      "nav.fixed-bottom .bi-skip-start-fill",
+    );
+    if (bottonePrecedente !== null) {
+      bottonePrecedente
+        .closest("button")
+        .addEventListener("click", function () {
+          if (currentTrackIndex > 0) {
+            playTrack(
+              currentAlbum.tracks.data[currentTrackIndex - 1],
+              currentTrackIndex - 1,
+            );
+          }
+        });
+    }
+  }
+
+  document.querySelectorAll(".playAudio").forEach((bottone) => {
+    const nuovoBottone = bottone.cloneNode(true);
+    bottone.parentNode.replaceChild(nuovoBottone, bottone);
     nuovoBottone.addEventListener("click", togglePlayPause);
-  }
-
-  const bottonePlayMobile = document.getElementById("mobilePlayBtn");
-  if (bottonePlayMobile !== null) {
-    const nuovoBottoneMobile = bottonePlayMobile.cloneNode(true);
-    bottonePlayMobile.parentNode.replaceChild(
-      nuovoBottoneMobile,
-      bottonePlayMobile,
-    );
-    nuovoBottoneMobile.addEventListener("click", togglePlayPause);
-  }
-  // qua e per andare avanti e indietro con i bottoni
-  const bottoneSuccessivo = document.querySelector(
-    "nav.fixed-bottom .bi-skip-end-fill",
-  );
-  if (bottoneSuccessivo !== null) {
-    bottoneSuccessivo.closest("button").addEventListener("click", function () {
-      if (
-        currentTrackIndex !== null &&
-        album.tracks.data[currentTrackIndex + 1]
-      ) {
-        playTrack(
-          album.tracks.data[currentTrackIndex + 1],
-          currentTrackIndex + 1,
-        );
-      }
-    });
-  }
-
-  const bottonePrecedente = document.querySelector(
-    "nav.fixed-bottom .bi-skip-start-fill",
-  );
-  if (bottonePrecedente !== null) {
-    bottonePrecedente.closest("button").addEventListener("click", function () {
-      if (currentTrackIndex > 0) {
-        playTrack(
-          album.tracks.data[currentTrackIndex - 1],
-          currentTrackIndex - 1,
-        );
-      }
-    });
-  }
-  // colego dei boittoni nel html a cui ho dato una classe
-  const bottoniPlay = document.querySelectorAll(".playAudio");
-  bottoniPlay.forEach(function (bottone) {
-    bottone.addEventListener("click", togglePlayPause);
   });
-  // Per ogni riga nella lista tracce legge il suo indice dallattributo HTML data-track-index e al click avvia quella traccia specifica.
-  const righeTracce = document.querySelectorAll("[data-track-index]");
-  righeTracce.forEach(function (riga) {
+
+  document.querySelectorAll("[data-track-index]").forEach((riga) => {
     const indiceTraccia = parseInt(riga.getAttribute("data-track-index"));
-    riga.addEventListener("click", function () {
-      playTrack(album.tracks.data[indiceTraccia], indiceTraccia);
-    });
+    riga.addEventListener("click", () =>
+      playTrack(album.tracks.data[indiceTraccia], indiceTraccia),
+    );
   });
 }
 
@@ -3081,16 +3039,6 @@ const searchPage = function (pushHistory = true) {
     searchInput = "";
   });
 
-  let currentAudio = null;
-
-  const stopPlaySong = function () {
-    if (currentAudio.paused) {
-      currentAudio.play();
-    } else {
-      currentAudio.pause();
-    }
-  };
-
   const playSong = function (songCover, songName, artistName, songPreview) {
     document.getElementById("song-cover").src = songCover;
     document.getElementById("song-name").innerText = songName;
@@ -3390,4 +3338,11 @@ document.querySelectorAll(".colore_bt").forEach((el) => {
   el.addEventListener("click", function () {
     this.classList.toggle("text-primary");
   });
+  const stopPlaySong = function () {
+    if (currentAudio.paused) {
+      currentAudio.play();
+    } else {
+      currentAudio.pause();
+    }
+  };
 });

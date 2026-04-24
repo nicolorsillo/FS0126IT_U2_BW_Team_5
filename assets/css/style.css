@@ -12139,4 +12139,8 @@ textarea.form-control-lg {
 
 .btn-scroll:active {
   transform: scale(0.7);
+}
+
+.text-transparent {
+  color: white;
 }/*# sourceMappingURL=style.css.map */

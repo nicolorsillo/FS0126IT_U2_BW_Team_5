@@ -94,4 +94,8 @@ $theme-colors:  map-merge($theme-colors, $new-theme-colors);
   .btn-scroll:active {
     transform: scale(0.7);
   }  
+
+.text-transparent {
+  color: white;
+}
  

@@ -1838,100 +1838,115 @@ const albumPage = function (albumId, pushHistory = true) {
   document
     .getElementById("account-bar")
     .classList.replace("custom_width", "w-100");
-  centralPage.innerHTML = `
-  <div  class="mx-3 mt-3 mt-lg-0">
-          <div class="row align-items-end g-4">
-            <div class="col-12 col-lg-auto text-center text-lg-start">
-              <img
-                src="./assets/imgs/main/image-1.jpg"
-                alt="Gioventù Brucata"
-                class="rounded-3 shadow album-main-cover"
-                style="object-fit: cover; max-width:200px; max-height:200px"
-              />
-            </div>
-
-            <div class="col-12 col-lg d-flex flex-column justify-content-end">
-              <span
-                class="text-uppercase small fw-semibold text-white-50 d-none d-lg-block"
-                >Album</span
-              >
-              <h1 class="display-3 fw-bold mt-2 mb-2 fs-1 fs-lg-1">
-                Gioventù brucata
-              </h1>
-              <div
-                class="d-flex align-items-center gap-2 text-white-50 flex-wrap"
-              >
-              <button class="btn" id="artist-link-btn">
+  centralPage.innerHTML = `          <div class="mx-3 mt-3 mt-lg-0">
+            <div class="row align-items-end g-4 placeholder-glow">
+              <div class="col-12 col-lg-auto text-center text-lg-start">
                 <img
-                  src="./assets/imgs/main/image-17.jpg"
-                  alt="PTN"
-                  class="rounded-circle artist-avatar"
-                  width="28"
-                  height="28"
+                  src="./assets/imgs/main/placeholder.jpg"
+                  alt="Album cover"
+                  class="rounded-3 shadow album-main-cover placeholder"
+                  style="object-fit: cover; max-width: 200px; max-height: 200px"
                 />
-                <span class="fw-semibold text-white artist-name"
-                  >Pinguini Tattici Nucleari</span
-                >
-                </button>
-                <span class="album-cover d-none d-lg-inline">•</span>
-                <span class="artist-name d-none d-lg-inline">2017</span>
-                <span class="album-year d-none d-lg-inline">•</span>
-                <span class="album-meta d-none d-lg-inline"
-                  >12 brani, 53 min 20 sec.</span
-                >
+              </div>
 
-                <span class="d-lg-none text-white-50 col-12">
-                  Album • 2017</span
+              <div class="col-12 col-lg d-flex flex-column justify-content-end">
+                <span
+                  class="text-uppercase small fw-semibold text-white-50 d-none d-lg-block"
+                  >Album</span
                 >
+                <div>
+                  <h1
+                    class="display-3 fw-bold mt-2 mb-2 fs-1 fs-lg-1 placeholder"
+                  >
+                    Gioventù brucata
+                  </h1>
+                </div>
+
+                <div
+                  class="d-flex align-items-center gap-2 text-white-50 flex-wrap"
+                >
+                  <button class="btn ps-0" id="artist-link-btn">
+                    <img
+                      src="./assets/imgs/main/placeholder.jpg"
+                      alt="Artist image"
+                      class="rounded-circle artist-avatar placeholder"
+                      width="28"
+                      height="28"
+                    />
+                    <span class="fw-semibold text-white artist-name placeholder"
+                      >Pinguini Tattici Nucleari</span
+                    >
+                  </button>
+                  <span
+                    class="album-cover d-none d-lg-inline placeholder text-transparent"
+                    >•</span
+                  >
+                  <span
+                    class="artist-name d-none d-lg-inline placeholder text-transparent"
+                    >2017</span
+                  >
+                  <span
+                    class="album-year d-none d-lg-inline placeholder text-transparent"
+                    >•</span
+                  >
+                  <span
+                    class="album-meta d-none d-lg-inline placeholder text-transparent"
+                    >12 brani, 53 min 20 sec.</span
+                  >
+
+                  <span
+                    class="d-lg-none text-white-50 col-12 placeholder text-transparent"
+                  >
+                    Album • 2017</span
+                  >
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div
-          class="d-flex align-items-center justify-content-between px-4 pt-3 pb-2"
-        >
-          <div class="d-flex align-items-center gap-3">
-            <button
-              class="btn btn-primary rounded-circle d-none d-lg-flex align-items-center justify-content-center p-3 playAudio"
-              style="width: 56px; height: 56px"
-            >
-              <i class="bi bi-play-fill fs-1"></i>
-            </button>
+          <div
+            class="d-flex align-items-center justify-content-between px-4 pt-3 pb-2"
+          >
+            <div class="d-flex align-items-center gap-3">
+              <button
+                class="btn btn-primary rounded-circle d-none d-lg-flex align-items-center justify-content-center p-3 playAudio"
+                style="width: 56px; height: 56px"
+              >
+                <i class="bi bi-play-fill fs-1"></i>
+              </button>
 
-            <i class="bi bi-heart fs-4 fs-lg-3 text-white-50"></i>
-            <i class="bi bi-arrow-down-circle fs-4 fs-lg-3 text-white-50"></i>
-            <i class="bi bi-three-dots fs-4 fs-lg-3 text-white-50"></i>
+              <i class="bi bi-heart fs-4 fs-lg-3 text-white-50"></i>
+              <i class="bi bi-arrow-down-circle fs-4 fs-lg-3 text-white-50"></i>
+              <i class="bi bi-three-dots fs-4 fs-lg-3 text-white-50"></i>
+            </div>
+
+            <div class="d-flex d-lg-none align-items-center gap-3">
+              <i class="bi bi-shuffle fs-4 text-white-50"></i>
+              <button
+                class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center p-2 playAudio"
+                style="width: 48px; height: 48px"
+              >
+                <i class="bi bi-play-fill fs-3"></i>
+              </button>
+            </div>
           </div>
-
-          <div class="d-flex d-lg-none align-items-center gap-3">
-            <i class="bi bi-shuffle fs-4 text-white-50"></i>
-            <button
-              class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center p-2 playAudio"
-              style="width: 48px; height: 48px"
-            >
-              <i class="bi bi-play-fill fs-3"></i>
-            </button>
-          </div>
-        </div>
-        <table
-          class="table table_custom table-hover align-middle table-borderless mb-0"
-        >
-          <thead>
-            <tr
-              class="text-white-50 small fw-semibold border-bottom border-secondary d-none d-lg-table-row"
-            >
-              <th scope="col" class="col-1 text-center">#</th>
-              <th scope="col" class="col-5">TITOLO</th>
-              <th scope="col" class="col-3 text-end">RIPRODUZIONI</th>
-              <th scope="col" class="col-3 text-end pe-4">
-                <i class="bi bi-clock me-2"></i>
-              </th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        </div>`;
+          <table
+            class="table table_custom table-hover align-middle table-borderless mb-0"
+          >
+            <thead>
+              <tr
+                class="text-white-50 small fw-semibold border-bottom border-secondary d-none d-lg-table-row"
+              >
+                <th scope="col" class="col-1 text-center">#</th>
+                <th scope="col" class="col-5">TITOLO</th>
+                <th scope="col" class="col-3 text-end">RIPRODUZIONI</th>
+                <th scope="col" class="col-3 text-end pe-4">
+                  <i class="bi bi-clock me-2"></i>
+                </th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>`;
 
   if (pushHistory) {
     window.history.pushState(
@@ -2011,6 +2026,14 @@ const albumPage = function (albumId, pushHistory = true) {
         tbody.appendChild(desktopRow);
       });
 
+      document.querySelectorAll(".placeholder-glow").forEach((el) => {
+        el.classList.remove("placeholder-glow");
+      });
+
+      document.querySelectorAll(".placeholder").forEach((el) => {
+        el.classList.remove("placeholder", "text-transparent");
+      });
+
       initAudioPlayer(album);
     })
     .catch((err) => console.error("Errore fetch album:", err));
@@ -2024,73 +2047,89 @@ const artistPage = function (artistId, pushHistory = true) {
       `#artist-${artistId}`,
     );
   }
-  centralPage.innerHTML = ` <div id="artist-img" style="height:50vh" class="position-sticky top-0 z-0"> </div> 
-  <div class="px-lg-4 position-relative z-2" 
-        style="background: #212529;
-          background: linear-gradient(0deg, 
-          rgba(33, 37, 41, 1) 0%, 
-          rgba(33, 37, 41, 1) 80%, 
-          rgba(65, 69, 72, 0) 100%);">    
-          <!-- HEADER ARTISTA -->
-        <div class="position-relative bg-transparent">
-          <!-- IMMAGINE ARTISTA -->
-          <section id="artistDinamic" class="bg-transparent"></section>
-        </div>
-
-        <!-- CONTENUTO -->
-        <div class="container-fluid mb-4 py-4">
-          <!-- BOTTONI -->
-          <div class="d-flex align-items-center gap-3 mb-4">
-            <button
-              class="btn btn-primary rounded-circle d-none d-lg-flex align-items-center justify-content-center p-3 playAudio"
-              style="width: 56px; height: 56px"
-            >
-              <i class="bi bi-play-fill fs-1"></i>
-            </button>
-            <button class="btn btn-outline-light btn-sm px-4 fw-bold">
-              FOLLOWING
-            </button>
-
-            <button class="btn text-white fs-4 p-0">
-              <i class="bi bi-three-dots"></i>
-            </button>
-          </div>
-
-          <div class="row">
-            <!-- LISTA BRANI -->
-            <div class="col-12 col-lg-7">
-              <h3 class="fw-bold mb-4">Popolari</h3>
-              <div id="songDiv"></div>
+  centralPage.innerHTML = `
+            <div
+            id="artist-img"
+            style="height: 50vh"
+            class="position-sticky top-0 z-0"
+          ></div>
+          <div
+            class="px-lg-4 position-relative z-2"
+            style="
+              background: #212529;
+              background: linear-gradient(
+                0deg,
+                rgba(33, 37, 41, 1) 0%,
+                rgba(33, 37, 41, 1) 80%,
+                rgba(65, 69, 72, 0) 100%
+              );
+            "
+          >
+            <!-- HEADER ARTISTA -->
+            <div class="position-relative bg-transparent">
+              <!-- IMMAGINE ARTISTA -->
+              <section id="artistDinamic" class="bg-transparent"></section>
             </div>
 
-            <!-- COLONNA DESTRA -->
-            <div class="col-12 col-lg-5 mt-5 mt-lg-0">
-              <h3 class="fw-bold mb-4">Brani che ti piacciono</h3>
+            <!-- CONTENUTO -->
+            <div class="container-fluid mb-4 py-4">
+              <!-- BOTTONI -->
+              <div class="d-flex align-items-center gap-3 mb-4">
+                <button
+                  class="btn btn-primary rounded-circle d-none d-lg-flex align-items-center justify-content-center p-3 playAudio"
+                  style="width: 56px; height: 56px"
+                >
+                  <i class="bi bi-play-fill fs-1"></i>
+                </button>
+                <button class="btn btn-outline-light btn-sm px-4 fw-bold">
+                  FOLLOWING
+                </button>
 
-              <div class="d-flex align-items-center gap-3">
-                <div class="position-relative">
-                  <img
-                    src=""
-                    alt=""
-                    class="rounded-circle"
-                    width="55"
-                    height="55"
-                  />
-                  <div
-                    class="position-absolute bottom-0 end-0 bg-primary rounded-circle d-flex align-items-center justify-content-center"
-                  >
-                    <i class="bi bi-heart-fill text-white"></i>
-                  </div>
+                <button class="btn text-white fs-4 p-0">
+                  <i class="bi bi-three-dots"></i>
+                </button>
+              </div>
+
+              <div class="row">
+                <!-- LISTA BRANI -->
+                <div class="col-12 col-lg-7">
+                  <h3 class="fw-bold mb-4">Popolari</h3>
+                  <div id="songDiv"></div>
                 </div>
 
-                <div>
-                  <div class="fw-bold">Hai messo Mi piace a 11 brani</div>
-                  <div class="text-secondary small" id="like"></div>
+                <!-- COLONNA DESTRA -->
+                <div class="col-12 col-lg-5 mt-5 mt-lg-0">
+                  <h3 class="fw-bold mb-4">Brani che ti piacciono</h3>
+
+                  <div class="d-flex align-items-center gap-3 placeholder-glow">
+                    <div class="position-relative">
+                      <img
+                        src="./assets/imgs/main/placeholder.jpg"
+                        alt="artist profile"
+                        class="rounded-circle placeholder"
+                        id="small-artist-profile"
+                        width="55"
+                        height="55"
+                      />
+                      <div
+                        class="position-absolute bottom-0 end-0 bg-primary rounded-circle d-flex align-items-center justify-content-center"
+                      >
+                        <i class="bi bi-heart-fill text-white lh-1 m-1"></i>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="fw-bold placeholder">
+                        Hai messo Mi piace a 11 brani
+                      </div>
+                      <div class="text-secondary small" id="like"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div></div> `;
+  `;
 
   document
     .getElementById("account-bar")
@@ -2139,6 +2178,7 @@ const artistPage = function (artistId, pushHistory = true) {
       like.innerHTML = `
           <div class="text-secondary small" id="like">Di ${data.name}</div>
         `;
+      document.getElementById("small-artist-profile").src = data.picture_small;
     })
     .catch((err) => {
       console.log("Errore del server", err);
@@ -2208,6 +2248,14 @@ const artistPage = function (artistId, pushHistory = true) {
     .catch((err) => {
       console.log("ARTISTA NON TROVATO", err);
     });
+
+  document.querySelectorAll(".placeholder-glow").forEach((el) => {
+    el.classList.remove("placeholder-glow");
+  });
+
+  document.querySelectorAll(".placeholder").forEach((el) => {
+    el.classList.remove("placeholder", "text-transparent");
+  });
 };
 
 function startPlayer(data, tipo) {

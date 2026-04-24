@@ -1822,7 +1822,7 @@ const homePage = function (pushHistory = true) {
         })
 
         if (giàSalvato) {
-          songSaveBtn.querySelector("small").innerText = "Salvato ✓"
+          songSaveBtn.querySelector("small").innerText = "Salvato "
           songSaveBtn.classList.add("disabled")
         } else {
           songSaveBtn.querySelector("small").innerText = "Salva"

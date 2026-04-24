@@ -2422,6 +2422,7 @@ function initAudioPlayer(album) {
   );
 
   function updatePlayerBar(track) {
+    document.getElementById("wait-to-see").classList.remove("d-none");
     const titoloDesktop = document.querySelector(
       "nav.fixed-bottom.d-lg-flex .fw-bold.small",
     );

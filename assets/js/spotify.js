@@ -1,101 +1,101 @@
-const centralPage = document.getElementById("central-page");
+const centralPage = document.getElementById("central-page")
 
-const backBtn = document.getElementById("backBtn");
-const forwardBtn = document.getElementById("forwardBtn");
+const backBtn = document.getElementById("backBtn")
+const forwardBtn = document.getElementById("forwardBtn")
 
-const backgroundContainer = document.getElementById("background-gradient");
-const imgBackGround = "grigio";
+const backgroundContainer = document.getElementById("background-gradient")
+const imgBackGround = "grigio"
 
 async function setAverageBg(imageUrl, containerId) {
-  const img = new Image();
-  containerId;
+  const img = new Image()
+  containerId
 
   if (imageUrl === "grigio") {
     containerId.style.background = `linear-gradient(                
             0deg,
             rgba(33, 37, 41, 1) 0%,
             rgba(33, 37, 41, 1) 72%,
-            rgba(65, 69, 72, 1) 100%)`;
+            rgba(65, 69, 72, 1) 100%)`
   } else {
     // Cruciale per evitare errori di CORS se l'immagine viene da un'API esterna
-    img.crossOrigin = "Anonymous";
-    img.src = imageUrl;
+    img.crossOrigin = "Anonymous"
+    img.src = imageUrl
 
     img.onload = () => {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
+      const canvas = document.createElement("canvas")
+      const ctx = canvas.getContext("2d")
 
       // Ridimensioniamo il canvas a dimensioni minime per performance estreme
-      canvas.width = 50;
-      canvas.height = 50;
+      canvas.width = 50
+      canvas.height = 50
 
-      ctx.drawImage(img, 0, 0, 50, 50);
+      ctx.drawImage(img, 0, 0, 50, 50)
 
       // Otteniamo i dati dei pixel (RGBA)
-      const imageData = ctx.getImageData(0, 0, 50, 50).data;
+      const imageData = ctx.getImageData(0, 0, 50, 50).data
       let r = 0,
         g = 0,
-        b = 0;
+        b = 0
 
       for (let i = 0; i < imageData.length; i += 4) {
-        r += imageData[i];
-        g += imageData[i + 1];
-        b += imageData[i + 2];
+        r += imageData[i]
+        g += imageData[i + 1]
+        b += imageData[i + 2]
       }
 
       // Calcoliamo la media
-      const pixelsCount = imageData.length / 4;
-      r = Math.floor(r / pixelsCount);
-      g = Math.floor(g / pixelsCount);
-      b = Math.floor(b / pixelsCount);
+      const pixelsCount = imageData.length / 4
+      r = Math.floor(r / pixelsCount)
+      g = Math.floor(g / pixelsCount)
+      b = Math.floor(b / pixelsCount)
 
       // Applichiamo il colore al background
       containerId.style.background = `linear-gradient(                
             0deg,
             rgba(33, 37, 41, 1) 0%,
             rgba(33, 37, 41, 1) 72%,
-            rgba(${r},${g},${b},1) 100%)`;
-    };
+            rgba(${r},${g},${b},1) 100%)`
+    }
   }
 }
 
 let recommendedAlbum = [
   926698181, 958295021, 3602971, 926720971, 926721331, 693008911,
-];
+]
 
 if (backBtn) {
   backBtn.addEventListener("click", () => {
-    window.history.back();
-  });
+    window.history.back()
+  })
 }
 
 if (forwardBtn) {
   forwardBtn.addEventListener("click", () => {
-    window.history.forward();
-  });
+    window.history.forward()
+  })
 }
 
 function scrollOrizzontal(direction, carouselName) {
-  const container = document.getElementById(carouselName);
-  const scrollAmount = container.scrollWidth * 0.1;
+  const container = document.getElementById(carouselName)
+  const scrollAmount = container.scrollWidth * 0.1
 
   if (direction === "right") {
-    container.scrollLeft += scrollAmount;
+    container.scrollLeft += scrollAmount
   } else {
-    container.scrollLeft -= scrollAmount;
+    container.scrollLeft -= scrollAmount
   }
 }
 
 const homePage = function (pushHistory = true) {
-  setAverageBg(imgBackGround, backgroundContainer);
+  setAverageBg(imgBackGround, backgroundContainer)
 
   document
     .getElementById("account-bar")
-    .classList.replace("position-fixed", "position-sticky");
+    .classList.replace("position-fixed", "position-sticky")
 
   document
     .getElementById("account-bar")
-    .classList.replace("custom_width", "w-100");
+    .classList.replace("custom_width", "w-100")
 
   centralPage.innerHTML = `    <div
       class="card mb-3 bg-gradient-dark border-0 rounded-0 placeholder-glow d-none d-lg-block mx-3"
@@ -1740,100 +1740,115 @@ const homePage = function (pushHistory = true) {
           </div>
         </div>
       </div>
-    </div>`;
+    </div>`
   if (pushHistory) {
-    window.history.pushState({ page: "home" }, "", "#home");
+    window.history.pushState({ page: "home" }, "", "#home")
   }
 
-  const url = "https://striveschool-api.herokuapp.com/api/deezer/search?q=";
+  const url = "https://striveschool-api.herokuapp.com/api/deezer/search?q="
 
   const getAdBannerSong = function (song) {
-    const urlCompleto = `${url}${song}`;
+    const urlCompleto = `${url}${song}`
 
     fetch(urlCompleto)
       .then((result) => {
         if (result.ok) {
-          return result.json();
+          return result.json()
         } else {
-          throw new Error("ERRORE JSON", result.status);
+          throw new Error("ERRORE JSON", result.status)
         }
       })
       .then((data) => {
-        const songContainer = document.getElementById("ad-banner");
-        const songAlbumId = document.getElementById("ad-banner-song-album-id");
-        const songCover = document.getElementById("ad-banner-song-cover");
-        const songAlbum = document.getElementById("ad-banner-song-album");
+        const songContainer = document.getElementById("ad-banner")
+        const songAlbumId = document.getElementById("ad-banner-song-album-id")
+        const songCover = document.getElementById("ad-banner-song-cover")
+        const songAlbum = document.getElementById("ad-banner-song-album")
         const songAlbumLink = document.getElementById(
           "ad-banner-song-album-link",
-        );
-        const songTitle = document.getElementById("ad-banner-song-title");
-        const songArtist = document.getElementById("ad-banner-song-artist");
+        )
+        const songTitle = document.getElementById("ad-banner-song-title")
+        const songArtist = document.getElementById("ad-banner-song-artist")
         const songArtistLink = document.getElementById(
           "ad-banner-song-artist-link",
-        );
+        )
         const songDescription = document.getElementById(
           "ad-banner-song-description",
-        );
-        const songPlayBtn = document.getElementById("ad-banner-song-play-btn");
-        const songSaveBtn = document.getElementById("ad-banner-song-save-btn");
+        )
+        const songPlayBtn = document.getElementById("ad-banner-song-play-btn")
+        const songSaveBtn = document.getElementById("ad-banner-song-save-btn")
 
-        songContainer.classList.remove("placeholder-glow");
-        songContainer.querySelector("h6").classList.remove("placeholder");
-        songAlbumId.classList.remove("placeholder");
-        songAlbumId.href = `#album-${data.data[0].album.id}`;
+        songContainer.classList.remove("placeholder-glow")
+        songContainer.querySelector("h6").classList.remove("placeholder")
+        songAlbumId.classList.remove("placeholder")
+        songAlbumId.href = `#album-${data.data[0].album.id}`
         songAlbumId.addEventListener("click", (event) => {
-          event.preventDefault();
-          albumPage(data.data[0].album.id);
-        });
-        songCover.classList.remove("placeholder");
-        songCover.src = data.data[0].album.cover_xl;
-        songAlbum.classList.remove("placeholder");
-        songAlbum.innerText = data.data[0].album.title;
-        songAlbumLink.href = `#album-${data.data[0].album.id}`;
+          event.preventDefault()
+          albumPage(data.data[0].album.id)
+        })
+        songCover.classList.remove("placeholder")
+        songCover.src = data.data[0].album.cover_xl
+        songAlbum.classList.remove("placeholder")
+        songAlbum.innerText = data.data[0].album.title
+        songAlbumLink.href = `#album-${data.data[0].album.id}`
         songAlbumLink.addEventListener("click", (event) => {
-          event.preventDefault();
-          albumPage(data.data[0].album.id);
-        });
-        songTitle.classList.remove("placeholder");
-        songTitle.innerText = data.data[0].title;
-        songArtist.classList.remove("placeholder");
-        songArtist.innerText = data.data[0].artist.name;
-        songArtistLink.href = `#artist-${data.data[0].artist.id}`;
+          event.preventDefault()
+          albumPage(data.data[0].album.id)
+        })
+        songTitle.classList.remove("placeholder")
+        songTitle.innerText = data.data[0].title
+        songArtist.classList.remove("placeholder")
+        songArtist.innerText = data.data[0].artist.name
+        songArtistLink.href = `#artist-${data.data[0].artist.id}`
         songArtistLink.addEventListener("click", (event) => {
-          event.preventDefault();
-          artistPage(data.data[0].artist.id);
-        });
-        songDescription.classList.remove("placeholder");
+          event.preventDefault()
+          artistPage(data.data[0].artist.id)
+        })
+        songDescription.classList.remove("placeholder")
         songDescription.querySelector("span").innerText =
-          data.data[0].artist.name;
-        songPlayBtn.classList.remove("disabled", "placeholder");
-        songPlayBtn.querySelector("small").innerText = "Play";
+          data.data[0].artist.name
+        songPlayBtn.classList.remove("disabled", "placeholder")
+        songPlayBtn.querySelector("small").innerText = "Play"
         songPlayBtn.addEventListener("click", () => {
-          albumPage(data.data[0].album.id);
-        });
-        songSaveBtn.classList.remove("disabled", "placeholder");
-        songSaveBtn.querySelector("small").innerText = "Salva";
+          albumPage(data.data[0].album.id)
+        })
+        songSaveBtn.classList.remove("disabled", "placeholder")
 
-        songSaveBtn.addEventListener("click", () => {
-          const libreria = JSON.parse(localStorage.getItem("libreria")) || [];
-          const albumId = data.data[0].album.id;
+        const libreria = JSON.parse(localStorage.getItem("libreria")) || []
+        const albumId = data.data[0].album.id
 
-          libreria.push({
-            albumId: albumId,
-            albumTitle: data.data[0].album.title,
-            albumCover: data.data[0].album.cover_medium,
-            artistName: data.data[0].artist.name,
-            artistId: data.data[0].artist.id,
-          });
+        let giàSalvato = false
+        libreria.forEach(function (item) {
+          if (item.albumId === albumId) giàSalvato = true
+        })
 
-          localStorage.setItem("libreria", JSON.stringify(libreria));
-          songSaveBtn.querySelector("small").innerText = "Salvato ";
-        });
+        if (giàSalvato) {
+          songSaveBtn.querySelector("small").innerText = "Salvato "
+          songSaveBtn.classList.add("disabled")
+        } else {
+          songSaveBtn.querySelector("small").innerText = "Salva"
+
+          songSaveBtn.addEventListener("click", () => {
+            const libreriaAggiornata =
+              JSON.parse(localStorage.getItem("libreria")) || []
+
+            libreriaAggiornata.push({
+              albumId: albumId,
+              albumTitle: data.data[0].album.title,
+              albumCover: data.data[0].album.cover_medium,
+              artistName: data.data[0].artist.name,
+              artistId: data.data[0].artist.id,
+            })
+
+            localStorage.setItem("libreria", JSON.stringify(libreriaAggiornata))
+            songSaveBtn.querySelector("small").innerText = "Salvato "
+            songSaveBtn.classList.add("disabled")
+          })
+        }
       })
       .catch((err) => {
-        console.log("ERRORE NEL SERVER", err);
-      });
-  };
+        console.log("ERRORE NEL SERVER", err)
+      })
+  }
 
   const getTopReleases = function () {
     const newMusicFridayItalia = [
@@ -1847,71 +1862,71 @@ const homePage = function (pushHistory = true) {
       "Foto Mosse",
       "La piu bella del mondo",
       "Amarsi nel disordine",
-    ];
+    ]
     let randomSongIndex = Math.floor(
       Math.random() * newMusicFridayItalia.length,
-    );
-    let randomSong = newMusicFridayItalia[randomSongIndex];
-    getAdBannerSong(randomSong);
-  };
-  getTopReleases();
+    )
+    let randomSong = newMusicFridayItalia[randomSongIndex]
+    getAdBannerSong(randomSong)
+  }
+  getTopReleases()
 
   if (!localStorage.getItem("lastAlbumId")) {
-    localStorage.setItem("lastAlbumId", JSON.stringify(recommendedAlbum));
+    localStorage.setItem("lastAlbumId", JSON.stringify(recommendedAlbum))
   }
 
-  recommendedAlbum = JSON.parse(localStorage.getItem("lastAlbumId"));
+  recommendedAlbum = JSON.parse(localStorage.getItem("lastAlbumId"))
 
-  const urlAlbum = "https://striveschool-api.herokuapp.com/api/deezer/album/";
+  const urlAlbum = "https://striveschool-api.herokuapp.com/api/deezer/album/"
 
   const getRecommendedAlbum = function (albumIndex, domIndex) {
-    const urlAlbumCompleto = `${urlAlbum}${recommendedAlbum[albumIndex]}`;
+    const urlAlbumCompleto = `${urlAlbum}${recommendedAlbum[albumIndex]}`
 
     fetch(urlAlbumCompleto)
       .then((result) => {
         if (result.ok) {
-          return result.json();
+          return result.json()
         } else {
-          throw new Error("ERRORE JSON", result.status);
+          throw new Error("ERRORE JSON", result.status)
         }
       })
       .then((data) => {
         const recommendedCard = document.querySelector(
           `.recommended-album:nth-of-type(${domIndex})`,
-        );
+        )
         if (recommendedCard) {
-          recommendedCard.querySelector("img").src = data.cover_medium;
-          recommendedCard.querySelector("img").classList.remove("placeholder");
-          recommendedCard.querySelector("p").innerText = data.title;
-          recommendedCard.querySelector("p").classList.remove("placeholder");
-          const albumLink = recommendedCard.querySelector("a");
-          albumLink.href = `#album-${data.id}`;
+          recommendedCard.querySelector("img").src = data.cover_medium
+          recommendedCard.querySelector("img").classList.remove("placeholder")
+          recommendedCard.querySelector("p").innerText = data.title
+          recommendedCard.querySelector("p").classList.remove("placeholder")
+          const albumLink = recommendedCard.querySelector("a")
+          albumLink.href = `#album-${data.id}`
           albumLink.addEventListener("click", (event) => {
-            event.preventDefault();
-            albumPage(data.id);
-          });
+            event.preventDefault()
+            albumPage(data.id)
+          })
         }
       })
       .catch((err) => {
-        console.log("ERRORE NEL SERVER", err);
-      });
-  };
+        console.log("ERRORE NEL SERVER", err)
+      })
+  }
 
   for (let i = 0; i < 6; i++) {
-    const arrayIndex = recommendedAlbum.length - 1 - i;
-    const domPosition = i + 1;
-    getRecommendedAlbum(arrayIndex, domPosition);
+    const arrayIndex = recommendedAlbum.length - 1 - i
+    const domPosition = i + 1
+    getRecommendedAlbum(arrayIndex, domPosition)
   }
-};
+}
 
 const albumPage = function (albumId, pushHistory = true) {
   document
     .getElementById("account-bar")
-    .classList.replace("position-fixed", "position-sticky");
+    .classList.replace("position-fixed", "position-sticky")
 
   document
     .getElementById("account-bar")
-    .classList.replace("custom_width", "w-100");
+    .classList.replace("custom_width", "w-100")
   centralPage.innerHTML = `          <div class="mx-3 mt-3 mt-lg-0">
             <div id="album-cover-container" class="row align-items-end g-4 rounded-2 placeholder-glow">
               <div class="col-12 col-lg-auto text-center text-lg-start pb-2">
@@ -2020,63 +2035,63 @@ const albumPage = function (albumId, pushHistory = true) {
               </tr>
             </thead>
             <tbody></tbody>
-          </table>`;
+          </table>`
 
   if (pushHistory) {
     window.history.pushState(
       { page: "album", albumId },
       "",
       `#album-${albumId}`,
-    );
+    )
   }
 
-  const params = new URLSearchParams(window.location.search);
+  const params = new URLSearchParams(window.location.search)
 
   fetch(`https://striveschool-api.herokuapp.com/api/deezer/album/${albumId}`)
     .then((res) => res.json())
     .then((album) => {
-      const artistBtn = document.getElementById("artist-link-btn");
+      const artistBtn = document.getElementById("artist-link-btn")
       if (artistBtn) {
         artistBtn.addEventListener("click", () => {
-          artistPage(album.artist.id);
-          window.scrollTo(0, 0);
-        });
+          artistPage(album.artist.id)
+          window.scrollTo(0, 0)
+        })
       }
-      initAudioPlayer(album);
-      document.querySelector("h1").textContent = album.title;
-      document.querySelector(".album-main-cover").src = album.cover_xl;
+      initAudioPlayer(album)
+      document.querySelector("h1").textContent = album.title
+      document.querySelector(".album-main-cover").src = album.cover_xl
       setAverageBg(
         document.querySelector(".album-main-cover").src,
         backgroundContainer,
-      );
+      )
 
-      document.querySelector(".artist-avatar").src = album.artist.picture_small;
-      document.querySelector(".artist-name").textContent = album.artist.name;
+      document.querySelector(".artist-avatar").src = album.artist.picture_small
+      document.querySelector(".artist-name").textContent = album.artist.name
       document.querySelector(".album-year").textContent = new Date(
         album.release_date,
-      ).getFullYear();
+      ).getFullYear()
       document.querySelector(".album-meta").textContent =
-        `${album.nb_tracks} brani, ${Math.floor(album.duration / 60)} min ${album.duration % 60} sec.`;
+        `${album.nb_tracks} brani, ${Math.floor(album.duration / 60)} min ${album.duration % 60} sec.`
 
       document.querySelectorAll(".artist-name").forEach((el) => {
-        el.textContent = album.artist.name;
-      });
+        el.textContent = album.artist.name
+      })
 
-      const tbody = document.querySelector("tbody");
-      tbody.innerHTML = "";
+      const tbody = document.querySelector("tbody")
+      tbody.innerHTML = ""
 
       album.tracks.data.forEach((track, index) => {
-        const minutes = Math.floor(track.duration / 60);
-        const seconds = String(track.duration % 60).padStart(2, "0");
+        const minutes = Math.floor(track.duration / 60)
+        const seconds = String(track.duration % 60).padStart(2, "0")
         const rank = track.rank
           ? Number(track.rank).toLocaleString("it-IT")
-          : "—";
+          : "—"
 
-        const mobileRow = document.createElement("div");
+        const mobileRow = document.createElement("div")
         mobileRow.className =
-          "d-lg-none d-flex justify-content-between align-items-center w-100 mb-3";
-        mobileRow.setAttribute("data-track-index", index);
-        mobileRow.style.cursor = "pointer";
+          "d-lg-none d-flex justify-content-between align-items-center w-100 mb-3"
+        mobileRow.setAttribute("data-track-index", index)
+        mobileRow.style.cursor = "pointer"
         mobileRow.innerHTML = `
         <div class="d-flex align-items-center gap-3">
           <div class="ms-3">
@@ -2085,12 +2100,12 @@ const albumPage = function (albumId, pushHistory = true) {
           </div>
         </div>
         <i class="bi bi-three-dots-vertical text-white-50 fs-3 me-4"></i>
-      `;
+      `
 
-        const desktopRow = document.createElement("tr");
-        desktopRow.className = "d-none d-lg-table-row";
-        desktopRow.setAttribute("data-track-index", index);
-        desktopRow.style.cursor = "pointer";
+        const desktopRow = document.createElement("tr")
+        desktopRow.className = "d-none d-lg-table-row"
+        desktopRow.setAttribute("data-track-index", index)
+        desktopRow.style.cursor = "pointer"
         desktopRow.innerHTML = `
         <td class="text-white-50 text-center">${index + 1}</td>
         <td>
@@ -2099,24 +2114,24 @@ const albumPage = function (albumId, pushHistory = true) {
         </td>
         <td class="text-end text-white-50">${rank}</td>
         <td class="text-end pe-4 text-white-50">${minutes}:${seconds}</td>
-      `;
+      `
 
-        tbody.appendChild(mobileRow);
-        tbody.appendChild(desktopRow);
-      });
+        tbody.appendChild(mobileRow)
+        tbody.appendChild(desktopRow)
+      })
 
       document.querySelectorAll(".placeholder-glow").forEach((el) => {
-        el.classList.remove("placeholder-glow");
-      });
+        el.classList.remove("placeholder-glow")
+      })
 
       document.querySelectorAll(".placeholder").forEach((el) => {
-        el.classList.remove("placeholder", "text-transparent");
-      });
+        el.classList.remove("placeholder", "text-transparent")
+      })
 
-      initAudioPlayer(album);
+      initAudioPlayer(album)
     })
-    .catch((err) => console.error("Errore fetch album:", err));
-};
+    .catch((err) => console.error("Errore fetch album:", err))
+}
 
 const artistPage = function (artistId, pushHistory = true) {
   if (pushHistory) {
@@ -2124,7 +2139,7 @@ const artistPage = function (artistId, pushHistory = true) {
       { page: "artist", artistId },
       "",
       `#artist-${artistId}`,
-    );
+    )
   }
   centralPage.innerHTML = `
             <div
@@ -2208,32 +2223,32 @@ const artistPage = function (artistId, pushHistory = true) {
               </div>
             </div>
           </div>
-  `;
+  `
 
   document
     .getElementById("account-bar")
-    .classList.replace("position-sticky", "position-fixed");
+    .classList.replace("position-sticky", "position-fixed")
 
   document
     .getElementById("account-bar")
-    .classList.replace("w-100", "custom_width");
+    .classList.replace("w-100", "custom_width")
 
   fetch(`https://striveschool-api.herokuapp.com/api/deezer/artist/${artistId}`)
     .then((response) => {
       if (response.ok) {
-        return response.json();
+        return response.json()
       } else {
-        throw new Error("ERRORE NEL JSON", response.status);
+        throw new Error("ERRORE NEL JSON", response.status)
       }
     })
     .then((data) => {
-      const profileSection = document.getElementById("artistDinamic");
-      const like = document.getElementById("like");
+      const profileSection = document.getElementById("artistDinamic")
+      const like = document.getElementById("like")
       document.getElementById("artist-img").innerHTML = `
       <div class="h-100 w-100" style="background-image: url('${data.picture_xl}');
       background-size: cover;
       background-position: center;
-      background-repeat: no-repeat;"></div>`;
+      background-repeat: no-repeat;"></div>`
       profileSection.innerHTML = `
       
       <div class="position-absolute bottom-0 start-0 w-100 px-4 pb-4">
@@ -2253,15 +2268,15 @@ const artistPage = function (artistId, pushHistory = true) {
           
         </div>
       </div>
-    `;
+    `
       like.innerHTML = `
           <div class="text-secondary small" id="like">Di ${data.name}</div>
-        `;
-      document.getElementById("small-artist-profile").src = data.picture_small;
+        `
+      document.getElementById("small-artist-profile").src = data.picture_small
     })
     .catch((err) => {
-      console.log("Errore del server", err);
-    });
+      console.log("Errore del server", err)
+    })
   fetch(
     "https://striveschool-api.herokuapp.com/api/deezer/artist/" +
       artistId +
@@ -2269,20 +2284,20 @@ const artistPage = function (artistId, pushHistory = true) {
   )
     .then((response) => {
       if (response.ok) {
-        return response.json();
+        return response.json()
       } else {
-        throw new Error("ERRORE NEL JSON", response.status);
+        throw new Error("ERRORE NEL JSON", response.status)
       }
     })
     .then((data) => {
-      const songDiv = document.getElementById("songDiv");
+      const songDiv = document.getElementById("songDiv")
       const nuovoAlbum = {
         artist: { name: data.data[0].artist.name },
         cover_small: data.data[0].album.cover_small,
         tracks: {
           data: data.data.slice(0, 5),
         },
-      };
+      }
       // for (i = 0; i < 5; i++) {
       //   songDiv.innerHTML += `
       //   <div class="d-flex align-items-center py-2">
@@ -2320,33 +2335,33 @@ const artistPage = function (artistId, pushHistory = true) {
           <div class="text-secondary">
             ${String(data.data[i].duration)[0]}:${String(data.data[i].duration).slice(1)}
           </div>
-        </div>`;
+        </div>`
       }
-      initAudioPlayer(nuovoAlbum);
+      initAudioPlayer(nuovoAlbum)
     })
     .catch((err) => {
-      console.log("ARTISTA NON TROVATO", err);
-    });
+      console.log("ARTISTA NON TROVATO", err)
+    })
 
   document.querySelectorAll(".placeholder-glow").forEach((el) => {
-    el.classList.remove("placeholder-glow");
-  });
+    el.classList.remove("placeholder-glow")
+  })
 
   document.querySelectorAll(".placeholder").forEach((el) => {
-    el.classList.remove("placeholder", "text-transparent");
-  });
-};
+    el.classList.remove("placeholder", "text-transparent")
+  })
+}
 
 const libraryPage = function (pushHistory = true) {
-  setAverageBg(imgBackGround, backgroundContainer);
+  setAverageBg(imgBackGround, backgroundContainer)
 
   document
     .getElementById("account-bar")
-    .classList.replace("position-fixed", "position-sticky");
+    .classList.replace("position-fixed", "position-sticky")
 
   document
     .getElementById("account-bar")
-    .classList.replace("custom_width", "w-100");
+    .classList.replace("custom_width", "w-100")
 
   centralPage.innerHTML = `
       <header>
@@ -2399,212 +2414,242 @@ const libraryPage = function (pushHistory = true) {
         <div class="placeholder">Durata</div>
       </div>
     </main>
-  `;
+  `
   if (pushHistory) {
-    window.history.pushState({ page: "library" }, "", "#library");
+    window.history.pushState({ page: "library" }, "", "#library")
   }
-};
+  const libreria = JSON.parse(localStorage.getItem("libreria")) || []
+  const main = document.querySelector("main")
+  main.innerHTML = `
+    <div class="text-secondary m-3 fw-bold border-bottom border-secondary p-2 d-flex justify-content-around">
+      <div class="flex-grow-1">
+        <span class="me-3">#</span>
+        <span>Titolo</span>
+      </div>
+      <div>
+        <i class="bi bi-clock me-2"></i>
+      </div>
+    </div>
+  `
+  if (libreria.length === 0) {
+    main.innerHTML += `<p class="text-white-50 m-3">Nessun album salvato.</p>`
+    return
+  }
+  libreria.forEach((album, index) => {
+    main.innerHTML += `
+      <div class="d-flex justify-content-between align-items-center m-3 p-2" style="cursor:pointer"
+           onclick="albumPage(${album.albumId})">
+        <div class="flex-grow-1 d-flex align-items-center">
+          <span class="me-3 text-white-50">${index + 1}</span>
+          <img src="${album.albumCover}" alt="" class="mx-3" width="40" height="40" />
+          <div>
+            <div class="fw-semibold">${album.albumTitle}</div>
+            <div class="text-white-50 small">${album.artistName}</div>
+          </div>
+        </div>
+      </div>
+    `
+  })
+}
 
-let currentAlbum = null;
-let currentAudio = null; // laudio che ce adesso
-let currentTrackIndex = null; // lindice  della traccia attiva
+let currentAlbum = null
+let currentAudio = null // laudio che ce adesso
+let currentTrackIndex = null // lindice  della traccia attiva
 
-let playerInitialized = false;
+let playerInitialized = false
 
 function initAudioPlayer(album) {
-  currentAlbum = album;
-  const volumeFill = document.querySelector(".col-4:last-child .progress-bar");
-  const volumeBar = document.querySelector(".col-4:last-child .progress");
-  const trackBar = document.querySelector(".col-4.flex-column .progress");
-  const trackFill = document.querySelector(".col-4.flex-column .progress-bar");
+  currentAlbum = album
+  const volumeFill = document.querySelector(".col-4:last-child .progress-bar")
+  const volumeBar = document.querySelector(".col-4:last-child .progress")
+  const trackBar = document.querySelector(".col-4.flex-column .progress")
+  const trackFill = document.querySelector(".col-4.flex-column .progress-bar")
   const currentTimeTxt = document.querySelector(
     ".col-4.flex-column small:first-child",
-  );
+  )
 
   function updatePlayerBar(track) {
     document.getElementById("wait-to-see").classList.remove("d-none");
     const titoloDesktop = document.querySelector(
       "nav.fixed-bottom.d-lg-flex .fw-bold.small",
-    );
-    if (titoloDesktop !== null) titoloDesktop.textContent = track.title;
+    )
+    if (titoloDesktop !== null) titoloDesktop.textContent = track.title
 
     const artistaDesktop = document.querySelector(
       "nav.fixed-bottom.d-lg-flex .text-muted.small",
-    );
-    if (artistaDesktop !== null) artistaDesktop.textContent = album.artist.name;
+    )
+    if (artistaDesktop !== null) artistaDesktop.textContent = album.artist.name
 
-    const copertina = document.querySelector("nav.fixed-bottom.d-lg-flex img");
+    const copertina = document.querySelector("nav.fixed-bottom.d-lg-flex img")
     if (copertina !== null) {
       copertina.src =
         track.album?.cover_small ||
         album.cover_small ||
-        "./assets/imgs/main/image-1.jpg";
+        "./assets/imgs/main/image-1.jpg"
     }
 
     const copertinaMobile = document.querySelector(
       "nav.position-fixed.d-lg-none img",
-    );
+    )
     if (copertinaMobile !== null) {
       copertinaMobile.src =
         track.album?.cover_small ||
         album.cover_small ||
-        "./assets/imgs/main/image-1.jpg";
+        "./assets/imgs/main/image-1.jpg"
     }
 
     const titoloMobile = document.querySelector(
       "nav.position-fixed .fw-bold.small",
-    );
-    if (titoloMobile !== null) titoloMobile.textContent = track.title;
+    )
+    if (titoloMobile !== null) titoloMobile.textContent = track.title
 
     const artistaMobile = document.querySelector(
       "nav.position-fixed .text-muted.small",
-    );
-    if (artistaMobile !== null) artistaMobile.textContent = album.artist.name;
+    )
+    if (artistaMobile !== null) artistaMobile.textContent = album.artist.name
 
     document
       .querySelectorAll("[data-track-index] .fw-semibold")
-      .forEach((t) => t.classList.remove("text-primary"));
+      .forEach((t) => t.classList.remove("text-primary"))
     document
       .querySelectorAll(
         `[data-track-index='${currentTrackIndex}'] .fw-semibold`,
       )
-      .forEach((r) => r.classList.add("text-primary"));
+      .forEach((r) => r.classList.add("text-primary"))
   }
 
   function setPlayingState(produrre) {
-    const bottoneDesktop = document.querySelector(
-      "nav.fixed-bottom .btn-light",
-    );
+    const bottoneDesktop = document.querySelector("nav.fixed-bottom .btn-light")
     if (bottoneDesktop) {
       bottoneDesktop.innerHTML = produrre
         ? '<i class="bi bi-pause-fill fs-3"></i>'
-        : '<i class="bi bi-play-fill fs-3"></i>';
+        : '<i class="bi bi-play-fill fs-3"></i>'
     }
 
-    const bottoneMobile = document.getElementById("mobilePlayBtn");
+    const bottoneMobile = document.getElementById("mobilePlayBtn")
     if (bottoneMobile !== null) {
       bottoneMobile.innerHTML = produrre
         ? '<i class="bi bi-pause-fill"></i>'
-        : '<i class="bi bi-play-fill"></i>';
+        : '<i class="bi bi-play-fill"></i>'
     }
 
     document.querySelectorAll(".playAudio i").forEach((icona) => {
       icona.className = produrre
         ? "bi bi-pause-fill fs-1"
-        : "bi bi-play-fill fs-1";
-    });
+        : "bi bi-play-fill fs-1"
+    })
   }
 
   function togglePlayPause() {
     if (currentAudio === null) {
-      playTrack(album.tracks.data[0], 0);
-      return;
+      playTrack(album.tracks.data[0], 0)
+      return
     }
     if (currentAudio.paused) {
-      currentAudio.play().then(() => setPlayingState(true));
+      currentAudio.play().then(() => setPlayingState(true))
     } else {
-      currentAudio.pause();
-      setPlayingState(false);
+      currentAudio.pause()
+      setPlayingState(false)
     }
   }
 
   function playTrack(traccia, indice) {
-    recommendedAlbum = JSON.parse(localStorage.getItem("lastAlbumId"));
+    recommendedAlbum = JSON.parse(localStorage.getItem("lastAlbumId"))
 
-    let target = album.tracks.data[indice].album.id;
+    let target = album.tracks.data[indice].album.id
     if (recommendedAlbum.indexOf(target) !== -1) {
-      recommendedAlbum.splice(recommendedAlbum.indexOf(target), 1);
+      recommendedAlbum.splice(recommendedAlbum.indexOf(target), 1)
     }
-    recommendedAlbum.push(album.tracks.data[indice].album.id);
+    recommendedAlbum.push(album.tracks.data[indice].album.id)
 
-    localStorage.setItem("lastAlbumId", JSON.stringify(recommendedAlbum));
+    localStorage.setItem("lastAlbumId", JSON.stringify(recommendedAlbum))
 
-    if (trackFill) trackFill.style.width = "0%";
+    if (trackFill) trackFill.style.width = "0%"
 
     if (currentAudio !== null) {
-      currentAudio.pause();
-      currentAudio = null;
+      currentAudio.pause()
+      currentAudio = null
     }
 
     if (currentTrackIndex === indice) {
-      currentTrackIndex = null;
-      setPlayingState(false);
-      return;
+      currentTrackIndex = null
+      setPlayingState(false)
+      return
     }
 
-    currentTrackIndex = indice;
-    currentAudio = new Audio(traccia.preview);
+    currentTrackIndex = indice
+    currentAudio = new Audio(traccia.preview)
 
     currentAudio.addEventListener("timeupdate", function () {
-      const percentuale = (currentAudio.currentTime / 30) * 100;
-      if (trackFill) trackFill.style.width = percentuale + "%";
+      const percentuale = (currentAudio.currentTime / 30) * 100
+      if (trackFill) trackFill.style.width = percentuale + "%"
       if (currentTimeTxt) {
-        const secondi = Math.floor(currentAudio.currentTime);
-        currentTimeTxt.textContent = `0:${secondi < 10 ? "0" + secondi : secondi}`;
+        const secondi = Math.floor(currentAudio.currentTime)
+        currentTimeTxt.textContent = `0:${secondi < 10 ? "0" + secondi : secondi}`
       }
-    });
+    })
 
-    const volumeAttuale = parseFloat(volumeFill.style.width) / 100;
-    currentAudio.volume = isNaN(volumeAttuale) ? 1 : volumeAttuale;
+    const volumeAttuale = parseFloat(volumeFill.style.width) / 100
+    currentAudio.volume = isNaN(volumeAttuale) ? 1 : volumeAttuale
 
     currentAudio.play().then(() => {
-      setPlayingState(true);
-      updatePlayerBar(traccia);
-    });
+      setPlayingState(true)
+      updatePlayerBar(traccia)
+    })
 
     currentAudio.addEventListener("ended", function () {
-      currentTrackIndex = null;
-      setPlayingState(false);
-      const tracciaSucessiva = album.tracks.data[indice + 1];
-      if (tracciaSucessiva) playTrack(tracciaSucessiva, indice + 1);
-    });
+      currentTrackIndex = null
+      setPlayingState(false)
+      const tracciaSucessiva = album.tracks.data[indice + 1]
+      if (tracciaSucessiva) playTrack(tracciaSucessiva, indice + 1)
+    })
   }
 
   if (!playerInitialized) {
-    playerInitialized = true;
+    playerInitialized = true
 
     trackBar.addEventListener("click", function (evento) {
-      if (currentAudio === null) return;
+      if (currentAudio === null) return
       const percentuale =
         (evento.clientX - trackBar.getBoundingClientRect().left) /
-        trackBar.offsetWidth;
-      currentAudio.currentTime = percentuale * 30;
-      if (trackFill) trackFill.style.width = percentuale * 100 + "%";
-    });
+        trackBar.offsetWidth
+      currentAudio.currentTime = percentuale * 30
+      if (trackFill) trackFill.style.width = percentuale * 100 + "%"
+    })
 
     volumeBar.addEventListener("click", function (evento) {
       const percentuale =
         (evento.clientX - volumeBar.getBoundingClientRect().left) /
-        volumeBar.offsetWidth;
-      if (volumeFill) volumeFill.style.width = percentuale * 100 + "%";
-      if (currentAudio !== null) currentAudio.volume = percentuale;
-    });
+        volumeBar.offsetWidth
+      if (volumeFill) volumeFill.style.width = percentuale * 100 + "%"
+      if (currentAudio !== null) currentAudio.volume = percentuale
+    })
 
     const bottonePlayDesktop = document.querySelector(
       "nav.fixed-bottom .btn-light",
-    );
+    )
     if (bottonePlayDesktop !== null) {
-      const nuovoBottone = bottonePlayDesktop.cloneNode(true);
+      const nuovoBottone = bottonePlayDesktop.cloneNode(true)
       bottonePlayDesktop.parentNode.replaceChild(
         nuovoBottone,
         bottonePlayDesktop,
-      );
-      nuovoBottone.addEventListener("click", togglePlayPause);
+      )
+      nuovoBottone.addEventListener("click", togglePlayPause)
     }
 
-    const bottonePlayMobile = document.getElementById("mobilePlayBtn");
+    const bottonePlayMobile = document.getElementById("mobilePlayBtn")
     if (bottonePlayMobile !== null) {
-      const nuovoBottoneMobile = bottonePlayMobile.cloneNode(true);
+      const nuovoBottoneMobile = bottonePlayMobile.cloneNode(true)
       bottonePlayMobile.parentNode.replaceChild(
         nuovoBottoneMobile,
         bottonePlayMobile,
-      );
-      nuovoBottoneMobile.addEventListener("click", togglePlayPause);
+      )
+      nuovoBottoneMobile.addEventListener("click", togglePlayPause)
     }
 
     const bottoneSuccessivo = document.querySelector(
       "nav.fixed-bottom .bi-skip-end-fill",
-    );
+    )
     if (bottoneSuccessivo !== null) {
       bottoneSuccessivo
         .closest("button")
@@ -2616,14 +2661,14 @@ function initAudioPlayer(album) {
             playTrack(
               currentAlbum.tracks.data[currentTrackIndex + 1],
               currentTrackIndex + 1,
-            );
+            )
           }
-        });
+        })
     }
 
     const bottonePrecedente = document.querySelector(
       "nav.fixed-bottom .bi-skip-start-fill",
-    );
+    )
     if (bottonePrecedente !== null) {
       bottonePrecedente
         .closest("button")
@@ -2632,37 +2677,37 @@ function initAudioPlayer(album) {
             playTrack(
               currentAlbum.tracks.data[currentTrackIndex - 1],
               currentTrackIndex - 1,
-            );
+            )
           }
-        });
+        })
     }
   }
 
   document.querySelectorAll(".playAudio").forEach((bottone) => {
-    const nuovoBottone = bottone.cloneNode(true);
-    bottone.parentNode.replaceChild(nuovoBottone, bottone);
-    nuovoBottone.addEventListener("click", togglePlayPause);
-  });
+    const nuovoBottone = bottone.cloneNode(true)
+    bottone.parentNode.replaceChild(nuovoBottone, bottone)
+    nuovoBottone.addEventListener("click", togglePlayPause)
+  })
 
   document.querySelectorAll("[data-track-index]").forEach((riga) => {
-    const indiceTraccia = parseInt(riga.getAttribute("data-track-index"));
+    const indiceTraccia = parseInt(riga.getAttribute("data-track-index"))
     riga.addEventListener("click", () =>
       playTrack(album.tracks.data[indiceTraccia], indiceTraccia),
-    );
-  });
+    )
+  })
 }
 
 const searchPage = function (pushHistory = true) {
-  setAverageBg(imgBackGround, backgroundContainer);
+  setAverageBg(imgBackGround, backgroundContainer)
   document
     .getElementById("account-bar")
-    .classList.replace("position-fixed", "position-sticky");
+    .classList.replace("position-fixed", "position-sticky")
 
   document
     .getElementById("account-bar")
-    .classList.replace("custom_width", "w-100");
+    .classList.replace("custom_width", "w-100")
   if (pushHistory) {
-    window.history.pushState({ page: "search" }, "", "#search");
+    window.history.pushState({ page: "search" }, "", "#search")
   }
   centralPage.innerHTML = `
     <section class="p-2 container-fluid" style="height: 100vh">
@@ -3164,57 +3209,57 @@ const searchPage = function (pushHistory = true) {
         </div>
       </nav>
     </section>
-  `;
-  const url = "https://striveschool-api.herokuapp.com/api/deezer/search?q=";
-  const allParam = new URLSearchParams(location.search);
-  const id = allParam.get("id");
+  `
+  const url = "https://striveschool-api.herokuapp.com/api/deezer/search?q="
+  const allParam = new URLSearchParams(location.search)
+  const id = allParam.get("id")
 
-  const form = document.getElementById("search-form");
+  const form = document.getElementById("search-form")
   form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    let searchInput = form.querySelector("input").value;
+    e.preventDefault()
+    let searchInput = form.querySelector("input").value
 
-    const fullUrl = url + searchInput;
-    getArtist(fullUrl);
-    searchInput = "";
-  });
+    const fullUrl = url + searchInput
+    getArtist(fullUrl)
+    searchInput = ""
+  })
 
   const playSong = function (songCover, songName, artistName, songPreview) {
-    document.getElementById("song-cover").src = songCover;
-    document.getElementById("song-name").innerText = songName;
-    document.getElementById("song-artist").innerText = artistName;
+    document.getElementById("song-cover").src = songCover
+    document.getElementById("song-name").innerText = songName
+    document.getElementById("song-artist").innerText = artistName
 
-    if (currentAudio) currentAudio.pause();
-    currentAudio = new Audio(songPreview);
-    currentAudio.play();
-    currentAudio.volume = 0.1;
-  };
+    if (currentAudio) currentAudio.pause()
+    currentAudio = new Audio(songPreview)
+    currentAudio.play()
+    currentAudio.volume = 0.1
+  }
 
   const getArtist = function (url) {
     fetch(url)
       .then((response) => {
         if (response.ok) {
-          return response.json();
+          return response.json()
         } else {
-          throw new Error("ERRORE NEL JSON", response.status);
+          throw new Error("ERRORE NEL JSON", response.status)
         }
       })
       .then((data) => {
-        const divCard = document.createElement("div");
-        const searchDiv = document.getElementById("search-container");
-        const randIndex = Math.floor(Math.random() * data.data.length);
+        const divCard = document.createElement("div")
+        const searchDiv = document.getElementById("search-container")
+        const randIndex = Math.floor(Math.random() * data.data.length)
 
-        let searchInput = form.querySelector("input").value;
-        let index = 0;
+        let searchInput = form.querySelector("input").value
+        let index = 0
 
         for (let i = 0; i < data.data.length; i++) {
           if (
             data.data[i].artist.name.toLowerCase() === searchInput.toLowerCase()
           ) {
-            index++;
+            index++
 
-            data.data.sort((a, b) => b.rank - a.rank);
-            searchDiv.innerHTML = "";
+            data.data.sort((a, b) => b.rank - a.rank)
+            searchDiv.innerHTML = ""
             divCard.innerHTML = `<div class="container rounded-2 text-light px-0 mt-4">
   <div class="row justify-content-center justify-content-md-between">
     <div class="col-9 col-md-4"><h2 class="fw-bold mb-4">Risultato più rilevante</h2></div>
@@ -3308,9 +3353,9 @@ const searchPage = function (pushHistory = true) {
       </div>
     </div>
   </div>
-</div>`;
+</div>`
 
-            searchDiv.appendChild(divCard);
+            searchDiv.appendChild(divCard)
           }
         }
         if (index === 0) {
@@ -3318,16 +3363,16 @@ const searchPage = function (pushHistory = true) {
             if (
               data.data[i].title.toLowerCase() === searchInput.toLowerCase()
             ) {
-              index++;
+              index++
               const getRandom = () =>
-                Math.floor(Math.random() * data.data.length);
+                Math.floor(Math.random() * data.data.length)
 
-              const rand1 = getRandom();
-              const rand2 = getRandom();
-              const rand3 = getRandom();
-              const rand4 = getRandom();
+              const rand1 = getRandom()
+              const rand2 = getRandom()
+              const rand3 = getRandom()
+              const rand4 = getRandom()
 
-              searchDiv.innerHTML = "";
+              searchDiv.innerHTML = ""
               divCard.innerHTML = `<div class="container rounded-2 text-light px-0 mt-4">
           <div class="row justify-content-center justify-content-md-between">
             <div class="col-9 col-md-4"><h2 class="fw-bold mb-4">Risultato più rilevante</h2></div>
@@ -3423,81 +3468,81 @@ const searchPage = function (pushHistory = true) {
               </div>
             </div>
           </div>
-        </div>`;
-              searchDiv.appendChild(divCard);
+        </div>`
+              searchDiv.appendChild(divCard)
             }
           }
           if (index === 0) {
-            alert("Nessun risultato trovato per: " + searchInput);
+            alert("Nessun risultato trovato per: " + searchInput)
           }
         }
       })
       .catch((err) => {
-        console.log("ARTISTA NON TROVATO e SERVER", err);
-      });
-  };
-};
+        console.log("ARTISTA NON TROVATO e SERVER", err)
+      })
+  }
+}
 
 function handlePopState(event) {
-  const state = event.state || { page: "home" };
+  const state = event.state || { page: "home" }
 
   switch (state.page) {
     case "library":
-      libraryPage(false);
-      break;
+      libraryPage(false)
+      break
     case "search":
-      searchPage(false);
-      break;
+      searchPage(false)
+      break
     case "album":
       if (state.albumId) {
-        albumPage(state.albumId, false);
+        albumPage(state.albumId, false)
       } else {
-        homePage(false);
+        homePage(false)
       }
-      break;
+      break
     case "artist":
       if (state.artistId) {
-        artistPage(state.artistId, false);
+        artistPage(state.artistId, false)
       } else {
-        homePage(false);
+        homePage(false)
       }
-      break;
+      break
     default:
-      homePage(false);
+      homePage(false)
   }
 }
 
 document.getElementById("search-mobile").addEventListener("click", (e) => {
-  e.preventDefault();
-  searchPage();
-});
+  e.preventDefault()
+  searchPage()
+})
 
 document.getElementById("home-mobile").addEventListener("click", (e) => {
-  e.preventDefault();
-  homePage();
-});
+  e.preventDefault()
+  homePage()
+})
 
 document.getElementById("library-mobile").addEventListener("click", (e) => {
-  e.preventDefault();
-  libraryPage();
-});
+  e.preventDefault()
+  libraryPage()
+})
 
 document.getElementById("library-desktop").addEventListener("click", (e) => {
-  e.preventDefault();
-  libraryPage();
-});
+  e.preventDefault()
+  libraryPage()
+})
 
-window.addEventListener("popstate", handlePopState);
-homePage(false);
+window.addEventListener("popstate", handlePopState)
+homePage(false)
 document.querySelectorAll(".colore_bt").forEach((el) => {
   el.addEventListener("click", function () {
-    this.classList.toggle("text-primary");
-  });
+    this.classList.toggle("text-primary")
+  })
   const stopPlaySong = function () {
     if (currentAudio.paused) {
-      currentAudio.play();
+      currentAudio.play()
     } else {
-      currentAudio.pause();
+      currentAudio.pause()
     }
-  };
-});
+  }
+})

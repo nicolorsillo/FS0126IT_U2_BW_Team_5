@@ -2337,25 +2337,74 @@ const artistPage = function (artistId, pushHistory = true) {
   });
 };
 
-// function startPlayer(data, tipo) {
-//   fetch(
-//     `https://striveschool-api.herokuapp.com/api/deezer/album/${data.album.id}`,
-//   )
-//     .then((response) => {
-//       if (response.ok) {
-//         return response.json();
-//       } else {
-//         throw new Error("ERRORE NEL JSON", response.status);
-//       }
-//     })
-//     .then((dataAlbum) => {
-//       initAudioPlayer(dataAlbum);
-//       console.log(dataAlbum);
-//     })
-//     .catch((err) => {
-//       console.log("Errore del server", err);
-//     });
-// }
+const libraryPage = function (pushHistory = true) {
+  setAverageBg(imgBackGround, backgroundContainer);
+
+  document
+    .getElementById("account-bar")
+    .classList.replace("position-fixed", "position-sticky");
+
+  document
+    .getElementById("account-bar")
+    .classList.replace("custom_width", "w-100");
+
+  centralPage.innerHTML = `
+      <header>
+      <h1 class="text-white p-3">
+        La tua libreria <i class="bi bi-collection"></i>
+      </h1>
+      <div
+        class="d-flex align-items-center gap-2 text-white-50 flex-wrap mx-2 p-3"
+      >
+        <img
+          src="./assets/imgs/profile/Lidia Nautilus.jpg"
+          alt="Artist image"
+          class="rounded-circle artist-avatar"
+          width="28"
+          height="28"
+        />
+        <span class="fw-semibold text-white artist-name">Lidia Nautilus</span>
+
+        <span class="text-white-50 col-12 text-transparent fw-bold">
+          Album salvati</span
+        >
+      </div>
+    </header>
+    <main>
+      <div
+        class="text-secondary m-3 fw-bold border-bottom border-secondary p-2 d-flex justify-content-around"
+      >
+        <div class="flex-grow-1">
+          <span class="me-3">#</span>
+          <span>Titolo</span>
+        </div>
+        <div>
+          <i class="bi bi-clock me-2"></i>
+        </div>
+      </div>
+      <div
+        class="d-flex justify-content-around align-items-center m-3 p-2 placeholder-glow"
+      >
+        <div class="flex-grow-1 d-flex">
+          <span class="placeholder">1</span>
+          <img
+            src="./assets/imgs/main/placeholder.jpg"
+            alt=""
+            class="mx-3 placeholder"
+            width="40"
+            height="40"
+          />
+          <div class="fw-semibold placeholder">Titolo album</div>
+        </div>
+        <div class="placeholder">Durata</div>
+      </div>
+    </main>
+  `;
+  if (pushHistory) {
+    window.history.pushState({ page: "library" }, "", "#library");
+  }
+};
+
 let currentAlbum = null;
 let currentAudio = null; // laudio che ce adesso
 let currentTrackIndex = null; // lindice  della traccia attiva
@@ -3422,6 +3471,16 @@ document.getElementById("search-mobile").addEventListener("click", (e) => {
 document.getElementById("home-mobile").addEventListener("click", (e) => {
   e.preventDefault();
   homePage();
+});
+
+document.getElementById("library-mobile").addEventListener("click", (e) => {
+  e.preventDefault();
+  libraryPage();
+});
+
+document.getElementById("library-desktop").addEventListener("click", (e) => {
+  e.preventDefault();
+  libraryPage();
 });
 
 window.addEventListener("popstate", handlePopState);

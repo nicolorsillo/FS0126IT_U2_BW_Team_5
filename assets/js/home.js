@@ -144,7 +144,7 @@ const homePage = function (pushHistory = true) {
             </div>
             <div>
               <p id="ad-banner-song-description" class="placeholder">
-                Ascolta il nuovo brano di
+                Ascolta il nuovo album di
                 <span>nome artista</span>!
               </p>
             </div>
@@ -3441,6 +3441,9 @@ function handlePopState(event) {
   const state = event.state || { page: "home" };
 
   switch (state.page) {
+    case "library":
+      libraryPage(false);
+      break;
     case "search":
       searchPage(false);
       break;
@@ -3484,7 +3487,6 @@ document.getElementById("library-desktop").addEventListener("click", (e) => {
 });
 
 window.addEventListener("popstate", handlePopState);
-window.history.replaceState({ page: "home" }, "", "#home");
 homePage(false);
 document.querySelectorAll(".colore_bt").forEach((el) => {
   el.addEventListener("click", function () {

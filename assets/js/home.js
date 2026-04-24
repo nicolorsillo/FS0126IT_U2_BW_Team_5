@@ -3,6 +3,10 @@ const centralPage = document.getElementById("central-page");
 const backBtn = document.getElementById("backBtn");
 const forwardBtn = document.getElementById("forwardBtn");
 
+let recommendedAlbum = [
+  926698181, 958295021, 3602971, 926720971, 926721331, 693008911,
+];
+
 if (backBtn) {
   backBtn.addEventListener("click", () => {
     window.history.back();
@@ -1778,10 +1782,6 @@ const homePage = function (pushHistory = true) {
   };
   getTopReleases();
 
-  let recommendedAlbum = [
-    926698181, 958295021, 3602971, 926720971, 926721331, 693008911,
-  ];
-
   if (!localStorage.getItem("lastAlbumId")) {
     localStorage.setItem("lastAlbumId", JSON.stringify(recommendedAlbum));
   }
@@ -2258,25 +2258,25 @@ const artistPage = function (artistId, pushHistory = true) {
   });
 };
 
-function startPlayer(data, tipo) {
-  fetch(
-    `https://striveschool-api.herokuapp.com/api/deezer/album/${data.album.id}`,
-  )
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error("ERRORE NEL JSON", response.status);
-      }
-    })
-    .then((dataAlbum) => {
-      initAudioPlayer(dataAlbum);
-      console.log(dataAlbum);
-    })
-    .catch((err) => {
-      console.log("Errore del server", err);
-    });
-}
+// function startPlayer(data, tipo) {
+//   fetch(
+//     `https://striveschool-api.herokuapp.com/api/deezer/album/${data.album.id}`,
+//   )
+//     .then((response) => {
+//       if (response.ok) {
+//         return response.json();
+//       } else {
+//         throw new Error("ERRORE NEL JSON", response.status);
+//       }
+//     })
+//     .then((dataAlbum) => {
+//       initAudioPlayer(dataAlbum);
+//       console.log(dataAlbum);
+//     })
+//     .catch((err) => {
+//       console.log("Errore del server", err);
+//     });
+// }
 let currentAlbum = null;
 let currentAudio = null; // laudio che ce adesso
 let currentTrackIndex = null; // lindice  della traccia attiva
@@ -2380,6 +2380,16 @@ function initAudioPlayer(album) {
   }
 
   function playTrack(traccia, indice) {
+    recommendedAlbum = JSON.parse(localStorage.getItem("lastAlbumId"));
+
+    let target = album.tracks.data[indice].album.id;
+    if (recommendedAlbum.indexOf(target) !== -1) {
+      recommendedAlbum.splice(recommendedAlbum.indexOf(target), 1);
+    }
+    recommendedAlbum.push(album.tracks.data[indice].album.id);
+
+    localStorage.setItem("lastAlbumId", JSON.stringify(recommendedAlbum));
+
     if (trackFill) trackFill.style.width = "0%";
 
     if (currentAudio !== null) {

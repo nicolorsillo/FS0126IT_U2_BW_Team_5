@@ -3377,6 +3377,9 @@ const searchPage = function (pushHistory = true) {
               searchDiv.appendChild(divCard);
             }
           }
+          if (index === 0) {
+            alert("Nessun risultato trovato per: " + searchInput);
+          }
         }
       })
       .catch((err) => {
